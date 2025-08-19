@@ -1,6 +1,6 @@
 import "./selector.css";
 import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { useZakeke } from "zakeke-configurator-react";
+import { Attribute, ThemeTemplateGroup, useZakeke } from "zakeke-configurator-react";
 import {
   List,
   ListX,
@@ -36,6 +36,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { MenuIcon } from "./widgets/svg";
+import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAccordionName, Options, OptionsContainer, OptionsWrapper, StepItem, Steps } from "./Atomic";
+import OptionItem from "./widgets/options";
 
 const dialogsPortal = document.getElementById("dialogs-portal")!;
 
@@ -63,13 +66,18 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
   const staticsVals = translations?.statics;
   const dynamicsVals = translations?.dynamics;
-  const { setIsLoading, isMobile } = useStore();
+  const { setIsLoading, isMobile, setSelectedStepId, selectedStepId, setSelectedAttributeId,
+    setLastSelectedItem, setSelectedTemplateGroupId ,selectedGroupId,setSelectedGroupId } = useStore();
+  const [lastSelectedSteps, setLastSelectedSteps] = useState(new Map<number, number>());
+  const [lastSelectedItemsFromSteps, setLastSelectedItemFromSteps] = useState(new Map<number, [number, string]>());
+  const [lastSelectedItemsFromGroups, setLastSelectedItemsFromGroups] = useState(new Map<number, [number, string]>());
 
   const useActualGroups_ = useActualGroups();
+  const [attributesOpened, setAttributesOpened] = useState<Map<number, boolean>>(new Map());
 
   // Keep saved the ID and not the refereces, they will change on each update
-  const [selectedGroupId, selectGroup] = useState<number | null>(null);
-  const [selectedStepId, selectStep] = useState<number | null>(null);
+  // const [selectedGroupId, selectGroup] = useState<number | null>(null);
+  // const [selectedStepId, selectStep] = useState<number | null>(null);
   const [selectedStepName, selectStepName] = useState<string | null>(null);
   const [selectedAttributeId, selectAttribute] = useState<number | null>(null);
   const [selectedOptionId, selectOptionId] = useState<number | null>(null);
@@ -138,19 +146,19 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
   const selectedStep = selectedGroupId
     ? useActualGroups_
-        .find((group) => group.id === selectedGroupId)
-        ?.steps.find((step) => step.id === selectedStepId)
+      .find((group) => group.id === selectedGroupId)
+      ?.steps.find((step) => step.id === selectedStepId)
     : null;
   const currentAttributes = selectedStep
     ? selectedStep.attributes
     : selectedGroup
-    ? selectedGroup.attributes
-    : [];
+      ? selectedGroup.attributes
+      : [];
   const currentTemplateGroups = selectedStep
     ? selectedStep.templateGroups
     : selectedGroup
-    ? selectedGroup.templateGroups
-    : [];
+      ? selectedGroup.templateGroups
+      : [];
 
   const currentItems = [...currentAttributes, ...currentTemplateGroups].sort(
     (a, b) => a.displayOrder - b.displayOrder
@@ -170,7 +178,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
   const fitlerAttributes = attributes.filter((x) => {
     // if (productCode != '9266869076293') {
-    if (x.name === x.name.toUpperCase() && x.name != "Select Color") {
+    if (x.name === x.name?.toUpperCase() && x.name != "Select Color") {
       return x;
       // }
 
@@ -259,7 +267,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     // console.log("loading in the first group",groups);
 
     if (!selectedGroup && useActualGroups_.length > 0) {
-      selectGroup(groups[0].id);
+      setSelectedGroupId(groups[0].id);
 
       setActiveColorOption("plain");
 
@@ -323,6 +331,203 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGroupId]);
 
+
+  const handleAttributeSelection = (attributeId: number, isAttributesVertical?: boolean) => {
+    // setIsStartRegistering(undoRegistering.startRegistering());
+
+    // if (attributeId && selectedAttributeId !== attributeId && !isUndo && !isRedo) {
+    //   undoRedoActions.eraseRedoStack();
+    //   undoRedoActions.fillUndoStack({
+    //     type: 'attribute',
+    //     id: selectedAttributeId,
+    //     direction: 'undo'
+    //   });
+    //   undoRedoActions.fillUndoStack({
+    //     type: 'attribute',
+    //     id: attributeId,
+    //     direction: 'redo'
+    //   });
+    // }
+
+    setSelectedAttributeId(attributeId);
+
+    if (isAttributesVertical && !selectedGroup?.attributesAlwaysOpened) {
+      setAttributesOpened(attributesOpened.set(attributeId, !attributesOpened.get(attributeId)));
+    }
+
+    if (selectedStep && selectedStep.attributes.find((attr) => attr.id === attributeId)) {
+      const newLastAttributeSelected = lastSelectedItemsFromSteps.set(selectedStepId!, [
+        attributeId,
+        'attribute'
+      ]);
+      setLastSelectedItemFromSteps(newLastAttributeSelected);
+    } else {
+      const newLastAttributeSelected = lastSelectedItemsFromGroups.set(selectedGroupId!, [
+        attributeId,
+        'attribute'
+      ]);
+      setLastSelectedItemsFromGroups(newLastAttributeSelected);
+    }
+    setLastSelectedItem({ type: 'attribute', id: attributeId });
+  };
+
+  const handleTemplateGroupSelection = (templateGroupId: number, isTemplateVertical?: boolean) => {
+    setSelectedTemplateGroupId(templateGroupId);
+    setLastSelectedItem({ type: 'template-group', id: templateGroupId });
+    if (isTemplateVertical && !selectedGroup?.attributesAlwaysOpened) {
+      setAttributesOpened(attributesOpened.set(templateGroupId, !attributesOpened.get(templateGroupId)));
+    }
+    if (
+      selectedStep &&
+      selectedStep.templateGroups.find((templGr) => templGr.templateGroupID === templateGroupId)
+    ) {
+      const newLastTemplateGroupSelected = lastSelectedItemsFromSteps.set(selectedStepId!, [
+        templateGroupId,
+        'template group'
+      ]);
+      setLastSelectedItemFromSteps(newLastTemplateGroupSelected);
+    } else {
+      const newLastItemSelected = lastSelectedItemsFromGroups.set(selectedGroupId!, [
+        templateGroupId,
+        'template group'
+      ]);
+      setLastSelectedItemsFromGroups(newLastItemSelected);
+    }
+  };
+
+  const handleLeftClick = () => {
+    const newIndex = (currentIndex - 1 + useActualGroups_.length) % useActualGroups_.length;
+    const newGroup = useActualGroups_[newIndex];
+    setSelectedGroupId(newGroup.id);
+    setSelectedTrayType(updateSelectedTray(newGroup.direction));
+    setSelectedGroupIDFromTray(null);
+    setCurrentIndex(newIndex);
+    setSelectedAttributeId(null);
+    if (newGroup.steps.length > 0) {
+      setSelectedStepId(newGroup.steps[0].id);
+    } else {
+      setSelectedStepId(null);
+    }
+  };
+
+  const handleRightClick = () => {
+    const newIndex = (currentIndex + 1) % useActualGroups_.length;
+    const newGroup = useActualGroups_[newIndex];
+    setSelectedGroupId(newGroup.id);
+    setSelectedTrayType(updateSelectedTray(newGroup.direction));
+    setSelectedGroupIDFromTray(null);
+    setCurrentIndex(newIndex);
+    setSelectedAttributeId(null);
+    
+    if (newGroup.steps.length > 0) {
+      setSelectedStepId(newGroup.steps[0].id);
+    } else {
+      setSelectedStepId(null);
+    }
+  };
+
+
+  // useEffect(() => {
+  //   if (!isSceneLoading && actualGroups.length > 0 && !selectedGroupId) {
+  //     handleGroupSelection(actualGroups[0].id);
+  //   }
+
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isSceneLoading, actualGroups]);
+  useEffect(() => {
+    if (selectedStep && currentItems.length > 0) {
+      if (lastSelectedItemsFromSteps && selectedStepId && lastSelectedItemsFromSteps.get(selectedStepId!)) {
+        const selectedItem = lastSelectedItemsFromSteps.get(selectedStepId!);
+        if (selectedItem && selectedItem[1] === 'attribute') {
+          if (selectedStep.attributes.some((attr) => attr.id === selectedItem[0]))
+            handleAttributeSelection(lastSelectedItemsFromSteps!.get(selectedStepId!)![0]!);
+          else handleAttributeSelection(selectedStep.attributes[0].id);
+        }
+        if (selectedItem && selectedItem[1] === 'template group') {
+          if (selectedStep.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0]))
+            handleTemplateGroupSelection(lastSelectedItemsFromSteps!.get(selectedStepId!)![0]!);
+          else handleTemplateGroupSelection(selectedStep.templateGroups[0].templateGroupID);
+        }
+      } else {
+        if (!(currentItems[0] instanceof ThemeTemplateGroup)) handleAttributeSelection(currentItems[0].id);
+        else handleTemplateGroupSelection(currentItems[0].templateGroupID);
+      }
+    } else if (selectedGroup && currentItems.length > 0) {
+      if (lastSelectedItemsFromSteps && selectedGroupId && lastSelectedItemsFromGroups.get(selectedGroupId)) {
+        const selectedItem = lastSelectedItemsFromGroups.get(selectedGroupId);
+        if (selectedItem && selectedItem[1] === 'attribute') {
+          const attributeToBeAutoSelected = selectedGroup.attributes.find(
+            (attr) => attr.id === selectedItem[0]
+          );
+          // fix check if enabled in case of attributes with link
+          if (attributeToBeAutoSelected && attributeToBeAutoSelected.enabled)
+            handleAttributeSelection(lastSelectedItemsFromGroups!.get(selectedGroupId!)![0]!);
+          else if (selectedGroup && selectedGroup.attributes.length > 0)
+            handleAttributeSelection(selectedGroup.attributes[0].id);
+        }
+        if (selectedItem && selectedItem[1] === 'template group') {
+          if (selectedGroup.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0]))
+            handleTemplateGroupSelection(lastSelectedItemsFromGroups!.get(selectedGroupId!)![0]!);
+        }
+      } else {
+        if (!(currentItems[0] instanceof ThemeTemplateGroup))
+          handleAttributeSelection(selectedGroup.attributes[0].id);
+        else handleTemplateGroupSelection(currentItems[0].templateGroupID);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedStepId, selectedGroupId]);
+
+
+  useEffect(() => {
+    if (selectedGroup && selectedGroup.id !== -2) {
+      if (selectedGroup.steps.length > 0) {
+        // verifico che ci fosse già uno step selezionato per quel gruppo E CHE LO STESSO sia visibile
+        // prima di selezionarlo, altrimenti seleziono il primo step disponibile del gruppo
+        if (
+          lastSelectedSteps.get(selectedGroupId!) &&
+          selectedGroup.steps.find((step) => step.id === lastSelectedSteps.get(selectedGroupId!)!)
+        )
+          handleStepSelection(lastSelectedSteps.get(selectedGroupId!)!);
+        else handleStepSelection(selectedGroup.steps[0].id);
+      } else {
+        handleStepSelection(null);
+      }
+
+      // setSelectedCarouselSlide(0);
+
+      if (!useActualGroups_.find((group) => group.id === selectedGroupId)!.attributesAlwaysOpened) {
+        let attributes: Attribute[] = [];
+        let group = useActualGroups_.find((group) => group.id === selectedGroupId)!;
+        if (group.attributes.length > 0) {
+          attributes.push(group.attributes[0]);
+        }
+        if (group.steps.length > 0) {
+          let stepsFirstAttributes = group.steps.map((step) => {
+            if (step.attributes.length > 0) {
+              return step.attributes[0];
+            } else return null;
+          });
+          stepsFirstAttributes.forEach((attribute) => {
+            if (attribute) attributes.push(attribute);
+          });
+        }
+        if (attributes && attributes.length > 0) {
+          // Add attributes in openedAttributes and set isOpened to true if already exists
+          setAttributesOpened((prev) => {
+            attributes.forEach((attribute) => {
+              prev = prev.set(attribute.id, true);
+            });
+
+            return prev;
+          });
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGroupId, selectedGroup?.steps.length]);
+
+
   if (isSceneLoading || !groups || groups.length === 0)
     return (
       <PreviewContainer>
@@ -361,33 +566,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     }
   };
 
-  const handleLeftClick = () => {
-    selectStepName("");
-    const newIndex =
-      (currentIndex - 1 + useActualGroups_.length) % useActualGroups_.length;
-    const newGroup = useActualGroups_[newIndex];
-    setSelectedTrayType(updateSelectedTray(newGroup.direction));
-    setActiveColorOption("plain");
-    selectColorName("");
-    setCurrentIndex(newIndex);
-    selectGroup(newGroup.id);
-    if (newGroup.steps) selectStep(newGroup.steps[0]?.id);
-  };
 
-  const handleRightClick = () => {
-    selectStepName("");
-    setSelectedGroupIDFromTray(null);
-
-    const newIndex = (currentIndex + 1) % useActualGroups_.length;
-    const group = useActualGroups_[newIndex];
-    setSelectedGroupIDFromTray(null);
-    setSelectedTrayType(updateSelectedTray(group.direction));
-    setActiveColorOption("plain");
-    selectColorName("");
-    setCurrentIndex(newIndex);
-    selectGroup(group.id);
-    if (group.steps) selectStep(group.steps[0]?.id);
-  };
 
   const toggleTray = (trayName: string) => {
     if (selectedTrayPreviewOpenButton) {
@@ -421,6 +600,8 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     trayPreviewOpenButton3DFunc(selectedTrayPreviewOpenButton);
   };
 
+  
+
   // After selection of the element from the tray
   const groupIdFromFunc = (data: number, type: string) => {
     setSelectedGroupIDFromTray(data);
@@ -452,11 +633,11 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
     if (type === "colors") {
       if (filteredArray[0]?.id) {
-        selectGroup(filteredArray[0].id);
+        setSelectedGroupId(filteredArray[0].id);
         selectGroupIdFromTray(filteredArray[0].id);
       }
     } else {
-      selectGroup(data);
+      setSelectedGroupId(data);
     }
   };
 
@@ -467,395 +648,206 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const containerStyles = {
     // overflow: "auto",
     width: "100%",
+
     // height: !selectedTrayPreviewOpenButton ? "13rem" : "70px",
+  };
+  
+  const handleStepSelection = (stepId: number | null) => {
+    // setIsStartRegistering(undoRegistering.startRegistering());
+
+    // if (selectedStepId !== stepId && !isUndo && !isRedo) {
+    //   undoRedoActions.eraseRedoStack();
+    //   undoRedoActions.fillUndoStack({
+    //     type: 'step',
+    //     id: selectedStepId,
+    //     direction: 'undo'
+    //   });
+    //   undoRedoActions.fillUndoStack({
+    //     type: 'step',
+    //     id: stepId ?? null,
+    //     direction: 'redo'
+    //   });
+    // }
+
+    setSelectedStepId(stepId);
+
+    const newStepSelected = lastSelectedSteps.set(selectedGroupId!, stepId!);
+    setLastSelectedSteps(newStepSelected);
   };
 
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
+  console.log("selectedGroup", selectedGroup)
 
   return (
     <>
-      <div className="top-nav">
-        <div className="body-3" id="product-info">
-          {productName}
-          {/* <span>LEI {price}</span> */}
-        </div>
 
-        <div className="top-right-controls">
-          <div
-            id="savepic"
-            data-hasqtip="98"
-            title=""
-            aria-describedby="qtip-98"
-            onClick={() => handleScreenShotClick()}
-          >
-            <i
-              className="fa fa-camera"
-              style={{ color: "rgb(54, 179, 237)" }}
-            ></i>
-          </div>
-        </div>
-      </div>
 
-      {/* Personalize A */}
-      {!isMobile && (
-        <div
-          className="iHdtWA group-item selected"
-          style={{
-            position: "absolute",
-            top: "5%",
-            right: "1%",
-            cursor: "pointer",
-            marginLeft: "20px",
-            width: "270px",
-          }}
-        >
-          {/* <div
-            className="button-53"
-            onClick={() => setSelectedPersonalize(!selectedPersonalize)}
-          >
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "7px",
-              }}
-            >
-              {T._("Personalizează", "Composer")}
-            </span>
-          </div>
-          {selectedPersonalize ? (
-            <Designer togglePersonalize={togglePersonalize} />
-          ) : (
-            ""
-          )} */}
-        </div>
-      )}
 
       <div className="animate-wrapper-0">
         <div style={containerStyles}>
-          {/* {groups[currentIndex].name === "MODALITATE IMPRIMARE" && (!hasTypeZero) ? null : ( */}
-
-          {/* Closed on request of Paul */}
-          {/* <MenuTriggerButton width={width} toggleTray={toggleTray} /> */}
 
           <div className="tray-header">
-            {/* <TrayPreviewOpenButton
-              width={width}
-              trayPreviewOpenButton={trayPreviewOpenButton}
-              selectedTrayPreviewOpenButton={selectedTrayPreviewOpenButton}
-              selectTrayPreviewOpenButton={selectTrayPreviewOpenButton}
-            /> */}
-
-            <div className="guide">
-              <div className="tray-header-1">
-                <div
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  <div
-                    className="active-marketing-component-name"
-                    onClick={() => toggleTray("null")}
-                  >
-                    <div className="selectiontype">{groupNameText}</div>
-
-                    <div className="arrd">
-                      <svg
-                        version="1.1"
-                        id="Layer_1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        // xmlns:xlink="http://www.w3.org/1999/xlink"
-                        x="0px"
-                        y="0px"
-                        viewBox="0 0 36 36"
-                        //  style="enable-background:new 0 0 36 36;"
-                        // xml:space="preserve"
-                      >
-                        <path
-                          fill="#ffffff"
-                          d="M16.1,26.54l-9.29-9.29c-1.05-1.05-1.05-2.75,0-3.8l0,0c1.05-1.05,2.75-1.05,3.8,0L18,20.85l7.39-7.39
-											c1.05-1.05,2.75-1.05,3.8,0l0,0c1.05,1.05,1.05,2.75,0,3.8l-9.29,9.29C18.85,27.59,17.15,27.59,16.1,26.54z"
-                        ></path>
-                      </svg>
-                    </div>
-
-                    <div className="gimg">
-                      {useActualGroups_[currentIndex]?.imageUrl && (
-                        <img
-                          src={useActualGroups_[currentIndex]?.imageUrl!}
-                          alt="Group Image"
-                          style={{ maxWidth: "100%", height: "auto" }}
-                        />
-                      )}
-                    </div>
-                  </div>
+            <div className="Flex Flex-Justify">
+              <div className="Flex">
+                <div className="gimg">
+                  {useActualGroups_[currentIndex]?.imageUrl && (
+                    <img
+                      src={useActualGroups_[currentIndex]?.imageUrl!}
+                      alt="Group Image"
+                      style={{ maxWidth: "100%", height: "auto" }}
+                    />
+                  )}
                 </div>
+                <button className="btn-rounded">
+                  <MenuIcon />
+                </button>
               </div>
+
+              <div className="Heading groupTitle">{groupNameText}</div>
+              <div className=""></div>
+
             </div>
+
           </div>
           <br />
+          <br />
 
-          {(selectedTrayType === "" ||
-            selectedTrayType === "null" ||
-            selectedTrayType.toLowerCase() === "colors") && (
-            <div className={`animate-wrapper${isTrayOpen ? "-2 show" : ""}`}>
-              {isTrayOpen && !selectedTrayPreviewOpenButton && (
-                <Tray
-                  groupNameList={selectedGroupList}
-                  filteredAreas={filteredAreas}
-                  toggleFunc={toggleTray}
-                  UpdateGroupId={groupIdFromFunc}
-                  updCurrentIndex={updCurrentIndex}
-                  selectedTray={selectedTrayType}
-                  selectStepName={selectStepName}
-                />
-              )}
 
-              {!isTrayOpen &&
-                !selectedTrayPreviewOpenButton &&
-                groupNameText.toUpperCase() !== "OVERLAY TYPE" && (
-                  <ColorMenuSeleciton
-                    productCode={productCode}
-                    selectedGroupName={selectedGroup}
-                    updateActiveColorOption={updateActiveColorOption}
-                    activeColorOption={activeColorOption}
-                    currentAttributes={currentAttributes}
-                    fitlerAttributesName={fitlerAttributes[0]?.name}
-                  />
-                )}
+          <Steps>
+            {selectedGroup && selectedGroup.steps.map((step) => (
+              <StepItem
+                key={step.id}
+                className={step.id === selectedStepId ? "selected" : ""}
+                onClick={() => handleStepSelection(step.id)}
+              >
+                {T._d(step.name)}
+              </StepItem>
+            ))}
+          </Steps>
 
-              {fitlerAttributes[0] && !selectedTrayPreviewOpenButton && (
-                <div
-                  style={{
-                    width: "100%",
-                    background: "0% 0% / 4px 4px rgba(255, 255, 255, 0.5)",
-                    borderRadius: "0px 0px 3px 3px",
-                    padding: "10px 10px 5px",
-                    borderTop: "none",
-                    boxShadow: "rgba(0, 64, 113, 0.1) 0px 3px 6px",
-                    display: isTrayOpen ? "none" : "block",
-                  }}
-                >
-                  {(fitlerAttributes[0]?.code === "OVERLAY TYPE" ||
-                    fitlerAttributes[0]?.code === "OVERLAY") && (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                        alignContent: "center",
-                      }}
-                    >
-                      <div className="mchead">
-                        {dynamicsVals?.get("Overlay Type") ?? "Overlay Type"}
-                      </div>
-                      <div className="infsel">
-                        <div className="custom-dropdown">
-                          <button
-                            className="custom-dropdown-button"
+
+
+
+          {/* {selectedGroup?.direction === 1 && ( */}
+            <>
+              {currentItems &&
+                currentItems.map((item) => {
+                  if (!(item instanceof ThemeTemplateGroup))
+                    return (
+                      <ItemAccordionContainer key={'container' + item.code}>
+                        {/* <ItemAccordion
+                          key={item.guid}
+                          opened={attributesOpened.get(item.id)}
+                          onClick={
+                            selectedGroup && selectedGroup.attributesAlwaysOpened
+                              ? () => null
+                              : () => handleAttributeSelection(item.id, true)
+                          }
+                        > */}
+                          {/* <ItemAccordionName>{T._d(item.name)}</ItemAccordionName> */}
+
+                          {/* {!selectedGroup.attributesAlwaysOpened && (
+                            <ArrowIcon
+                              key={'accordion-icon'}
+                              src={
+                                attributesOpened.get(item.id) ? arrowUp : arrowDown
+                              }
+                            />
+                          )} */}
+                        {/* </ItemAccordion> */}
+                        {/* {item.description !== '' && (
+                          <ItemAccordionDescription>
+                            {T._d(item.description)}
+                          </ItemAccordionDescription>
+                        )} */}
+
+                        {attributesOpened.get(item.id) && (
+                          <OptionsContainer>
+                            <OptionsWrapper>
+                              {item.options
+                                .filter((x) => x.enabled)
+                                .map((option) => (
+                                  <OptionItem
+                                    key={option.guid}
+                                    selectedAttribute={selectedAttribute}
+                                    option={option}
+                                    hasDescriptionIcon={item.options.some(
+                                      (x) => x.description
+                                    )}
+                                  />
+                                ))}
+                            </OptionsWrapper>
+                          </OptionsContainer>
+                        )}
+                      </ItemAccordionContainer>
+                    );
+                  else
+                    return (
+                      <>
+                        <ItemAccordionContainer key={'container' + item.templateGroupID}>
+                          <ItemAccordion
+                            key={item.templateGroupID + 'accordion'}
+                            opened={attributesOpened.get(item.templateGroupID)}
                             onClick={() =>
-                              setIsCustomDropDownOpen(!isCustomDropDownOpen)
+                              handleTemplateGroupSelection(item.templateGroupID, true)
                             }
                           >
-                            {selectedOptionName}{" "}
-                            <span className="dropdown-arrow"> ▼</span>
-                          </button>
-                          {isCustomDropDownOpen && (
-                            <div className="custom-dropdown-list">
-                              {fitlerAttributes[0]?.options.map((option) => (
-                                <div
-                                  key={option.id}
-                                  className="custom-dropdown-option"
-                                  onClick={() => {
-                                    selectOption(option.id)
-                                    selectOptionId(option.id);
-                                    selectOptionName(option.name);
-                                    setIsCustomDropDownOpen(
-                                      !isCustomDropDownOpen
-                                    );
-                                  }}
-                                >
-                                  {option.name}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                            <ItemAccordionName>{T._d(item.name)}</ItemAccordionName>
 
-                  {(fitlerAttributes[0].name.toUpperCase() === "METALLIC" ||
-                    fitlerAttributes[0].name.toUpperCase() === "FLUORESCENT" ||
-                    fitlerAttributes[0].name.toUpperCase() === "NORMAL" ||
-                    fitlerAttributes[0].name.toUpperCase() === "MATTE" ||
-                    fitlerAttributes[0].name.toUpperCase() === "COLOR" ||
-                    fitlerAttributes[0].name.toUpperCase() === "PLAIN") &&
-                    fitlerAttributes[0]?.code != "OVERLAY TYPE" &&
-                    selectedStepName !== "KNOCK-X" && (
-                      <List>
-                        {!selectedTrayPreviewOpenButton &&
-                          // selectedAttribute &&
-                          fitlerAttributes &&
-                          !isTrayOpen &&
-                          fitlerAttributes[0]?.options.map((option) => {
-                            return (
-                              <>
-                                <ListItemColor
-                                  key={option.id}
-                                  onClick={() => {
-                                    {
-                                      if (
-                                        option.name === "EMBROIDERED" ||
-                                        option.name === "PRINTED"
-                                      ) {
-                                        const indexForGroupTip =
-                                          groups.findIndex(
-                                            (obj) => obj.name.toUpperCase() === "OVERLAY TYPE"
-                                          );
-                                        if (indexForGroupTip > 0) {
-                                          selectGroup(
-                                            groups[indexForGroupTip].id
-                                          );
-                                          if (
-                                            groups[groups?.length - 1]
-                                              .attributes[0].code.toUpperCase() ===
-                                            "OVERLAY TYPE"
-                                          ) {
-                                            selectOption(option.id);
-                                          }
+                            {/* {!selectedGroup.attributesAlwaysOpened && (
+                              <ArrowIcon
+                                key={'accordion-icon'}
+                                src={
+                                  attributesOpened.get(item.templateGroupID)
+                                    ? arrowUp
+                                    : arrowDown
+                                }
+                              />
+                            )} */}
+                          </ItemAccordion>
 
-                                          // selectOption(option.id);
-                                          selectOptionId(option.id);
-                                          //     selectOptionName(option.name);
-                                        }
-                                      } else {
-                                        // console.log(option.id);
-                                        // setSelectedAttributeId()
-                                        selectOption(option.id);
-                                        selectOptionId(option.id);
-                                        //   selectOptionName(option.name);
-                                      }
-                                    }
-                                  }}
-                                  selected={option.selected}
-                                  selectedColor={selectedColorName}
-                                >
-                                  {option.imageUrl && (
-                                    <ListItemImageNoCarousel
-                                      src={option.imageUrl}
-                                      onClick={() =>
-                                        selectColorName(option.name)
-                                      }
-                                      selected={option.selected}
-                                    />
-                                  )}
-                                  {/* Shows the color name but we dont need it now  */}
-                                  {/* <div style={{ position: "absolute", top: "120%" }}>
-                              {option.id === selectedOptionId
-                                ? option.name
-                                : ""}
-                            </div> */}
-                                </ListItemColor>
-                              </>
-                            );
-                          })}
-                      </List>
-                    )}
+                          {/* {attributesOpened.get(item.templateGroupID) && (
+                            <TemplateGroup
+                              key={selectedTemplateGroupId + 'vertical'}
+                              templateGroup={selectedTemplateGroup!}
+                            />
+                          )} */}
+                        </ItemAccordionContainer>
+                      </>
+                    );
+                })}
+            </>
+          {/* )} */}
+          
+          {(selectedTrayType === "" ||
+            selectedTrayType === "null" ) && (
+              <div className={`animate-wrapper${isTrayOpen ? "-2 show" : ""}`}>
+                {/* {isTrayOpen && !selectedTrayPreviewOpenButton && (
+                  <Tray
+                    groupNameList={selectedGroupList}
+                    filteredAreas={filteredAreas}
+                    toggleFunc={toggleTray}
+                    UpdateGroupId={groupIdFromFunc}
+                    updCurrentIndex={updCurrentIndex}
+                    selectedTray={selectedTrayType}
+                    selectStepName={selectStepName}
+                  />
+                )} */}
 
-                  <div>
-                    {(fitlerAttributes[0].name.toUpperCase() !== "METALLIC" &&
-                      fitlerAttributes[0].name.toUpperCase() !==
-                        "FLUORESCENT" &&
-                      fitlerAttributes[0].name.toUpperCase() !== "NORMAL" &&
-                      fitlerAttributes[0].name.toUpperCase() !== "MATTE" &&
-                      fitlerAttributes[0].name.toUpperCase() !==
-                        "OVERLAY TYPE" &&
-                      fitlerAttributes[0].name.toUpperCase() !== "COLOR" &&
-                      fitlerAttributes[0].name.toUpperCase() !== "PLAIN") ||
-                    selectedStepName === "KNOCK-X" ? (
-                      <div>
-                        <div className="knockXlabel">
-                          {dynamicsVals?.get("SELECT DESIGN THEME") ??
-                            "SELECT DESIGN THEME"}
-                        </div>
-                        <Swiper
-                          spaceBetween={1}
-                          slidesPerView={2}
-                          navigation={true}
-                          centeredSlides={true}
-                          // modules={[Navigation]}
-                          //onSlideChange={() => console.log('slide change')}
-                          //onSwiper={(swiper) => console.log(swiper)}
-                        >
-                          {/* {fitlerAttributes[0].options.map((attribute) => {
-                            return (
-                              <SwiperSlide>
-                                <ListItemX
-                                  key={attribute.id}
-                                  onClick={() => selectOption(attribute.id)}
-                                  selected={true}
-                                  // selected={selectedAttribute === attribute}
-                                >
-                                  <div className="scaler">
-                                   {attribute.name}
-                                  </div>
-                                </ListItemX>
-                              </SwiperSlide>
-                            );
-                          })} */}
+                {/* {!isTrayOpen && (
+                    <ColorMenuSeleciton
+                      productCode={productCode}
+                      selectedGroupName={selectedGroup}
+                      updateActiveColorOption={updateActiveColorOption}
+                      activeColorOption={activeColorOption}
+                      currentAttributes={currentAttributes}
+                      fitlerAttributesName={fitlerAttributes[0]?.name}
+                    />
+                  )} */}
 
-                          {selectedGroup?.attributes[1]?.options.map(
-                            (attribute) => {
-                              return (
-                                <SwiperSlide>
-                                  <ListItemX
-                                    key={attribute.id}
-                                    onClick={() => selectOption(attribute.id)}
-                                    selected={true}
-                                    // selected={selectedAttribute === attribute}
-                                  >
-                                    <div className="scaler">
-                                      {attribute.name}
-                                    </div>
-                                  </ListItemX>
-                                </SwiperSlide>
-                              );
-                            }
-                          )}
-                        </Swiper>
-
-                        <br />
-                        <div className="knockXlabel">
-                          {dynamicsVals?.get("SELECT COLOR THEME") ??
-                            "SELECT COLOR THEME"}
-                        </div>
-                        <ListX>
-                          {fitlerAttributes[0] &&
-                            fitlerAttributes[0].options.map((option) => {
-                              return (
-                                <ListItemX_
-                                  key={option.id}
-                                  onClick={() => selectOption(option.id)}
-                                  selected={option.selected}
-                                >
-                                  {option.imageUrl && (
-                                    <ListItemImageX src={option.imageUrl} />
-                                  )}
-                                  {/* {option.name} */}
-                                </ListItemX_>
-                              );
-                            })}
-                        </ListX>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+               
+              </div>
+            )}
 
           {selectedTrayType === "signature" && (
             <DesignerSignature
@@ -886,10 +878,10 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
         <div className="empty-space-div"></div>
 
-        {width <= 460 && <FooterMobile />}
+        {/* {width <= 460 && <FooterMobile />} */}
       </div>
 
-      {width > 460 && <Footer />}
+      {/* {width > 460 && <Footer />} */}
     </>
   );
 };

@@ -92,37 +92,43 @@ const App: FunctionComponent<{}> = () => {
 
   return (
     <ZakekeProvider environment={zakekeEnvironment}>
+      
       <div id="modal-container" className="css-1q5ttm8">
 
           {/* Zakeke mobile app  */}
           {/* {isMobile && <LayoutMobile />}  */}
           {isMobile && (
-            <Layout>
-              <div style={{ 
+            // <Layout>
+           <div style={{ 
                 // background: "linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))" , 
-                width: "100%", border: "0px solid", height: "100%"}}>
+                width: "100%", border: "0px solid", height: "100%"}}
+                > 
                 <div
-                  className="ThreeDRenderer"
-                  style={
-                    selectedTrayPreviewOpenButton3D
-                      ? { width: "20vw", height: "20vh" }
-                      : { 
-                         aspectRatio: "1 / 1",
-                        width: "100%",  
-                        height: "100%",
-                        position: "absolute", 
-                        top: "0em", 
-                        bottom: "0", 
+              className="mobileThreeDRenderer"
+                  // style={
+                  //   selectedTrayPreviewOpenButton3D
+                  //     ? { width: "20vw", height: "20vh" }
+                  //     : { 
+                  //        aspectRatio: "1 / 1",
+                  //       width: "100%",  
+                  //       height: "100%",
+                  //       position: "absolute", 
+                  //       top: "0em", 
+                  //       bottom: "0", 
 
-                        // left: "3%",
-                        // background: "linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))" 
-                      }}
+                  //       // left: "3%",
+                  //       // background: "linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))" 
+                  //     }}
                 >
                  <ZakekeViewer />
                 </div>
-              </div>
-              <Selector trayPreviewOpenButton3DFunc={trayPreviewOpenButton3DFunc} />              
-            </Layout>            
+                <div className="mobileSelector">
+              <Selector trayPreviewOpenButton3DFunc={trayPreviewOpenButton3DFunc} />  
+
+                </div>
+          </div>
+
+            // </Layout>            
           )}
       
           {!isMobile && (

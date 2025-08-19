@@ -80,28 +80,7 @@ const ProgressBar = ({ bgColor, completed }) => {
           )} */}
         </LoadingPercentageandIconContainer>
       </LoaderContainer>
-      <div style={{paddingTop: "32px", fontSize: '13px'}}>
-      <strong>Welcome to the unique 3D equipment customizer! 🎨✨</strong>
-        <ul>
-          <li>
-          Perfect Customization: Create the perfect gear for yourself. 🛠️
-          </li>
-          <li>
-          Order with Confidence: Your product will be made to order exactly to your preferences. 🛒
-          </li>
-          <li>
-          Fast Delivery: Receive your order under 20 working days. 🚚
-          </li>
-          <li>Pre-select Size: Choose your size before customizing. 📏 </li>
-          <li>Simple Payment: Easily pay with multiple payment options. 💳</li>
-          <li>
-          No Regrets: For customized equipment, there is no exchange or return option. ❌🔄
-          </li>
-          <li>
-          Move Forward with Inspiration: Let's be creative and make something unique! 🌟💡
-          </li>
-        </ul>
-      </div>
+   {/* */} 
     </div>
   );
 };

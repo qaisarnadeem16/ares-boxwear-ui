@@ -6,6 +6,153 @@ export const CarouselContainer = styled(Carousel)`
   position: relative;
 `;
 
+export const Steps = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  /* flex-direction: column; */
+`;
+
+export const StepItem = styled.div`
+border: 1px solid black;
+min-width: 150px;
+text-align: center;
+  padding: 8px;
+  cursor: pointer;
+
+  &.selected {
+    background: black;
+	color: white;
+    font-weight: bold;
+  }
+`;
+
+
+export const ItemAccordionContainer = styled.div``;
+
+export const ItemName = styled.span`
+	font-size: 12px;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+`;
+
+export const ItemAccordion = styled.div<{ opened?: boolean }>`
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 20px;
+	cursor: pointer;
+	margin-bottom: 20px;
+	${(props) => props.opened && `border-bottom: 5px solid #f5f6f7;`}
+`;
+
+export const ItemAccordionName = styled.span`
+	font-size: 16px;
+	text-transform: uppercase;
+	font-weight: 600;
+	display: block;
+`;
+
+export const ItemAccordionDescription = styled.span``;
+
+export const ArrowIcon = styled.img`
+	width: 10px;
+`;
+
+export const OptionSelectedName = styled.span`
+	font-size: 12px;
+
+	@media (max-width: 1400px) {
+		font-size: 12px;
+		display: block;
+		position: static;
+	}
+`;
+
+export const OptionsContainer = styled.div`
+	display: flex;
+	/* flex: 1; */
+	flex-wrap: nowrap;
+	align-items: flex-start;
+	min-height: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	
+`;
+export const OptionsWrapper = styled.div`
+margin-top: 20px;
+width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;     /* ✅ allow multiple rows */
+  justify-content: flex-start; 
+`;
+
+export const Options = styled.div`
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+	gap: 20px;
+	list-style: none;
+	user-select: none;
+	align-items: start;
+	justify-content: start;
+	padding: 30px 0px;
+	width: 100%;
+	@media (min-width: 1920px) {
+		grid-template-columns: repeat(auto-fill, minmax(100px, 110px));
+	}
+`;
+
+export const TemplatesContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	grid-gap: 5px;
+	align-items: flex-start;
+	margin-bottom: 40px;
+	overflow: hidden;
+	min-height: 0;
+`;
+
+
+export const ItemContainer = styled.div`
+  padding: 10px;
+  cursor: pointer;
+
+  &.selected {
+    background: #e0e0e0;
+  }
+`;
+
+export const CustomDropdown = styled.div`
+  position: relative;
+`;
+
+export const CustomDropdownButton = styled.button`
+  padding: 8px;
+  width: 100%;
+  text-align: left;
+  background: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+`;
+
+export const CustomDropdownList = styled.div`
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 10;
+  width: 100%;
+`;
+
+export const CustomDropdownOption = styled.div`
+  padding: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+`;
+
+
+
 export const Icon = styled.div<{ hoverable?: boolean }>`
 	display: inline-block;
 	width: 24px;

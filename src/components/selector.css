@@ -1,5 +1,7 @@
 :root {
   --colorBtnPrimary: #297ca3;
+  --colorBtnGray: #C7C8C8;
+  --colorBtnBlack: #242C36;
   --podium-cds-typography-heading-strong: 900 1.9rem "Inter";
   --podium-cds-typography-body1-strong: 500 1rem/1.5 "Inter";
   --podium-cds-typography-body2: 400 0.875rem/1.5 "Inter";
@@ -14,6 +16,42 @@ body {
   color: var(--podium-cds-color-black);
   background-color: var(--podium-cds-color-white);
 }
+
+.Flex {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.Flex-Justify {
+  width: 70%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: black;
+  text-align: center;
+}
+.groupTitle{
+  max-width: 150px;
+}
+
+.btn{
+  background-color: #e5e7eb;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.btn-rounded {
+  background-color: #e5e7eb;
+  padding: 2px;
+  border-radius: 50%;
+}
+
+
+
 
 .body-3 {
   font: var(--podium-cds-typography-heading-strong);
@@ -61,7 +99,7 @@ body {
   background-size: 48px 48px;
   border-radius: 0 3px 3px 0;
   position: relative;
-  border: 1px solid #7ccb00;
+  /* border: 1px solid #7ccb00; */
   border-left: none;
   z-index: 1;
 }
@@ -73,6 +111,7 @@ body {
   height: 40px;
   /* position: absolute; */
   width: 100%;
+  padding: 20px 0px;
   /* top: 28px; */
 }
 
@@ -88,7 +127,7 @@ body {
 .tray-header-1 {
   display: flex;
   position: relative;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   min-width: 200px;
   max-width: 30vw;
@@ -133,12 +172,10 @@ body {
   margin-left: 7px;
   background-color: #7ccb00;
   /* background: radial-gradient(circle farthest-side, #7ccb00 25%, #4dc000); */
-  background: radial-gradient(
-    circle,
-    rgb(109 117 246),
-    rgb(54 148 184),
-    rgb(54, 179, 237)
-  ) !important;
+  background: radial-gradient(circle,
+      rgb(109 117 246),
+      rgb(54 148 184),
+      rgb(54, 179, 237)) !important;
   border-radius: 3px 0 0 3px;
   padding-right: 2px;
   position: relative;
@@ -167,8 +204,9 @@ body {
 
 #gprev,
 #gnext {
-  display: block;
-  float: right;
+  display: flex;
+  /* float: right; */
+  gap: 20px;
   font-size: 13px;
   line-height: 16px;
   font-weight: 500;
@@ -178,22 +216,22 @@ body {
 }
 
 .mc-prev {
-  border-radius: 3px 0px 0px 3px;
-  border: 1px solid #adc3d3;
+  border-radius: 5px;
+  border: 1px solid #C7C8C8;
   border-right: none;
   box-sizing: border-box;
   padding: 7px 10px;
-  background-color: rgba(255, 255, 255, 0.25);
-  color: #00458c;
-  border-color: #6dcff6;
+  background-color: #C7C8C8;
+  color: black;
+  /* border-color: #6dcff6; */
 }
 
 .mc-next {
   padding: 7px 10px;
-  border: 1px solid #adc3d3;
-  border-radius: 3px 0px 0px 3px;
-  background-color: #7ccb00;
-  background: radial-gradient(circle, #4c7cbd 25%, #297ca3d1);
+  border: 1px solid #242C36;
+    border-radius: 5px;
+  background-color: #242C36;
+  /* background: radial-gradient(circle, #4c7cbd 25%, #297ca3d1); */
   color: #fff;
 }
 
@@ -332,7 +370,8 @@ pointer-events: none; */
   border-top: none;
   background-color: #fff;
   z-index: 1;
-  display: none; /* Hidden by default */
+  display: none;
+  /* Hidden by default */
 }
 
 .custom-dropdown-option {
@@ -346,7 +385,8 @@ pointer-events: none; */
 
 .custom-dropdown:hover .custom-dropdown-list {
   font-size: 13px;
-  display: block; /* Show the dropdown list when hovering over the button */
+  display: block;
+  /* Show the dropdown list when hovering over the button */
 }
 
 .dropdown-arrow {
@@ -438,12 +478,15 @@ pointer-events: none; */
   background-color: #fff;
   /* height: 10% !important  ; */
 }
+
 .swiper-container {
   /* width: 40vw; */
 }
+
 .swiper-wrapper {
   width: 80% !important;
 }
+
 .swiper-slide {
   text-align: center;
   width: 60px !important;
@@ -555,9 +598,10 @@ pointer-events: none; */
 
   .tray-header {
     position: relative;
+    align-items: flex-start;
     /* top: 54%; */
     /* height: '30px'; */
-    align-items: flex-end;
+    /* align-items: flex-end; */
   }
 
   .guide {
@@ -647,6 +691,7 @@ pointer-events: none; */
     align-items: start !important;
     justify-content: center !important;
   }
+
   .menu_price {
     display: flex;
     justify-content: space-between;

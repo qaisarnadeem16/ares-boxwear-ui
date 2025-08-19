@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const PreviewContainer = styled.div`
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
 `;
 
-export const BlurOverlay = styled.div `position: absolute;
+export const BlurOverlay = styled.div `position: fixed;
   top: 0;
   left: 0;
   width: 100%;
