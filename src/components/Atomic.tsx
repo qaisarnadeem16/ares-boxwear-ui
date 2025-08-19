@@ -169,11 +169,11 @@ export const Icon = styled.div<{ hoverable?: boolean }>`
     }
   `}
 
-	svg {
+	/* svg {
 		fill: currentColor;
 		width: 100%;
 		height: 100%;we
-	}
+	} */
 `;
 
 export const TextArea = styled.textarea`
