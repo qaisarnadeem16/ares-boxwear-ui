@@ -184,22 +184,22 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
   fitlerAttributes.filter((x) => x !== undefined);
 
-  useEffect(() => {
-    if (selectedGroupIDFromTray) {
-      // const foundItem = filteredArrayId[0];
-      const tipIndex_ = useActualGroups_.findIndex(
-        (x) => x.id === selectedGroupIDFromTray
-      );
-      setCurrentIndex(tipIndex_);
-    }
+  // useEffect(() => {
+  //   if (selectedGroupIDFromTray) {
+  //     // const foundItem = filteredArrayId[0];
+  //     const tipIndex_ = useActualGroups_.findIndex(
+  //       (x) => x.id === selectedGroupIDFromTray
+  //     );
+  //     setCurrentIndex(tipIndex_);
+  //   }
 
-    const tipIndex_ = useActualGroups_.findIndex(
-      (x) => x.id === selectedGroupId
-    );
-    setCurrentIndex(tipIndex_);
+  //   const tipIndex_ = useActualGroups_.findIndex(
+  //     (x) => x.id === selectedGroupId
+  //   );
+  //   setCurrentIndex(tipIndex_);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGroupIDFromTray, useActualGroups_]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedGroupIDFromTray, useActualGroups_]);
 
   // const selectedTemplateGroup = currentTemplateGroups
   // 	? currentTemplateGroups.find((templGr) => templGr.templateGroupID === selectedTemplateGroupId)
