@@ -1,17 +1,6 @@
 import "./selector.css";
 import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { Attribute, ThemeTemplateGroup, useZakeke } from "zakeke-configurator-react";
-import {
-  List,
-  ListX,
-  ListItemX,
-  ListItemX_,
-  ListItemColor,
-  ListItemImageX,
-  ListItemImageNoCarousel,
-} from "./list";
-import { PreviewContainer, BlurOverlay } from "./previewContainer";
-import Tray from "./Tray";
+import { ThemeTemplateGroup, useZakeke } from "zakeke-configurator-react";
 
 import ProgressBarLoadingOverlay from "./widgets/ProgressBarLoadingOverlay";
 import DesignerSignature from "./layouts/DesignerSignature";
@@ -28,19 +17,12 @@ import Footer from "./layouts/Footer";
 import FooterMobile from "./layouts/FooterMobile";
 
 import "./selectors/colsgrid.css";
-import { ColorMenuSeleciton } from "./selectors/ColorMenuSelection";
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import { MenuIcon } from "./widgets/svg";
 import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAccordionName, Options, OptionsContainer, OptionsWrapper, StepItem, Steps } from "./Atomic";
 import OptionItem from "./widgets/options";
+import { BlurOverlay, PreviewContainer } from "./previewContainer";
 
-const dialogsPortal = document.getElementById("dialogs-portal")!;
 
 interface TrayPreviewOpenButton3DProps {
   trayPreviewOpenButton3DFunc: (data: any) => void;
@@ -109,7 +91,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const [selectedTrayPreviewOpenButton, selectTrayPreviewOpenButton] =
     useState<boolean>(false);
 
-    
+
   // Selection of colours
   const [activeColorOption, setActiveColorOption] = useState("");
 
@@ -481,52 +463,64 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
 
   useEffect(() => {
-    if (selectedGroup && selectedGroup.id !== -2) {
-      if (selectedGroup.steps.length > 0) {
-        // verifico che ci fosse già uno step selezionato per quel gruppo E CHE LO STESSO sia visibile
-        // prima di selezionarlo, altrimenti seleziono il primo step disponibile del gruppo
-        if (
-          lastSelectedSteps.get(selectedGroupId!) &&
-          selectedGroup.steps.find((step) => step.id === lastSelectedSteps.get(selectedGroupId!)!)
-        )
-          handleStepSelection(lastSelectedSteps.get(selectedGroupId!)!);
-        else handleStepSelection(selectedGroup.steps[0].id);
+    if (selectedStep && currentItems.length > 0) {
+      if (lastSelectedItemsFromSteps && selectedStepId && lastSelectedItemsFromSteps.get(selectedStepId)) {
+        const selectedItem = lastSelectedItemsFromSteps.get(selectedStepId);
+        if (selectedItem && selectedItem[1] === "attribute") {
+          if (selectedStep.attributes.some((attr) => attr.id === selectedItem[0])) {
+            handleAttributeSelection(selectedItem[0]);
+          } else {
+            handleAttributeSelection(selectedStep.attributes[0].id);
+          }
+        } else if (selectedItem && selectedItem[1] === "template group") {
+          if (selectedStep.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0])) {
+            handleTemplateGroupSelection(selectedItem[0]);
+          } else {
+            handleTemplateGroupSelection(selectedStep.templateGroups[0].templateGroupID);
+          }
+        }
       } else {
-        handleStepSelection(null);
+        if (!(currentItems[0] instanceof ThemeTemplateGroup)) {
+          handleAttributeSelection(currentItems[0].id);
+          // if (currentItems[0].options.length > 0 && currentAttributes.length === 1) {
+          //   handleOptionSelection(currentItems[0].options[0].id, currentItems[0].options[0].name);
+          // }
+        } else {
+          handleTemplateGroupSelection(currentItems[0].templateGroupID);
+        }
       }
-
-      // setSelectedCarouselSlide(0);
-
-      if (!useActualGroups_.find((group) => group.id === selectedGroupId)!.attributesAlwaysOpened) {
-        let attributes: Attribute[] = [];
-        let group = useActualGroups_.find((group) => group.id === selectedGroupId)!;
-        if (group.attributes.length > 0) {
-          attributes.push(group.attributes[0]);
+    } else if (selectedGroup && currentItems.length > 0) {
+      if (lastSelectedItemsFromGroups && selectedGroupId && lastSelectedItemsFromGroups.get(selectedGroupId)) {
+        const selectedItem = lastSelectedItemsFromGroups.get(selectedGroupId);
+        if (selectedItem && selectedItem[1] === "attribute") {
+          const attributeToBeAutoSelected = selectedGroup.attributes.find(
+            (attr) => attr.id === selectedItem[0]
+          );
+          if (attributeToBeAutoSelected && attributeToBeAutoSelected.enabled) {
+            handleAttributeSelection(selectedItem[0]);
+          } else if (selectedGroup.attributes.length > 0) {
+            handleAttributeSelection(selectedGroup.attributes[0].id);
+          }
+        } else if (selectedItem && selectedItem[1] === "template group") {
+          if (selectedGroup.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0])) {
+            handleTemplateGroupSelection(selectedItem[0]);
+          }
         }
-        if (group.steps.length > 0) {
-          let stepsFirstAttributes = group.steps.map((step) => {
-            if (step.attributes.length > 0) {
-              return step.attributes[0];
-            } else return null;
-          });
-          stepsFirstAttributes.forEach((attribute) => {
-            if (attribute) attributes.push(attribute);
-          });
-        }
-        if (attributes && attributes.length > 0) {
-          // Add attributes in openedAttributes and set isOpened to true if already exists
-          setAttributesOpened((prev) => {
-            attributes.forEach((attribute) => {
-              prev = prev.set(attribute.id, true);
-            });
-
-            return prev;
-          });
+      } else {
+        if (!(currentItems[0] instanceof ThemeTemplateGroup)) {
+          handleAttributeSelection(selectedGroup.attributes[0].id);
+          // if (selectedGroup.attributes.length === 1 && selectedGroup.attributes[0].options.length > 0) {
+          //   handleOptionSelection(
+          //     selectedGroup.attributes[0].options[0].id,
+          //     selectedGroup.attributes[0].options[0].name
+          //   );
+          // }
+        } else {
+          handleTemplateGroupSelection(currentItems[0].templateGroupID);
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGroupId, selectedGroup?.steps.length]);
+  }, [selectedStepId, selectedGroupId, selectedStep, selectedGroup, currentItems]);
 
 
   if (isSceneLoading || !groups || groups.length === 0)
