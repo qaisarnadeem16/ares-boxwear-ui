@@ -109,6 +109,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const [selectedTrayPreviewOpenButton, selectTrayPreviewOpenButton] =
     useState<boolean>(false);
 
+    
   // Selection of colours
   const [activeColorOption, setActiveColorOption] = useState("");
 
