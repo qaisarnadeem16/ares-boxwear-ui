@@ -822,9 +822,9 @@ const DesignerLogo: FC<{
               isMoveElementButton
               onClick={() => setMoveElements(true)}
             >
-              <Icon>
+              {/* <Icon>
                 <Arrows />
-              </Icon>
+              </Icon> */}
               <span>{T._("Move elements", "Composer")} </span>
             </MoveElementButton>
           )}

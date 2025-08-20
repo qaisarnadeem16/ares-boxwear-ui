@@ -53,6 +53,9 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const [lastSelectedSteps, setLastSelectedSteps] = useState(new Map<number, number>());
   const [lastSelectedItemsFromSteps, setLastSelectedItemFromSteps] = useState(new Map<number, [number, string]>());
   const [lastSelectedItemsFromGroups, setLastSelectedItemsFromGroups] = useState(new Map<number, [number, string]>());
+  const [isTrayOpen, setIsTrayOpen] = useState<any | null>(false);
+  const [selectedTrayType, setSelectedTrayType] = useState<any | null>("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const useActualGroups_ = useActualGroups();
   const [attributesOpened, setAttributesOpened] = useState<Map<number, boolean>>(new Map());
@@ -79,8 +82,6 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const [selectedGroupList, selectGroupList] = useState<any | null>(null);
 
   // Open tray for menu
-  const [isTrayOpen, setIsTrayOpen] = useState<any | null>(false);
-  const [selectedTrayType, setSelectedTrayType] = useState<any | null>("");
 
   // Get the id of the selected group from the tray
   const [selectedGroupIdFromTray, selectGroupIdFromTray] = useState<
@@ -246,15 +247,10 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   }, [items]);
 
   // Open the first group and the first step when loaded
-  useEffect(() => {
-    // console.log("loading in the first group",groups);
-
+    useEffect(() => {
     if (!selectedGroup && useActualGroups_.length > 0) {
       setSelectedGroupId(groups[0].id);
-
       setActiveColorOption("plain");
-
-      // if (groups[0].steps.length > 0) selectStep(groups[0].steps[0].id);
 
       if (templates.length > 0) setTemplate(templates[0].id);
     }
@@ -417,110 +413,78 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
 
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [isSceneLoading, actualGroups]);
-  useEffect(() => {
+useEffect(() => {
     if (selectedStep && currentItems.length > 0) {
-      if (lastSelectedItemsFromSteps && selectedStepId && lastSelectedItemsFromSteps.get(selectedStepId!)) {
-        const selectedItem = lastSelectedItemsFromSteps.get(selectedStepId!);
-        if (selectedItem && selectedItem[1] === 'attribute') {
-          if (selectedStep.attributes.some((attr) => attr.id === selectedItem[0]))
-            handleAttributeSelection(lastSelectedItemsFromSteps!.get(selectedStepId!)![0]!);
-          else handleAttributeSelection(selectedStep.attributes[0].id);
-        }
-        if (selectedItem && selectedItem[1] === 'template group') {
-          if (selectedStep.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0]))
-            handleTemplateGroupSelection(lastSelectedItemsFromSteps!.get(selectedStepId!)![0]!);
-          else handleTemplateGroupSelection(selectedStep.templateGroups[0].templateGroupID);
-        }
-      } else {
-        if (!(currentItems[0] instanceof ThemeTemplateGroup)) handleAttributeSelection(currentItems[0].id);
-        else handleTemplateGroupSelection(currentItems[0].templateGroupID);
-      }
-    } else if (selectedGroup && currentItems.length > 0) {
-      if (lastSelectedItemsFromSteps && selectedGroupId && lastSelectedItemsFromGroups.get(selectedGroupId)) {
-        const selectedItem = lastSelectedItemsFromGroups.get(selectedGroupId);
-        if (selectedItem && selectedItem[1] === 'attribute') {
-          const attributeToBeAutoSelected = selectedGroup.attributes.find(
-            (attr) => attr.id === selectedItem[0]
-          );
-          // fix check if enabled in case of attributes with link
-          if (attributeToBeAutoSelected && attributeToBeAutoSelected.enabled)
-            handleAttributeSelection(lastSelectedItemsFromGroups!.get(selectedGroupId!)![0]!);
-          else if (selectedGroup && selectedGroup.attributes.length > 0)
-            handleAttributeSelection(selectedGroup.attributes[0].id);
-        }
-        if (selectedItem && selectedItem[1] === 'template group') {
-          if (selectedGroup.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0]))
-            handleTemplateGroupSelection(lastSelectedItemsFromGroups!.get(selectedGroupId!)![0]!);
-        }
-      } else {
-        if (!(currentItems[0] instanceof ThemeTemplateGroup))
-          handleAttributeSelection(selectedGroup.attributes[0].id);
-        else handleTemplateGroupSelection(currentItems[0].templateGroupID);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedStepId, selectedGroupId]);
-
-
-  useEffect(() => {
-    if (selectedStep && currentItems.length > 0) {
+      const newAttributesOpened = new Map(attributesOpened);
+      
       if (lastSelectedItemsFromSteps && selectedStepId && lastSelectedItemsFromSteps.get(selectedStepId)) {
         const selectedItem = lastSelectedItemsFromSteps.get(selectedStepId);
-        if (selectedItem && selectedItem[1] === "attribute") {
+        if (selectedItem && selectedItem[1] === 'attribute') {
           if (selectedStep.attributes.some((attr) => attr.id === selectedItem[0])) {
             handleAttributeSelection(selectedItem[0]);
+            newAttributesOpened.set(selectedItem[0], true);
           } else {
             handleAttributeSelection(selectedStep.attributes[0].id);
+            newAttributesOpened.set(selectedStep.attributes[0].id, true);
           }
-        } else if (selectedItem && selectedItem[1] === "template group") {
+        }
+        if (selectedItem && selectedItem[1] === 'template group') {
           if (selectedStep.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0])) {
             handleTemplateGroupSelection(selectedItem[0]);
+            newAttributesOpened.set(selectedItem[0], true);
           } else {
             handleTemplateGroupSelection(selectedStep.templateGroups[0].templateGroupID);
+            newAttributesOpened.set(selectedStep.templateGroups[0].templateGroupID, true);
           }
         }
       } else {
         if (!(currentItems[0] instanceof ThemeTemplateGroup)) {
           handleAttributeSelection(currentItems[0].id);
-          // if (currentItems[0].options.length > 0 && currentAttributes.length === 1) {
-          //   handleOptionSelection(currentItems[0].options[0].id, currentItems[0].options[0].name);
-          // }
+          newAttributesOpened.set(currentItems[0].id, true);
         } else {
           handleTemplateGroupSelection(currentItems[0].templateGroupID);
+          newAttributesOpened.set(currentItems[0].templateGroupID, true);
         }
       }
+      
+      setAttributesOpened(newAttributesOpened);
     } else if (selectedGroup && currentItems.length > 0) {
+      const newAttributesOpened = new Map(attributesOpened);
+      
       if (lastSelectedItemsFromGroups && selectedGroupId && lastSelectedItemsFromGroups.get(selectedGroupId)) {
         const selectedItem = lastSelectedItemsFromGroups.get(selectedGroupId);
-        if (selectedItem && selectedItem[1] === "attribute") {
+        if (selectedItem && selectedItem[1] === 'attribute') {
           const attributeToBeAutoSelected = selectedGroup.attributes.find(
             (attr) => attr.id === selectedItem[0]
           );
           if (attributeToBeAutoSelected && attributeToBeAutoSelected.enabled) {
             handleAttributeSelection(selectedItem[0]);
-          } else if (selectedGroup.attributes.length > 0) {
+            newAttributesOpened.set(selectedItem[0], true);
+          } else if (selectedGroup && selectedGroup.attributes.length > 0) {
             handleAttributeSelection(selectedGroup.attributes[0].id);
+            newAttributesOpened.set(selectedGroup.attributes[0].id, true);
           }
-        } else if (selectedItem && selectedItem[1] === "template group") {
+        }
+        if (selectedItem && selectedItem[1] === 'template group') {
           if (selectedGroup.templateGroups.some((templGr) => templGr.templateGroupID === selectedItem[0])) {
             handleTemplateGroupSelection(selectedItem[0]);
+            newAttributesOpened.set(selectedItem[0], true);
           }
         }
       } else {
         if (!(currentItems[0] instanceof ThemeTemplateGroup)) {
           handleAttributeSelection(selectedGroup.attributes[0].id);
-          // if (selectedGroup.attributes.length === 1 && selectedGroup.attributes[0].options.length > 0) {
-          //   handleOptionSelection(
-          //     selectedGroup.attributes[0].options[0].id,
-          //     selectedGroup.attributes[0].options[0].name
-          //   );
-          // }
+          newAttributesOpened.set(selectedGroup.attributes[0].id, true);
         } else {
           handleTemplateGroupSelection(currentItems[0].templateGroupID);
+          newAttributesOpened.set(currentItems[0].templateGroupID, true);
         }
       }
+      
+      setAttributesOpened(newAttributesOpened);
     }
-  }, [selectedStepId, selectedGroupId, selectedStep, selectedGroup, currentItems]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedStepId, selectedGroupId]);
 
 
   if (isSceneLoading || !groups || groups.length === 0)
@@ -595,7 +559,9 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     trayPreviewOpenButton3DFunc(selectedTrayPreviewOpenButton);
   };
 
-  
+   const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   // After selection of the element from the tray
   const groupIdFromFunc = (data: number, type: string) => {
@@ -640,10 +606,30 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     setSelectedPersonalize(!selectedPersonalize);
   };
 
+
+  const handleGroupSelectionFromSidebar = (groupId: number) => {
+    const groupIndex = useActualGroups_.findIndex(group => group.id === groupId);
+    if (groupIndex !== -1) {
+      setSelectedGroupId(groupId);
+      setCurrentIndex(groupIndex);
+      setSelectedAttributeId(null);
+      
+      const newGroup = useActualGroups_[groupIndex];
+      setSelectedTrayType(updateSelectedTray(newGroup.direction));
+      setSelectedGroupIDFromTray(null);
+      
+      if (newGroup.steps.length > 0) {
+        setSelectedStepId(newGroup.steps[0].id);
+      } else {
+        setSelectedStepId(null);
+      }
+    }
+    setIsSidebarOpen(false); // Close sidebar after selection
+  };
   const containerStyles = {
     // overflow: "auto",
     width: "100%",
-
+    padding:'10px',
     // height: !selectedTrayPreviewOpenButton ? "13rem" : "70px",
   };
   
@@ -676,6 +662,111 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   return (
     <>
 
+{/* Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="sidebar-overlay"
+          onClick={toggleSidebar}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1000,
+          }}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div 
+        className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: isSidebarOpen ? 0 : '-300px',
+          width: '300px',
+          height: '100vh',
+          backgroundColor: '#fff',
+          boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
+          transition: 'left 0.3s ease',
+          zIndex: 1001,
+          overflowY: 'auto',
+          padding: '20px',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h3 style={{ margin: 0 }}>Groups</h3>
+          <button 
+            onClick={toggleSidebar}
+            style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '24px',
+              cursor: 'pointer',
+              padding: '5px',
+            }}
+          >
+            ×
+          </button>
+        </div>
+        
+        <div className="groups-list">
+          {useActualGroups_.map((group, index) => (
+            <div
+              key={group.id}
+              className={`group-item ${selectedGroupId === group.id ? 'selected' : ''}`}
+              onClick={() => handleGroupSelectionFromSidebar(group.id)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '15px',
+                marginBottom: '10px',
+                border: selectedGroupId === group.id ? '2px solid #007bff' : '1px solid #ddd',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: selectedGroupId === group.id ? '#f8f9fa' : '#fff',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                if (selectedGroupId !== group.id) {
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (selectedGroupId !== group.id) {
+                  e.currentTarget.style.backgroundColor = '#fff';
+                }
+              }}
+            >
+              {group.imageUrl && (
+                <img
+                  src={group.imageUrl}
+                  alt={group.name}
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    objectFit: 'cover',
+                    borderRadius: '4px',
+                    marginRight: '15px',
+                  }}
+                />
+              )}
+              <div>
+                <div style={{ fontWeight: '500', fontSize: '16px' }}>
+                  {makeFirstLetterCaps(group.name)}
+                </div>
+                {group.steps && group.steps.length > 0 && (
+                  <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+                    {group.steps.length} step{group.steps.length > 1 ? 's' : ''}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
 
       <div className="animate-wrapper-0">
@@ -693,7 +784,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
                     />
                   )}
                 </div>
-                <button className="btn-rounded">
+                <button className="btn-rounded" onClick={toggleSidebar}>
                   <MenuIcon />
                 </button>
               </div>

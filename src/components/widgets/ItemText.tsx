@@ -244,9 +244,10 @@ const ItemText: FC<{
           rightComponent={
             !hideRemoveButton &&
             item.constraints!.canDelete && (
-              <Icon onClick={() => removeItem(item.guid)}>
-                <CloseIcon />
-              </Icon>
+              <></>
+              // <Icon onClick={() => removeItem(item.guid)}>
+              //   <CloseIcon />
+              // </Icon>
             )
           }
         >

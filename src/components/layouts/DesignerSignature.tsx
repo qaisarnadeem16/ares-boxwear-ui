@@ -578,9 +578,9 @@ const DesignerSignature: FC<{
               <>  
               {showAddTextButton && (
                 <Button_N isFullWidth onClick={handleAddTextClick}>
-                  <Icon>
+                  {/* <Icon>
                     <Add />
-                  </Icon>
+                  </Icon> */}
                   <span>{staticsVals?.get('Text') ?? 'Text'}   </span>
                 </Button_N>
               )}
@@ -594,9 +594,9 @@ const DesignerSignature: FC<{
               outline
               onClick={() => setMoveElements(true)}
             >
-              <Icon>
+              {/* <Icon>
                 <Arrows />
-              </Icon>
+              </Icon> */}
               <span>{T._("Move elements", "Composer")} </span>
             </MoveElementButton>
           )}
