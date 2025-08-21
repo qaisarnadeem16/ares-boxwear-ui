@@ -789,7 +789,7 @@ useEffect(() => {
                 </button>
               </div>
 
-              <div className="Heading groupTitle">{groupNameText}</div>
+              <div className="Heading">{groupNameText}</div>
               <div className=""></div>
 
             </div>
@@ -952,7 +952,7 @@ useEffect(() => {
         <div className="gbuts">
           {/* <button className="previous-customization" onClick={handleLeftClick}> */}
           <div id="gprev" className="mc-prev" onClick={handleLeftClick}>
-            {dynamicsVals?.get("Back") ?? "Back"}
+            {dynamicsVals?.get("Back") ?? "Pre"}
           </div>
           {/* </button> */}
           {/* <button className="next-customization" onClick={handleRightClick}> */}
@@ -962,7 +962,7 @@ useEffect(() => {
           {/* </button> */}
         </div>
 
-        <div className="empty-space-div"></div>
+        {/* <div className="empty-space-div"></div> */}
 
         {/* {width <= 460 && <FooterMobile />} */}
       </div>

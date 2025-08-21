@@ -13,16 +13,21 @@ export const Steps = styled.div`
 `;
 
 export const StepItem = styled.div`
-border: 1px solid black;
-min-width: 150px;
-text-align: center;
-  padding: 8px;
+  border: 1px solid black;
+  min-width: 130px;
+  text-align: center;
+  padding: 2px;
   cursor: pointer;
 
   &.selected {
+	display: flex;
+    text-align: center;
+    font-size: 15px;
     background: black;
-	color: white;
+    color: white;
     font-weight: bold;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

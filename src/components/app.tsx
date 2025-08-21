@@ -151,7 +151,7 @@ const App: FunctionComponent<{}> = () => {
                       : { width: "85vw", height: "94vh", marginTop: "26px" }
                   }
                 >
-                  <ZakekeViewer />
+                  <ZakekeViewer/>
                 </div>
               </div>
               <Selector

@@ -52,6 +52,11 @@ html,body {
   
 }
 
+.fPxQCS canvas {
+    background: linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237)) !important;
+    outline: none !important;
+}
+
 .animate-wrapper-0 {
   display: flex;
   flex-direction: column;
@@ -197,7 +202,7 @@ button:focus {
  .mobileSelector {
    position: relative !important;
    width: 100%;
-   height: 30vh;
+   /* height: 30vh; */
    bottom: 0;
    /* background-color: red; */
  }
@@ -227,7 +232,7 @@ button:focus {
     /* bottom: 0em; */
     /* height: 30vh; */
     left: 0px;
-    top: -20px;
+    /* top: -20px; */
     /* top: calc(55% - 015px); */
     /* bottom: 0; */
     }  
@@ -239,10 +244,11 @@ button:focus {
     }
   
   .gbuts{
-    padding-right: 22px;
+    top: 37px;
+    /* padding-right: 22px; */
     position: absolute;
     width: auto;
-    right: 0px;
+    right: 10px;
   }  
     
 

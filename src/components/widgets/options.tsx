@@ -29,7 +29,7 @@ const OptionContainer = styled.div<{ optionShape: number, selected: boolean, has
 
 const OptionIconContainerStyled = styled.div`
    overflow: hidden;
-   width: 50px;
+   width: 80px;
    aspect-ratio: 1;
    /* padding: 0 10px; */
 `;
@@ -41,13 +41,17 @@ const OptionIconContainer: FC<{
 }
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
-    object-fit: cover;
-    width: 50px;
-    height: 50px;
-    aspect-ratio: 1;
+    object-fit:cover;
+    width: 120px;
+    height: 120px;
+    object-position: center;
+    // position:absolute;
+    // top:0px;
+    // left:0px;
+    // aspect-ratio: 1;
 
     ${props => props.optionShape && `
-        border-radius: 100%;
+        // border-radius: 100%;
         object-fit: cover;
     `};
 `;
@@ -71,8 +75,13 @@ const OptionName = styled.span`
 `;
 
 const OptIconContainer = styled.div`
-    width: 100%;
-    aspect-ratio: 1;
+    display: flex;
+    object-position: center;
+    object-fit: fill;
+    width: 71px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
 `;
 
 const OptionItem: FC<{ selectedAttribute: Attribute | null | undefined, option: Option, hasDescriptionIcon: boolean }> = ({ selectedAttribute, option, hasDescriptionIcon }) => {

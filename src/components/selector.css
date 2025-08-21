@@ -30,7 +30,8 @@ body {
 }
 
 .Heading {
-  font-size: 18px;
+  font-family: 'Inter';
+  font-size: 1.1rem;
   font-weight: 600;
   color: black;
   text-align: center;
@@ -207,29 +208,31 @@ body {
   display: flex;
   /* float: right; */
   gap: 20px;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 16px;
-  font-weight: 500;
+  font-weight: 400;
   box-sizing: border-box;
   cursor: pointer;
   user-select: none;
+  font-family: "Inter";
+  gap: 2;
 }
 
 .mc-prev {
-  border-radius: 5px;
+  border-radius: 8px;
   border: 1px solid #C7C8C8;
   border-right: none;
   box-sizing: border-box;
-  padding: 7px 10px;
+  padding: 7px 14px;
   background-color: #C7C8C8;
   color: black;
   /* border-color: #6dcff6; */
 }
 
 .mc-next {
-  padding: 7px 10px;
+  padding: 7px 12px;
   border: 1px solid #242C36;
-    border-radius: 5px;
+  border-radius: 8px;
   background-color: #242C36;
   /* background: radial-gradient(circle, #4c7cbd 25%, #297ca3d1); */
   color: #fff;
