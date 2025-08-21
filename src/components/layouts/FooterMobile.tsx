@@ -42,7 +42,7 @@ const FooterMobileIcon = styled.div<{
 	align-items: center;
 	justify-content: flex-end;
 	border: 1px transparent solid;
-	padding: 10px;
+	// padding: 10px;
     border-radius: 6px;
 	//color: ${(props) => (props.color ? props.color : `#313c46`)};
 	background-color: rgb(234 229 229 / 50%);
@@ -52,7 +52,7 @@ const FooterMobileIcon = styled.div<{
 	text-transform: uppercase;
 	text-align: center;
 	display: inline-flex;
-	min-height: 55px;
+	// min-height: 55px;
 	border: none;
 	// border-right: 3px #f4f4f4 solid;
 	cursor: pointer;
@@ -387,22 +387,22 @@ const FooterMobile = () => {
 							{/* {isOutOfStock && T._('OUT OF STOCK', 'Composer')} */}
 							
 							<>
-							<div className="menu_footer" style ={{position: 'relative', bottom: '5px',  display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-							<div className="menu_price">
+							<div className="menu_footer" style ={{position: 'absolute', top: '5px', right:'4px', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+							 <div style={{position:'absolute', right:'1.5rem', top:'1.5rem'}}>
 								{/* <div className="price_text">Price: </div> */}
-								<div>{dynamicsVals?.get('Base') ?? 'Base'} :</div> 
-								<div className="price_value">{priceFormatter.format(price)}</div>
+								{/* <div>{dynamicsVals?.get('Base') ?? 'Base'} :</div>  */}
+								<div className="">{priceFormatter.format(price)}</div>
 							</div>
 							</div>
 							</>	
 							
-							<AddToCartButton>
+							{/* <AddToCartButton>
 								<span style={{color: 'white'}}>
 									{isDraftEditor || isEditorMode
 										? T._('Save', 'Composer')
 										: T._('Add to cart', 'Composer')}
 								</span>
-							</AddToCartButton>
+							</AddToCartButton> */}
 
 							{/* {!isOutOfStock &&
 								!isAddToCartLoading &&

@@ -11,6 +11,7 @@ import { DialogsRenderer } from "./dialog/Dialogs";
 import useStore from "../Store";
 import LayoutMobile from './LayoutMobile';
 import FooterMobile from "./layouts/FooterMobile";
+import Footer from "./layouts/Footer";
 
 // const Layout = styled.div`
 //     display: grid;
@@ -103,6 +104,7 @@ const App: FunctionComponent<{}> = () => {
                 // background: "linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))" , 
                 width: "100%", border: "0px solid", height: "100%"}}
                 > 
+                
                 <div
               className="mobileThreeDRenderer"
                   // style={
@@ -122,6 +124,7 @@ const App: FunctionComponent<{}> = () => {
                 >
                  <ZakekeViewer />
                 </div>
+                <FooterMobile/>
                 <div className="mobileSelector">
               <Selector trayPreviewOpenButton3DFunc={trayPreviewOpenButton3DFunc} />  
 
@@ -143,6 +146,7 @@ const App: FunctionComponent<{}> = () => {
                   // background: "linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))",
                 }}
               >
+                
                 <div
                   className="ThreeDRenderer"
                   style={
@@ -154,6 +158,7 @@ const App: FunctionComponent<{}> = () => {
                   <ZakekeViewer/>
                 </div>
               </div>
+              <Footer/>
               <Selector
                 trayPreviewOpenButton3DFunc={trayPreviewOpenButton3DFunc}
               />

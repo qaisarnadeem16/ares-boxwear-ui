@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Option, useZakeke, Attribute } from 'zakeke-configurator-react';
 // import Tooltip from "./tooltip";
 
-const OptionContainer = styled.div<{ optionShape: number, selected: boolean, hasDescriptionIcon: boolean }>`
+const OptionContainer2 = styled.div<{ optionShape: number, selected: boolean, hasDescriptionIcon: boolean }>`
     display:flex;
     /* flex-flow:column; */
     justify-content:center;
@@ -14,41 +14,29 @@ const OptionContainer = styled.div<{ optionShape: number, selected: boolean, has
     position:relative;
     /* padding: ${props => props.hasDescriptionIcon ? '26px' : '10px'} 0px 10px 0; */
     user-select: none;
-    width: 50px;
-    min-width: 50px;
     /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  */
-
-    &:hover {
-        background-color: #f5f6f7;
-    }
-    
+    background-color: #f4f4f4;    
     ${props => props.selected && `
-        background-color: #f5f6f7;
+        background-color: #3b82f6;
+        border-radius:5px;
     `}
 `;
 
 const OptionIconContainerStyled = styled.div`
-   overflow: hidden;
-   width: 80px;
-   aspect-ratio: 1;
-   /* padding: 0 10px; */
+//    overflow: hidden;
+      width: 120px;
 `;
 
-const OptionIconContainer: FC<{
+const OptionIconContainer2: FC<{
     children?: React.ReactNode
 }> = ({ children }) => {
     return <OptionIconContainerStyled>{children}</OptionIconContainerStyled>;
 }
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
-    object-fit:cover;
     width: 100px;
     height: 100px;
     object-position: center;
-    // position:absolute;
-    // top:0px;
-    // left:0px;
-    // aspect-ratio: 1;
 
     ${props => props.optionShape && `
         // border-radius: 100%;
@@ -76,15 +64,13 @@ const OptionName = styled.span`
 
 const OptIconContainer = styled.div`
     display: flex;
-    object-position: center;
-    object-fit: fill;
-    width: 60px;
-    height: 60px;
+    // width: 60px;
+    height: 50px;
     justify-content: center;
     align-items: center;
 `;
 
-const OptionItem: FC<{ selectedAttribute: Attribute | null | undefined, option: Option, hasDescriptionIcon: boolean }> = ({ selectedAttribute, option, hasDescriptionIcon }) => {
+const OptionItem2: FC<{ selectedAttribute: Attribute | null | undefined, option: Option, hasDescriptionIcon: boolean }> = ({ selectedAttribute, option, hasDescriptionIcon }) => {
 
     const selectedOptionId: number | null = selectedAttribute?.options.find(opt => opt.selected)?.id ?? null;
 
@@ -107,23 +93,23 @@ const OptionItem: FC<{ selectedAttribute: Attribute | null | undefined, option: 
         } catch (e) { }
     }
 
-    return <OptionContainer
+    return <OptionContainer2
         hasDescriptionIcon={hasDescriptionIcon}
         selected={option.selected}
         optionShape={option.attribute.optionShapeType}
         onClick={() => handleOptionSelection(option)}>
 
-        <OptionIconContainer>
+        <OptionIconContainer2>
             {/* {option.description && option.description.length !== 0 &&
                 <Tooltip key={"tooltip" + option.guid} optionDescription={option.description} />
             } */}
             {option.imageUrl && <OptIconContainer><OptionIcon loading="lazy"
                 // fetchpriority="low" 
                 src={option.imageUrl ?? ""} optionShape={option.attribute.optionShapeType === 2} /></OptIconContainer>}
-        </OptionIconContainer>
+        </OptionIconContainer2>
 
         {/* {!option.attribute.hideOptionsLabel && <OptionName >{option.name}</OptionName>} */}
-    </OptionContainer>;
+    </OptionContainer2>;
 }
 
-export default OptionItem;
+export default OptionItem2;

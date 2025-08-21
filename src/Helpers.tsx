@@ -364,7 +364,7 @@ export function useActualGroups() {
       sellerSettings
     ) ?? [];
 
-  indexToRemove = actualGroups.findIndex((obj) => obj.id === -2);
+  // indexToRemove = actualGroups.findIndex((obj) => obj.id === -2);
 
   if (indexToRemove !== -1) {
     actualGroups.splice(indexToRemove, 1);

@@ -276,9 +276,10 @@ const Footer = () => {
 						{/* {price !== null && price > 0 && (!sellerSettings || !sellerSettings.hidePrice) && ( */}
 						<>
 						<div className="menu_footer" style ={{position: 'relative', bottom: '5px',  display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-						<div className="menu_price">
+						<div style={{position:'absolute',top:'0px', right:'0'}}>
 							{/* <div className="price_text">Price: </div> */}
-							<div>{dynamicsVals?.get('Base') ?? 'Base'} :</div> <div className="price_value">{priceFormatter.format(price)}</div>
+							{/* <div>{dynamicsVals?.get('Base') ?? 'Base'} :</div>  */}
+							<div className="price_value">{priceFormatter.format(price)}</div>
 						</div>
 						</div>
 						</>	
@@ -332,7 +333,7 @@ const Footer = () => {
 
 						{/* Add to cart */}
 						{/* {isBuyVisibleForQuoteRule && !isViewerMode && ( */}
-						<AddToCartButton
+						{/* <AddToCartButton
 								ref={addToCartButtonRef}
 								//onPointerEnter={() => {
 								// 	if (isAddToCartDisabled) openOutOfStockTooltip(addToCartButtonRef.current!, 'top', 'top');
@@ -354,7 +355,7 @@ const Footer = () => {
 									</span>
 								)}
 								{!isAddToCartLoading && isOutOfStock && <span>{T._('OUT OF STOCK', 'Composer')}</span>}
-						</AddToCartButton>
+						</AddToCartButton> */}
 						{/* )} */}
 					</FooterRightElementsContainer>
 				</>

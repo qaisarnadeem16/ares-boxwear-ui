@@ -31,7 +31,7 @@ body {
 
 .Heading {
   font-family: 'Inter';
-  font-size: 1.1rem;
+  font-size: .9rem;
   font-weight: 600;
   color: black;
   text-align: center;
@@ -46,9 +46,13 @@ body {
   border-radius: 5px;
 }
 .btn-rounded {
-  background-color: #e5e7eb;
-  padding: 2px;
-  border-radius: 50%;
+  align-items: center;
+    display: flex;
+    height: 31px;
+    background-color: #e5e7eb;
+    border-radius: 50%;
+    width: 31px;
+    justify-content: center;
 }
 
 
@@ -93,10 +97,11 @@ body {
 }
 
 .gimg {
-  width: 48px;
-  height: 49px;
-  background-color: #eee;
+  width: 40px;
+  height: 40px;
+  /* background-color: #eee; */
   float: right;
+  /* padding: 4px; */
   background-size: 48px 48px;
   border-radius: 0 3px 3px 0;
   position: relative;
@@ -215,7 +220,6 @@ body {
   cursor: pointer;
   user-select: none;
   font-family: "Inter";
-  gap: 2;
 }
 
 .mc-prev {

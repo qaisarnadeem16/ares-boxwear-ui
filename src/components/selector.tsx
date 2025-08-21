@@ -22,6 +22,7 @@ import { MenuIcon } from "./widgets/svg";
 import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAccordionName, Options, OptionsContainer, OptionsWrapper, StepItem, Steps } from "./Atomic";
 import OptionItem from "./widgets/options";
 import { BlurOverlay, PreviewContainer } from "./previewContainer";
+import OptionItem2 from "./widgets/options2";
 
 
 interface TrayPreviewOpenButton3DProps {
@@ -40,6 +41,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     setTemplate,
     setCamera,
     productName,
+    price,
     items,
     getOnlineScreenshot,
     productCode,
@@ -406,6 +408,8 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   };
 
 
+   
+
   // useEffect(() => {
   //   if (!isSceneLoading && actualGroups.length > 0 && !selectedGroupId) {
   //     handleGroupSelection(actualGroups[0].id);
@@ -657,319 +661,349 @@ useEffect(() => {
   };
 
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
-  console.log("selectedGroup", selectedGroup)
+console.log("useActualGroups_", useActualGroups_)
 
-  return (
-    <>
-
+return (
+  <>
 {/* Sidebar Overlay */}
-      {isSidebarOpen && (
-        <div 
-          className="sidebar-overlay"
-          onClick={toggleSidebar}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 1000,
-          }}
-        />
-      )}
-
-      {/* Sidebar */}
+    {isSidebarOpen && (
       <div 
-        className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}
+        className="sidebar-overlay"
+        onClick={toggleSidebar}
         style={{
           position: 'fixed',
           top: 0,
-          left: isSidebarOpen ? 0 : '-300px',
-          width: '300px',
-          height: '100vh',
-          backgroundColor: '#fff',
-          boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
-          transition: 'left 0.3s ease',
-          zIndex: 1001,
-          overflowY: 'auto',
-          padding: '20px',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 1000,
         }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h3 style={{ margin: 0 }}>Groups</h3>
-          <button 
-            onClick={toggleSidebar}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: '24px',
-              cursor: 'pointer',
-              padding: '5px',
-            }}
-          >
-            ×
-          </button>
+      />
+    )}
+    {/* Sidebar */}
+    <div 
+      className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: isSidebarOpen ? 0 : '-300px',
+        width: '300px',
+        height: '100vh',
+        backgroundColor: '#fff',
+        boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
+        transition: 'left 0.3s ease',
+        zIndex: 1001,
+        overflowY: 'auto',
+        padding: '20px',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h3 style={{ margin: 0 }}>Groups</h3>
+        <button 
+          onClick={toggleSidebar}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '24px',
+            cursor: 'pointer',
+            padding: '5px',
+          }}
+        >
+          ×
+        </button>
+      </div>
+      
+      <div 
+className="groups-container" 
+style={{
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr", // 2 columns
+  gap: "10px", // spacing between items
+}}
+>
+{useActualGroups_.map((group, index) => (
+  <div
+    key={group.id}
+    className={`group-item ${selectedGroupId === group.id ? 'selected' : ''}`}
+    onClick={() => handleGroupSelectionFromSidebar(group.id)}
+    style={{
+      display: "flex",
+      flexDirection:'column',
+      alignItems: "center",
+      padding: "9px",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+    }}
+    onMouseEnter={(e) => {
+      if (selectedGroupId !== group.id) {
+        e.currentTarget.style.backgroundColor = "#f5f5f5";
+      }
+    }}
+    onMouseLeave={(e) => {
+      if (selectedGroupId !== group.id) {
+        e.currentTarget.style.backgroundColor = "#fff";
+      }
+    }}
+  >
+    {group.imageUrl && (
+      <img
+        src={group.imageUrl}
+        alt={group.name}
+        style={{
+          width: "95px",
+          height: "95px",
+          objectFit: "cover",
+          borderRadius: "4px",
+          padding:'3px',
+          backgroundColor: selectedGroupId === group.id ? "#f8f9fa" : "#fff",            
+        }}
+      />
+    )}
+    <div>
+      <div style={{ fontWeight: "500", fontSize: "12px", textAlign:'center' }}>
+        {makeFirstLetterCaps(group.name)}
+      </div>
+      {group.steps && group.steps.length > 0 && (
+        <div style={{ fontSize: "12px", color: "#666", marginTop: "5px",textAlign:'center' }}>
+          {group.steps.length} step{group.steps.length > 1 ? "s" : ""}
         </div>
-        
-        <div className="groups-list">
-          {useActualGroups_.map((group, index) => (
-            <div
-              key={group.id}
-              className={`group-item ${selectedGroupId === group.id ? 'selected' : ''}`}
-              onClick={() => handleGroupSelectionFromSidebar(group.id)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '15px',
-                marginBottom: '10px',
-                border: selectedGroupId === group.id ? '2px solid #007bff' : '1px solid #ddd',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                backgroundColor: selectedGroupId === group.id ? '#f8f9fa' : '#fff',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (selectedGroupId !== group.id) {
-                  e.currentTarget.style.backgroundColor = '#f5f5f5';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (selectedGroupId !== group.id) {
-                  e.currentTarget.style.backgroundColor = '#fff';
-                }
-              }}
-            >
-              {group.imageUrl && (
-                <img
-                  src={group.imageUrl}
-                  alt={group.name}
-                  style={{
-                    width: '50px',
-                    height: '50px',
-                    objectFit: 'cover',
-                    borderRadius: '4px',
-                    marginRight: '15px',
-                  }}
-                />
-              )}
-              <div>
-                <div style={{ fontWeight: '500', fontSize: '16px' }}>
-                  {makeFirstLetterCaps(group.name)}
-                </div>
-                {group.steps && group.steps.length > 0 && (
-                  <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                    {group.steps.length} step{group.steps.length > 1 ? 's' : ''}
-                  </div>
+      )}
+    </div>
+  </div>
+))}
+</div>
+
+    </div>
+
+    <div className="animate-wrapper-0">
+
+      <div style={containerStyles}>
+
+        <div className="tray-header">
+          <div className="Flex Flex-Justify">
+            <div className="Flex">
+              <div className="gimg">
+                {useActualGroups_[currentIndex]?.imageUrl && (
+                  <img
+                    src={useActualGroups_[currentIndex]?.imageUrl!}
+                    alt="Group Image"
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
                 )}
               </div>
+              <button className="btn-rounded" onClick={toggleSidebar}>
+                <MenuIcon />
+              </button>
             </div>
-          ))}
-        </div>
-      </div>
 
-
-      <div className="animate-wrapper-0">
-        <div style={containerStyles}>
-
-          <div className="tray-header">
-            <div className="Flex Flex-Justify">
-              <div className="Flex">
-                <div className="gimg">
-                  {useActualGroups_[currentIndex]?.imageUrl && (
-                    <img
-                      src={useActualGroups_[currentIndex]?.imageUrl!}
-                      alt="Group Image"
-                      style={{ maxWidth: "100%", height: "auto" }}
-                    />
-                  )}
-                </div>
-                <button className="btn-rounded" onClick={toggleSidebar}>
-                  <MenuIcon />
-                </button>
-              </div>
-
-              <div className="Heading">{groupNameText}</div>
-              <div className=""></div>
-
-            </div>
+            <div className="Heading">{groupNameText}</div>
+            <div className=""></div>
 
           </div>
-          <br />
-          <br />
+
+        </div>
+        <br />
+        <br />
 
 
-          <Steps>
-            {selectedGroup && selectedGroup.steps.map((step) => (
-              <StepItem
-                key={step.id}
-                className={step.id === selectedStepId ? "selected" : ""}
-                onClick={() => handleStepSelection(step.id)}
-              >
-                {T._d(step.name)}
-              </StepItem>
-            ))}
-          </Steps>
+        <Steps>
+          {selectedGroup && selectedGroup.steps.map((step) => (
+            <StepItem
+              key={step.id}
+              className={step.id === selectedStepId ? "selected" : ""}
+              onClick={() => handleStepSelection(step.id)}
+            >
+              {T._d(step.name)}
+            </StepItem>
+          ))}
+        </Steps>
+        
 
 
+        {/* {selectedGroup?.direction === 1 && ( */}
+         <>
+{currentItems &&
+currentItems.map((item) => {
+  
+  const isSizeAndPaddingType = selectedGroup?.name?.toLowerCase() === "size" || 
+                              selectedGroup?.name?.toLowerCase() === "padding type";
 
+  
+  if (!(item instanceof ThemeTemplateGroup))
+                return (
+                  <ItemAccordionContainer key={'container' + item.code}>
+                    {/* <ItemAccordion
+                      key={item.guid}
+                      opened={attributesOpened.get(item.id)}
+                      onClick={
+                        selectedGroup && selectedGroup.attributesAlwaysOpened
+                          ? () => null
+                          : () => handleAttributeSelection(item.id, true)
+                      }
+                    > */}
+                      {/* <ItemAccordionName>{T._d(item.name)}</ItemAccordionName> */}
 
-          {/* {selectedGroup?.direction === 1 && ( */}
-            <>
-              {currentItems &&
-                currentItems.map((item) => {
-                  if (!(item instanceof ThemeTemplateGroup))
-                    return (
-                      <ItemAccordionContainer key={'container' + item.code}>
-                        {/* <ItemAccordion
-                          key={item.guid}
-                          opened={attributesOpened.get(item.id)}
-                          onClick={
-                            selectedGroup && selectedGroup.attributesAlwaysOpened
-                              ? () => null
-                              : () => handleAttributeSelection(item.id, true)
+                      {/* {!selectedGroup.attributesAlwaysOpened && (
+                        <ArrowIcon
+                          key={'accordion-icon'}
+                          src={
+                            attributesOpened.get(item.id) ? arrowUp : arrowDown
                           }
-                        > */}
-                          {/* <ItemAccordionName>{T._d(item.name)}</ItemAccordionName> */}
+                        />
+                      )} */}
+                    {/* </ItemAccordion> */}
+                    {/* {item.description !== '' && (
+                      <ItemAccordionDescription>
+                        {T._d(item.description)}
+                      </ItemAccordionDescription>
+                    )} */}
 
-                          {/* {!selectedGroup.attributesAlwaysOpened && (
-                            <ArrowIcon
-                              key={'accordion-icon'}
-                              src={
-                                attributesOpened.get(item.id) ? arrowUp : arrowDown
-                              }
-                            />
-                          )} */}
-                        {/* </ItemAccordion> */}
-                        {/* {item.description !== '' && (
-                          <ItemAccordionDescription>
-                            {T._d(item.description)}
-                          </ItemAccordionDescription>
-                        )} */}
+                    {/* Use OptionItem for normal groups */}
+                    {!isSizeAndPaddingType && attributesOpened.get(item.id) && (
+        <OptionsContainer>
+          <OptionsWrapper>
+            {item.options
+              .filter((x) => x.enabled)
+              .map((option) => (
+                <OptionItem
+                  key={option.guid}
+                  selectedAttribute={selectedAttribute}
+                  option={option}
+                  hasDescriptionIcon={item.options.some(
+                    (x) => x.description
+                  )}
+                />
+              ))}
+          </OptionsWrapper>
+        </OptionsContainer>
+      )}
 
-                        {attributesOpened.get(item.id) && (
-                          <OptionsContainer>
-                            <OptionsWrapper>
-                              {item.options
-                                .filter((x) => x.enabled)
-                                .map((option) => (
-                                  <OptionItem
-                                    key={option.guid}
-                                    selectedAttribute={selectedAttribute}
-                                    option={option}
-                                    hasDescriptionIcon={item.options.some(
-                                      (x) => x.description
-                                    )}
-                                  />
-                                ))}
-                            </OptionsWrapper>
-                          </OptionsContainer>
-                        )}
-                      </ItemAccordionContainer>
-                    );
-                  else
-                    return (
-                      <>
-                        <ItemAccordionContainer key={'container' + item.templateGroupID}>
-                          <ItemAccordion
-                            key={item.templateGroupID + 'accordion'}
-                            opened={attributesOpened.get(item.templateGroupID)}
-                            onClick={() =>
-                              handleTemplateGroupSelection(item.templateGroupID, true)
+                 {/* Use OptionItem2 for Size and Padding Type groups */}
+                 {isSizeAndPaddingType && attributesOpened.get(item.id) && (
+        <OptionsContainer>
+          <OptionsWrapper>
+            {item.options
+              .filter((x) => x.enabled)
+              .map((option) => (
+                <OptionItem2
+                  key={option.guid}
+                  selectedAttribute={selectedAttribute}
+                  option={option}
+                  hasDescriptionIcon={item.options.some(
+                    (x) => x.description
+                  )}
+                />
+              ))}
+          </OptionsWrapper>
+        </OptionsContainer>    
+      )}
+                  </ItemAccordionContainer>
+                );
+              else
+                return (
+                  <>
+                    <ItemAccordionContainer key={'container' + item.templateGroupID}>
+                      <ItemAccordion
+                        key={item.templateGroupID + 'accordion'}
+                        opened={attributesOpened.get(item.templateGroupID)}
+                        onClick={() =>
+                          handleTemplateGroupSelection(item.templateGroupID, true)
+                        }
+                      >
+                        <ItemAccordionName>{T._d(item.name)}</ItemAccordionName>
+
+                        {/* {!selectedGroup.attributesAlwaysOpened && (
+                          <ArrowIcon
+                            key={'accordion-icon'}
+                            src={
+                              attributesOpened.get(item.templateGroupID)
+                                ? arrowUp
+                                : arrowDown
                             }
-                          >
-                            <ItemAccordionName>{T._d(item.name)}</ItemAccordionName>
+                          />
+                        )} */}
+                      </ItemAccordion>
 
-                            {/* {!selectedGroup.attributesAlwaysOpened && (
-                              <ArrowIcon
-                                key={'accordion-icon'}
-                                src={
-                                  attributesOpened.get(item.templateGroupID)
-                                    ? arrowUp
-                                    : arrowDown
-                                }
-                              />
-                            )} */}
-                          </ItemAccordion>
-
-                          {/* {attributesOpened.get(item.templateGroupID) && (
-                            <TemplateGroup
-                              key={selectedTemplateGroupId + 'vertical'}
-                              templateGroup={selectedTemplateGroup!}
-                            />
-                          )} */}
-                        </ItemAccordionContainer>
-                      </>
-                    );
-                })}
-            </>
-          {/* )} */}
+                      {/* {attributesOpened.get(item.templateGroupID) && (
+                        <TemplateGroup
+                          key={selectedTemplateGroupId + 'vertical'}
+                          templateGroup={selectedTemplateGroup!}
+                        />
+                      )} */}
+                    </ItemAccordionContainer>
+                  </>
+                );
+            })}
+        </>
           
-          {(selectedTrayType === "" ||
-            selectedTrayType === "null" ) && (
-              <div className={`animate-wrapper${isTrayOpen ? "-2 show" : ""}`}>
-                {/* {isTrayOpen && !selectedTrayPreviewOpenButton && (
-                  <Tray
-                    groupNameList={selectedGroupList}
-                    filteredAreas={filteredAreas}
-                    toggleFunc={toggleTray}
-                    UpdateGroupId={groupIdFromFunc}
-                    updCurrentIndex={updCurrentIndex}
-                    selectedTray={selectedTrayType}
-                    selectStepName={selectStepName}
+        {/* )} */}
+        
+        {(selectedTrayType === "" ||
+          selectedTrayType === "null" ) && (
+            <div className={`animate-wrapper${isTrayOpen ? "-2 show" : ""}`}>
+              {/* {isTrayOpen && !selectedTrayPreviewOpenButton && (
+                <Tray
+                  groupNameList={selectedGroupList}
+                  filteredAreas={filteredAreas}
+                  toggleFunc={toggleTray}
+                  UpdateGroupId={groupIdFromFunc}
+                  updCurrentIndex={updCurrentIndex}
+                  selectedTray={selectedTrayType}
+                  selectStepName={selectStepName}
+                />
+              )} */}
+
+              {/* {!isTrayOpen && (
+                  <ColorMenuSeleciton
+                    productCode={productCode}
+                    selectedGroupName={selectedGroup}
+                    updateActiveColorOption={updateActiveColorOption}
+                    activeColorOption={activeColorOption}
+                    currentAttributes={currentAttributes}
+                    fitlerAttributesName={fitlerAttributes[0]?.name}
                   />
                 )} */}
 
-                {/* {!isTrayOpen && (
-                    <ColorMenuSeleciton
-                      productCode={productCode}
-                      selectedGroupName={selectedGroup}
-                      updateActiveColorOption={updateActiveColorOption}
-                      activeColorOption={activeColorOption}
-                      currentAttributes={currentAttributes}
-                      fitlerAttributesName={fitlerAttributes[0]?.name}
-                    />
-                  )} */}
-
-               
-              </div>
-            )}
-
-          {selectedTrayType === "signature" && (
-            <DesignerSignature
-              togglePersonalize={togglePersonalize}
-              selectedAreaID={selectedGroupId}
-            />
+             
+            </div>
           )}
 
-          {selectedTrayType === "logos" && (
-            <DesignerLogo
-              togglePersonalize={togglePersonalize}
-              selectedAreaID={selectedGroupId}
-            />
-          )}
-        </div>
-        <div className="gbuts">
-          {/* <button className="previous-customization" onClick={handleLeftClick}> */}
-          <div id="gprev" className="mc-prev" onClick={handleLeftClick}>
-            {dynamicsVals?.get("Back") ?? "Pre"}
-          </div>
-          {/* </button> */}
-          {/* <button className="next-customization" onClick={handleRightClick}> */}
-          <div id="gnext" className="mc-next" onClick={handleRightClick}>
-            {dynamicsVals?.get("Next") ?? "Next"}
-          </div>
-          {/* </button> */}
-        </div>
+        {selectedTrayType === "signature" && (
+          <DesignerSignature
+            togglePersonalize={togglePersonalize}
+            selectedAreaID={selectedGroupId}
+          />
+        )}
 
-        {/* <div className="empty-space-div"></div> */}
-
-        {/* {width <= 460 && <FooterMobile />} */}
+        {selectedTrayType === "logos" && (
+          <DesignerLogo
+            togglePersonalize={togglePersonalize}
+            selectedAreaID={selectedGroupId}
+          />
+        )}
+      </div>
+      <div className="gbuts">
+        {/* <button className="previous-customization" onClick={handleLeftClick}> */}
+        <div id="gprev" className="mc-prev" onClick={handleLeftClick}>
+          {dynamicsVals?.get("Back") ?? "Prev"}
+        </div>
+        {/* </button> */}
+        {/* <button className="next-customization" onClick={handleRightClick}> */}
+        <div id="gnext" className="mc-next" onClick={handleRightClick}>
+          {dynamicsVals?.get("Next") ?? "Next"}
+        </div>
+        {/* </button> */}
       </div>
 
-      {/* {width > 460 && <Footer />} */}
-    </>
-  );
+      {/* <div className="empty-space-div"></div> */}
+
+      {/* {width <= 460 && <FooterMobile />} */}
+    </div>
+
+    {/* {width > 460 && <Footer />} */}
+  </>
+);
 };
 
 export default Selector;

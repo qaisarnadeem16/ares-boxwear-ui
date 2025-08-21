@@ -82,12 +82,14 @@ export const OptionsContainer = styled.div`
 	overflow-x: hidden;
 	
 `;
+
 export const OptionsWrapper = styled.div`
-margin-top: 20px;
-width: 100%;
+  overflow: hidden;
+  margin-top: 20px;
+  width: 100%;
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;     /* ✅ allow multiple rows */
+  gap: 5px;
+  flex-wrap: wrap;  
   justify-content: flex-start; 
 `;
 
@@ -182,11 +184,12 @@ export const Icon = styled.div<{ hoverable?: boolean }>`
 `;
 
 export const TextArea = styled.textarea`
-	background-color: #fff;
+	background-color: #dfdfdfff;
 	padding: 6px 9px;
 	color: #414042;
 	font-size: 15px;
-	border: 1px #fff solid;
+	border-radius:4px;
+	border: 1px #eae5e5ff solid;
 	// width: 38%;
 	// height: 36px;
 	font-family: Inter, sans-serif;

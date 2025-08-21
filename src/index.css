@@ -2,6 +2,7 @@ html,body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background: linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237)) !important;
 }
 
 * {
@@ -15,7 +16,7 @@ html,body {
 #threec {
   width: 100%;
   text-align: center;
-  background: linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237));
+  /* background: linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237)); */
 }
 /* .css-1q5ttm8 {
   top: 0;
@@ -51,6 +52,7 @@ html,body {
   background-color: white;
   
 }
+
 
 .fPxQCS canvas {
     background: linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237)) !important;
@@ -230,7 +232,7 @@ button:focus {
     position: relative;
     border-radius: 18px 18px 0px 0px;
     /* bottom: 0em; */
-    /* height: 30vh; */
+    height: auto;
     left: 0px;
     /* top: -20px; */
     /* top: calc(55% - 015px); */
@@ -239,12 +241,12 @@ button:focus {
 
   .animate-wrapper {
     display: block;
-    height: 124%;
+    /* height: 124%; */
     padding-top: 0px;
     }
   
   .gbuts{
-    top: 37px;
+    top: 34px;
     /* padding-right: 22px; */
     position: absolute;
     width: auto;
