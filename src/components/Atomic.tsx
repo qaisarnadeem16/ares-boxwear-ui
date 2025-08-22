@@ -16,6 +16,7 @@ export const StepItem = styled.div`
   border: 1px solid #cfd1d4ff;
   min-width: 130px;
   text-align: center;
+  border-radius:3px;
   margin-bottom:18px;
   padding: 2px;
   cursor: pointer;
