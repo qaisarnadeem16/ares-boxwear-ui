@@ -4,6 +4,8 @@ import React, { FC } from "react";
 import styled from "styled-components/macro";
 // import { ReactComponent as CheckSolid } from '../../assets/icons/check-circle-solid_1.svg';
 // import { Icon } from 'components/Atomic';
+import logo from "../../assets/icons/logo.png";
+
 
 const LoadingLabel = styled.div`
   color: #000;
@@ -26,9 +28,13 @@ const LoaderContainer = styled.div`
 `;
 
 const LoadingPercentageLabel = styled.span`
-  color: #8fa4ae;
-  font-weight: 400;
-  font-size: 12px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color: #9b9c9dff;
+  font-weight: 600;
+  font-size: 18px;
   line-height: 16px;
   font-style: normal;
   font-family: "Inter";
@@ -37,6 +43,7 @@ const LoadingPercentageLabel = styled.span`
 const LoadingPercentageandIconContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items:center;
 `;
 
 // const CheckIcon = styled(Icon)`
@@ -49,8 +56,20 @@ const LoaderFill = styled.div`
   border-radius: 4px;
   margin: 7px 0px;
   width: ${({ completed }) => completed && `${completed}%`};
-  background-color: #008556;
+  background-color: #000000;
   border-radius: "inherit";
+`;
+
+const BottomText = styled.div`
+  margin-top: 12px;
+  font-size: 14px;
+  font-family: "Inter";
+  font-weight: 500;
+  color: #0000;
+  text-align: center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 `;
 
 const ProgressBar = ({ bgColor, completed }) => {
@@ -62,6 +81,11 @@ const ProgressBar = ({ bgColor, completed }) => {
         {dynamicVals?.get("Loading...")}
         {/* {isSceneLoading ? T._('Loading your product...', 'Composer') : T._('Loading complete.', 'Composer')} */}
       </LoadingLabel>
+
+
+      <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+        <img src={logo} alt="logo" style={{ width: 100, height:'auto'}}/>
+      </div>
       <LoaderContainer>
         <LoaderFill
           completed={isSceneLoading ? completed : 100}
@@ -73,11 +97,9 @@ const ProgressBar = ({ bgColor, completed }) => {
             {isSceneLoading ? `${completed}%` : "100%"}
             {/* {isSceneLoading ? T._('In progress | ', 'Composer') + `${completed}%` : '100%'} */}
           </LoadingPercentageLabel>
-          {/* // {!isSceneLoading && (
-            // <CheckIcon>
-            //   <CheckSolid />
-            // </CheckIcon>
-          )} */}
+          <BottomText>
+           {isSceneLoading ? "Configuration is loading..." : "Configuration ready"}
+         </BottomText>
         </LoadingPercentageandIconContainer>
       </LoaderContainer>
    {/* */} 

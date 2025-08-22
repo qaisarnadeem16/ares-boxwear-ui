@@ -17,16 +17,17 @@ const ProgressBarLoadingBackground = styled.div`
 
 const ProgressBarLoadingContainer = styled.div`
   width: 650px;
-  height: 5em;
+  height: auto;
   padding: 10px;
   display: inline-flex;
   padding: 48px 24px;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content:center;
   gap: 8px;
   border-radius: 4px;
-  background: var(--surface-default, #fff);
-  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.15), 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
+  // // background: var(--surface-default, #fff);
+  // box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.15), 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
 
   @media screen and (max-width: 766px){
    font-size: 10px;
@@ -57,7 +58,8 @@ const ProgressBarLoadingOverlay = () => {
   return (
     <ProgressBarLoadingBackground>
       <ProgressBarLoadingContainer>
-        <ProgressBar bgColor={'#F46200'} completed={completed} />
+         
+        <ProgressBar bgColor={'#00000'} completed={completed} />
       </ProgressBarLoadingContainer>
     </ProgressBarLoadingBackground>
   );
