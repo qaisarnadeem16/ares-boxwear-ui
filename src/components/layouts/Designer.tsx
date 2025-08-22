@@ -30,6 +30,7 @@ import {
   ArrowRight,
   ArrowRightIconStyled,
   Button,
+  Button_E,
   Button_N,
   CarouselContainer,
   CloseEditorButton,
@@ -71,7 +72,7 @@ const ZoomIconOut = styled(ZoomOutIcon)`
   left: 0px;
 `;
 
-const MoveElementButton = styled(Button)`
+const MoveElementButton = styled(Button_E)`
   /* position: absolute;
 	bottom: 0; */
 `;
@@ -84,23 +85,25 @@ const DesignerContainer = styled.div<{ isMobile?: boolean }>`
   width: 100%;
   // padding: 15px 15px 30px;
   padding: 10px 10px;
-  height: 23em;
+  // height: 23em;
   overflow-y: auto;
   font-family: Inter, sans-serif;
   border-radius: 23px;
 
   ${(props) =>
     props.isMobile &&
-    `   height: 9em;
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        // height:100%;
-        z-index:11;
-        background-color:#ffffff;
-        overflow-y:scroll;
-    `}
+    `  
+    //  height: 9em;
+        // position:fixed;
+        // top:0;
+        // left:0;
+        // width:100%;
+        // // height:100%;
+        // z-index:11;
+        // background-color:#ffffff;
+        // overflow-y:scroll;
+    `
+  }
 `;
 
 const UploadButtons = styled.div`
@@ -746,14 +749,9 @@ const staticsVals = translations?.statics;
             return null;
           })}
 
-          {(showAddTextButton || showUploadButton || showGalleryButton) && (
+          {/* {(showAddTextButton || showUploadButton || showGalleryButton) && (
             <UploadButtons>
-
-
-{/* console.log(itemsFiltered,currentTemplateArea,'aaaaaa'); */}
-
-      
-              <>  
+ <>  
               {showAddTextButton && (
                 <Button_N isFullWidth onClick={handleAddTextClick}>
                   <Icon>
@@ -844,8 +842,8 @@ const staticsVals = translations?.statics;
                 </CopyrightMessage>
               )}
             </UploadButtons>
-          )}
-          {itemsFiltered.length > 0 && !allStaticElements && (
+          )} */}
+          {/* {itemsFiltered.length > 0 && !allStaticElements && (
             <MoveElementButton
               isFullWidth
               outline
@@ -856,14 +854,30 @@ const staticsVals = translations?.statics;
               </Icon>
               <span>{T._("Move elements", "Composer")} </span>
             </MoveElementButton>
-          )}
-          {isMobile && (
+          )} */}
+          {/* {isMobile && (
             <CloseEditorButton onClick={onCloseClick}>
               {"OK"}
             </CloseEditorButton>
-          )}
+          )} */}
         </DesignerContainer>
-      )}
+      )} 
+        {itemsFiltered.length > 0 && !allStaticElements && (
+            <div className="" style={{display:'flex', justifyContent:'end', alignItems:'end'}}>
+              <button
+              // isFullWidth
+              // outline
+              
+              className='mc-next'
+              onClick={() => setMoveElements(true)}
+            >
+              {/* <Icon>
+                <Arrows />
+              </Icon> */}
+              <span>{T._("Move elements", "Composer")} </span>
+            </button>
+            </div>
+          )}
       {moveElements && (
         <ZakekeDesignerContainer
           isMobile={isMobile}

@@ -251,11 +251,11 @@ const ItemText: FC<{
             )
           }
         >
-          <Cusimg_embu
+          {/* <Cusimg_embu
             onClick={() => togglerFontSelectorVisible(fontSelectorVisible)}
           >
             {dynamicsVals?.get("Font") ?? "Font"}
-          </Cusimg_embu>
+          </Cusimg_embu> */}
 
           <TextArea
             placeholder="Name"
@@ -295,14 +295,14 @@ const ItemText: FC<{
           <TextButtonsContainer></TextButtonsContainer>
         </TextToolsContainer> */}
 
-        <FontSelector
+        {/* <FontSelector
           fontSelectorVisible={fontSelectorVisible}
           togglerFontSelectorVisible={togglerFontSelectorVisible}
           item={item}
-        />
+        /> */}
 
 
-        {(!disableTextColors ||
+        {/* {(!disableTextColors ||
           !(disableTextColors && textColors.length === 1)) &&
           !!item.constraints?.canChangeFontColor && (
             <FormControl label="Color">
@@ -357,7 +357,7 @@ const ItemText: FC<{
                 )}
               </ColorsContainer>
             </FormControl>
-          )}
+          )} */}
       </ItemTextContainer>
     );
   else return null;

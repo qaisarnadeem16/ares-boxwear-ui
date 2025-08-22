@@ -333,16 +333,93 @@ export function useUndoRedoActions() {
 }
 
 export function useActualGroups() {
-	const { groups, isSceneLoading, product, isAreaVisible, draftCompositions, sellerSettings } = useZakeke();
-	const shouldCustomizerGroupBeVisible =
-		!isSceneLoading && product ? product.areas.some((area) => isAreaVisible(area.id)) : false;
-	const hasDesignsSaved = (groups && draftCompositions && draftCompositions.length > 0) ?? false;
+  const {
+    groups,
+    isSceneLoading,
+    product,
+    isAreaVisible,
+    draftCompositions,
+    sellerSettings,
+    items,
+  } = useZakeke();
 
-	const actualGroups =
-		useDefinitiveGroups(groups, shouldCustomizerGroupBeVisible, hasDesignsSaved, sellerSettings) ?? [];
-	return actualGroups;
+  // removed test
+  let indexToRemove = groups.findIndex((obj) => obj.id === -1);
+  if (indexToRemove !== -1) {
+    groups.splice(indexToRemove, 1);
+  }
+
+  const shouldCustomizerGroupBeVisible =
+    !isSceneLoading && product
+      ? product.areas.some((area) => isAreaVisible(area.id))
+      : false;
+  const hasDesignsSaved =
+    (groups && draftCompositions && draftCompositions.length > 0) ?? false;
+
+  const actualGroups =
+    useDefinitiveGroups(
+      groups,
+      shouldCustomizerGroupBeVisible,
+      hasDesignsSaved,
+      sellerSettings
+    ) ?? [];
+
+  // indexToRemove = actualGroups.findIndex((obj) => obj.id === -2);
+
+  if (indexToRemove !== -1) {
+    actualGroups.splice(indexToRemove, 1);
+  }
+
+  const itemAvailable = items?.filter((item) => item.type === 0).length > 0;
+
+  if (items && !itemAvailable) {
+    const tipIndex_ = actualGroups.findIndex((x) => x.name === "OVERLAY TYPE");
+    if (tipIndex_ > 0) actualGroups.splice(tipIndex_, 1);
+  }
+
+  if (!isSceneLoading) {
+    const templatesSignature = DesignerSignature_();
+    const templatesLogo = DesignerLogo_();
+
+    let groupTemplatesSignature = actualGroups;
+
+    templatesSignature?.map((x) => {
+      groupTemplatesSignature.push({
+        id: x.id,
+        guid: x.cameraLocationID,
+        name: x.name,
+        enabled: true,
+        attributes: [],
+        steps: [],
+        cameraLocationId: x.cameraLocationID,
+        displayOrder: 3,
+        direction: 2,
+        attributesAlwaysOpened: false,
+        imageUrl: "",
+        templateGroups: [],
+      });
+    });
+
+    templatesLogo?.map((x) => {
+      groupTemplatesSignature.push({
+        id: x.id,
+        guid: x.cameraLocationID,
+        name: x.name,
+        enabled: true,
+        attributes: [],
+        steps: [],
+        cameraLocationId: x.cameraLocationID,
+        displayOrder: 3,
+        direction: 3,
+        attributesAlwaysOpened: false,
+        imageUrl: "",
+        templateGroups: [],
+      });
+    });
+  }
+
+  return actualGroups;
 }
-
 
 export function makeFirstLetterCaps(sentence: any) {
   if (sentence) {

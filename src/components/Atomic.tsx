@@ -199,14 +199,14 @@ export const Icon = styled.div<{ hoverable?: boolean }>`
 `;
 
 export const TextArea = styled.textarea`
-	background-color: #dfdfdfff;
-	padding: 6px 9px;
+	background-color: rgb(243 244 246);
+	padding: 16px 12px;
 	color: #414042;
 	font-size: 15px;
 	border-radius:4px;
-	border: 1px #eae5e5ff solid;
-	// width: 38%;
-	// height: 36px;
+	border: 1px rgb(209 213 219) solid;
+	width: 100%;
+	height: 45px;
 	font-family: Inter, sans-serif;
 	outline: none;
 	resize: none;
@@ -215,18 +215,18 @@ export const TextArea = styled.textarea`
 
 
 
-	width: calc(100% - 66px);
+	// width: calc(100% - 66px);
     appearance: none;
-    height: 32px;
+    // height: 32px;
     font-size: 14px;
     line-height: 14px;
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
     box-shadow: none;
-    border-width: initial;
-    border-style: none;
-    border-color: initial;
-    border-image: initial;
-    border-radius: 3px; 
+    // border-width: initial;
+    // border-style: none;
+    // border-color: initial;
+    // border-image: initial;
+    border-radius: 9px; 
 
 
 	&::placeholder {
@@ -234,9 +234,9 @@ export const TextArea = styled.textarea`
 		color: #999999;
 		placeholder: 'Input your text here';
 	  }
-	&:hover {
-		border: 1px black solid;
-	}
+	// &:hover {
+	// 	border: 1px black solid;
+	// }
 
 	&:focus {
 		border: 1px black solid;
@@ -354,6 +354,18 @@ export const Button = styled.button<{
 		justify-content: center;
 		align-items: center;
 	}
+`;
+
+export const Button_E = styled.button<{
+	primary?: boolean;
+	outline?: boolean;
+	selected?: boolean;
+	disabled?: boolean;
+	isFullWidth?: boolean;
+	uppercase?: boolean;
+	isMoveElementButton?: boolean;
+}>`
+
 `;
 
 export const Button_N = styled.div<{

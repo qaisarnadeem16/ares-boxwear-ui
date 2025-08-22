@@ -23,6 +23,7 @@ import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAc
 import OptionItem from "./widgets/options";
 import { BlurOverlay, PreviewContainer } from "./previewContainer";
 import OptionItem2 from "./widgets/options2";
+import Designer from "./layouts/Designer";
 
 
 interface TrayPreviewOpenButton3DProps {
@@ -128,7 +129,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const selectedGroup = selectedGroupId
     ? useActualGroups_.find((group) => group.id === selectedGroupId)
     : null;
-  //console.log(selectedGroup,selectedGroupId,useActualGroups_,'actualGroups 2');
+  console.log(selectedGroup,selectedGroupId,useActualGroups_,'actualGroups 2');
 
   const selectedStep = selectedGroupId
     ? useActualGroups_
@@ -650,6 +651,7 @@ useEffect(() => {
     // height: !selectedTrayPreviewOpenButton ? "13rem" : "70px",
   };
   
+  console.log('first',groups)
   const handleStepSelection = (stepId: number | null) => {
     // setIsStartRegistering(undoRegistering.startRegistering());
 
@@ -675,6 +677,8 @@ useEffect(() => {
 
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
   // console.log("SelectedGroup", selectedGroup)
+  // console.log("groups", groups)
+  // console.log("SelectedGroup", useActualGroups_)
 
 return (
   <>
@@ -897,6 +901,8 @@ currentItems.map((item) => {
         </OptionsContainer>
       )}
 
+
+
                  {/* Use OptionItem2 for Size and Padding Type groups */}
                  {isSizeAndPaddingType && attributesOpened.get(item.id) && (
         <OptionsContainer>
@@ -986,7 +992,8 @@ currentItems.map((item) => {
              
             </div>
           )}
-
+          {selectedGroup?.id === -2 &&
+<Designer/>}
         {selectedTrayType === "signature" && (
           <DesignerSignature
             togglePersonalize={togglePersonalize}
