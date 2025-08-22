@@ -695,12 +695,11 @@ return (
         transition: 'left 0.3s ease',
         zIndex: 1001,
         overflowY: 'auto',
-        padding: '20px',
+        padding: '15px',
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h3 style={{ margin: 0 }}>Groups</h3>
-        <button 
+        <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', marginBottom: '20px' }} className="">
+          <button 
           onClick={toggleSidebar}
           style={{
             background: 'none',
@@ -712,6 +711,10 @@ return (
         >
           ×
         </button>
+        </div>
+  
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+        <h3 style={{ margin: 0 }}>Selected Area</h3>
       </div>
       
       <div 
@@ -751,10 +754,10 @@ style={{
         src={group.imageUrl}
         alt={group.name}
         style={{
-          width: "95px",
-          height: "95px",
+          width: "90px",
+          height: "90px",
           objectFit: "cover",
-          borderRadius: "4px",
+          borderRadius: "8px",
           padding:'3px',
           backgroundColor: selectedGroupId === group.id ? "#f8f9fa" : "#fff",            
         }}
@@ -764,11 +767,11 @@ style={{
       <div style={{ fontWeight: "500", fontSize: "12px", textAlign:'center' }}>
         {makeFirstLetterCaps(group.name)}
       </div>
-      {group.steps && group.steps.length > 0 && (
+      {/* {group.steps && group.steps.length > 0 && (
         <div style={{ fontSize: "12px", color: "#666", marginTop: "5px",textAlign:'center' }}>
           {group.steps.length} step{group.steps.length > 1 ? "s" : ""}
         </div>
-      )}
+      )} */}
     </div>
   </div>
 ))}
@@ -788,7 +791,7 @@ style={{
                   <img
                     src={useActualGroups_[currentIndex]?.imageUrl!}
                     alt="Group Image"
-                    style={{ maxWidth: "100%", height: "auto" }}
+                    style={{ maxWidth: "100%", height: "auto",borderRadius: '4px', }}
                   />
                 )}
               </div>

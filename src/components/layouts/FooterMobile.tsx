@@ -387,11 +387,11 @@ const FooterMobile = () => {
 							{/* {isOutOfStock && T._('OUT OF STOCK', 'Composer')} */}
 							
 							<>
-							<div className="menu_footer" style ={{position: 'absolute', top: '5px', right:'4px', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-							 <div style={{position:'absolute', right:'1.5rem', top:'1.5rem',backgroundColor:'white', padding:'4px 8px',borderRadius:'4px'}}>
+							<div className="menu_footer" style ={{display: 'flex', justifyContent: 'space-between', width: '100%',background:'white'}}>
+							 <div style={{position:'absolute', right:'1.5rem', top:'1.5rem',backgroundColor:'white', padding:'4px 5px',borderRadius:'8px'}}>
 								{/* <div className="price_text">Price: </div> */}
 								{/* <div>{dynamicsVals?.get('Base') ?? 'Base'} :</div>  */}
-								<div className="">{priceFormatter.format(price)}</div>
+								<div style={{backgroundColor:'#f3f4f6', padding:'5px 10px',borderRadius:'6px',border:'1px solid #dcdddfff'}} className="">{priceFormatter.format(price)}</div>
 							</div>
 							</div>
 							</>	

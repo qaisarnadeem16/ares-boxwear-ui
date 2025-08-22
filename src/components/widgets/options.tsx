@@ -29,7 +29,7 @@ const OptionContainer = styled.div<{ optionShape: number, selected: boolean, has
 
 const OptionIconContainerStyled = styled.div`
    overflow: hidden;
-   width: 80px;
+   width: 70px;
    aspect-ratio: 1;
    /* padding: 0 10px; */
 `;
@@ -42,8 +42,8 @@ const OptionIconContainer: FC<{
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
     object-fit:cover;
-    width: 100px;
-    height: 100px;
+    width: 84px;
+    height: 84px;
     object-position: center;
     // position:absolute;
     // top:0px;
