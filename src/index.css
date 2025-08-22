@@ -233,6 +233,8 @@ button:focus {
     border-radius: 18px 18px 0px 0px;
     /* bottom: 0em; */
     height: auto;
+    min-height: auto;
+    max-height: 420px;
     left: 0px;
     /* top: -20px; */
     /* top: calc(55% - 015px); */
