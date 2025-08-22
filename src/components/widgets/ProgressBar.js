@@ -84,7 +84,7 @@ const ProgressBar = ({ bgColor, completed }) => {
 
 
       <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-        <img src={logo} alt="logo" style={{ width: 100, height:'auto'}}/>
+        <img src={logo} alt="logo" style={{ width: 200, height:'auto'}}/>
       </div>
       <LoaderContainer>
         <LoaderFill
