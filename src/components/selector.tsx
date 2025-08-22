@@ -19,7 +19,7 @@ import FooterMobile from "./layouts/FooterMobile";
 import "./selectors/colsgrid.css";
 
 import { MenuIcon } from "./widgets/svg";
-import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAccordionName, Options, OptionsContainer, OptionsWrapper, StepItem, Steps } from "./Atomic";
+import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAccordionName, Options, OptionsContainer, OptionsWrapper, OptionsWrappers, StepItem, Steps } from "./Atomic";
 import OptionItem from "./widgets/options";
 import { BlurOverlay, PreviewContainer } from "./previewContainer";
 import OptionItem2 from "./widgets/options2";
@@ -900,7 +900,7 @@ currentItems.map((item) => {
                  {/* Use OptionItem2 for Size and Padding Type groups */}
                  {isSizeAndPaddingType && attributesOpened.get(item.id) && (
         <OptionsContainer>
-          <OptionsWrapper>
+          <OptionsWrappers>
             {item.options
               .filter((x) => x.enabled)
               .map((option) => (
@@ -913,7 +913,7 @@ currentItems.map((item) => {
                   )}
                 />
               ))}
-          </OptionsWrapper>
+          </OptionsWrappers>
         </OptionsContainer>    
       )}
                   </ItemAccordionContainer>

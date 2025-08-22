@@ -16,6 +16,7 @@ export const StepItem = styled.div`
   border: 1px solid #cfd1d4ff;
   min-width: 130px;
   text-align: center;
+  margin-bottom:18px;
   padding: 2px;
   cursor: pointer;
   box-shadow: rgb(229, 231, 235) 0px 2px 4px;
@@ -89,7 +90,16 @@ export const OptionsContainer = styled.div`
 
 export const OptionsWrapper = styled.div`
   overflow: hidden;
-  margin-top: 20px;
+//   margin-top: 15px;
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;  
+  justify-content: flex-start; 
+`;
+export const OptionsWrappers = styled.div`
+  overflow: hidden;
+//   margin-top: 20px;
   width: 100%;
   display: flex;
   gap: 5px;
