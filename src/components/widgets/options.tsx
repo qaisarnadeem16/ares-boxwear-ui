@@ -29,7 +29,7 @@ const OptionContainer = styled.div<{ optionShape: number, selected: boolean, has
 
 const OptionIconContainerStyled = styled.div`
    overflow: hidden;
-   width: 70px;
+   width: 42px;
    aspect-ratio: 1;
    /* padding: 0 10px; */
 `;
@@ -42,8 +42,8 @@ const OptionIconContainer: FC<{
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
     object-fit:cover;
-    width: 84px;
-    height: 84px;
+    width: 64px;
+    height: 64px;
     object-position: center;
     // position:absolute;
     // top:0px;
@@ -78,8 +78,8 @@ const OptIconContainer = styled.div`
     display: flex;
     object-position: center;
     object-fit: fill;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     justify-content: center;
     align-items: center;
 `;

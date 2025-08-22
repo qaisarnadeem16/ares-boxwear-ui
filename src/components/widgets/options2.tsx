@@ -24,7 +24,7 @@ const OptionContainer2 = styled.div<{ optionShape: number, selected: boolean, ha
 
 const OptionIconContainerStyled = styled.div`
 //    overflow: hidden;
-      width: 120px;
+      width: 115px;
 `;
 
 const OptionIconContainer2: FC<{
