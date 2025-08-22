@@ -24,7 +24,7 @@ const OptionContainer2 = styled.div<{ optionShape: number, selected: boolean, ha
 
 const OptionIconContainerStyled = styled.div`
 //    overflow: hidden;
-      width: 115px;
+      width: 80px;
 `;
 
 const OptionIconContainer2: FC<{
@@ -34,8 +34,8 @@ const OptionIconContainer2: FC<{
 }
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     object-position: center;
 
     ${props => props.optionShape && `
@@ -65,7 +65,7 @@ const OptionName = styled.span`
 const OptIconContainer = styled.div`
     display: flex;
     // width: 60px;
-    height: 50px;
+    height: 40px;
     justify-content: center;
     align-items: center;
 `;
