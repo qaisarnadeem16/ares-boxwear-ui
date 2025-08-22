@@ -240,7 +240,6 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
       //   setHeight(window.innerHeight);
     };
 
-    //window.addEventListener('resize', handleResize);
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -248,33 +247,47 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     };
   }, [items]);
 
-  // Open the first group and the first step when loaded
     useEffect(() => {
-    if (!selectedGroup && useActualGroups_.length > 0) {
-      setSelectedGroupId(groups[0].id);
-      setActiveColorOption("plain");
+  if (!selectedGroup && useActualGroups_.length > 0) {
+    const firstGroup = useActualGroups_[0];
+    setSelectedGroupId(firstGroup.id);
+    setActiveColorOption("plain");
 
-      if (templates.length > 0) setTemplate(templates[0].id);
+    if (templates.length > 0) setTemplate(templates[0].id);
+
+    if (firstGroup.steps && firstGroup.steps.length > 0) {
+      setSelectedStepId(firstGroup.steps[0].id);
     }
 
-    if (useActualGroups_.length > 0) {
-      var groupRec: {
-        id: number;
-        name: string;
-        imageUrl: string | null | undefined;
-      }[] = [];
-      groups.map((group) => {
-        groupRec.push({
-          id: group.id,
-          name: group.name,
-          imageUrl: group.imageUrl,
-        });
-      });
-      selectGroupList(groupRec);
-    }
+    const firstItems = [
+      ...firstGroup.attributes,
+      ...firstGroup.templateGroups,
+    ].sort((a, b) => a.displayOrder - b.displayOrder);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groups]);
+    if (firstItems.length > 0) {
+      const newAttributesOpened = new Map(attributesOpened);
+      if (!(firstItems[0] instanceof ThemeTemplateGroup)) {
+        handleAttributeSelection(firstItems[0].id);
+        newAttributesOpened.set(firstItems[0].id, true);
+      } else {
+        handleTemplateGroupSelection(firstItems[0].templateGroupID);
+        newAttributesOpened.set(firstItems[0].templateGroupID, true);
+      }
+      setAttributesOpened(newAttributesOpened);
+    }
+  }
+
+  if (useActualGroups_.length > 0) {
+    const groupRec = groups.map((group) => ({
+      id: group.id,
+      name: group.name,
+      imageUrl: group.imageUrl,
+    }));
+    selectGroupList(groupRec);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [groups]);
+
 
   // Select attribute first time
   useEffect(() => {
@@ -661,7 +674,7 @@ useEffect(() => {
   };
 
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
-console.log("useActualGroups_", useActualGroups_)
+  // console.log("SelectedGroup", selectedGroup)
 
 return (
   <>
@@ -731,13 +744,15 @@ style={{
     className={`group-item ${selectedGroupId === group.id ? 'selected' : ''}`}
     onClick={() => handleGroupSelectionFromSidebar(group.id)}
     style={{
-      display: "flex",
-      flexDirection:'column',
-      alignItems: "center",
-      padding: "9px",
-      cursor: "pointer",
-      transition: "all 0.2s ease",
-    }}
+  display: "flex",
+  flexDirection:'column',
+  alignItems: "center",
+  padding: "9px",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+  backgroundColor: selectedGroupId === group.id ? "#e9e7e7ff" : "#fff",
+  borderRadius: "8px",
+}}
     onMouseEnter={(e) => {
       if (selectedGroupId !== group.id) {
         e.currentTarget.style.backgroundColor = "#f5f5f5";

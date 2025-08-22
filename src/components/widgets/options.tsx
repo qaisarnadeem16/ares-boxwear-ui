@@ -16,7 +16,7 @@ const OptionContainer = styled.div<{ optionShape: number, selected: boolean, has
     user-select: none;
     // width: 50px;
     // min-width: 50px;
-    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 
     // &:hover {
     //     background-color: #f5f6f7;
@@ -45,6 +45,7 @@ const OptionIcon = styled.img<{ optionShape?: boolean }>`
     width: 64px;
     height: 64px;
     object-position: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); 
     // position:absolute;
     // top:0px;
     // left:0px;
