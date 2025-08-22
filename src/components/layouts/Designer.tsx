@@ -862,7 +862,7 @@ const staticsVals = translations?.statics;
           )} */}
         </DesignerContainer>
       )} 
-        {itemsFiltered.length > 0 && !allStaticElements && (
+        {itemsFiltered.length > 0 && !allStaticElements && !moveElements && (
             <div className="" style={{display:'flex', justifyContent:'end', alignItems:'end'}}>
               <button
               // isFullWidth
@@ -897,9 +897,11 @@ const staticsVals = translations?.statics;
 						</ZoomIconOut> */}
           {/* </IconsAndDesignerContainer> */}
          <div style={{position: "relative", top: "26px"}}>
-         <Button isFullWidth primary onClick={() => setMoveElements(false)}>
+         <button className='mc-next' style={{ padding: '7px 18px',border: '1px solid #242C36',
+  borderRadius: '8px',
+  backgroundColor: '#242C36', color: '#fff' }}  onClick={() => setMoveElements(false)}>
             <span>{"OK"} </span>
-          </Button>
+          </button>
          </div>   
         </ZakekeDesignerContainer>
       )}
