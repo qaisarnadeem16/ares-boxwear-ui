@@ -652,7 +652,7 @@ useEffect(() => {
     // height: !selectedTrayPreviewOpenButton ? "13rem" : "70px",
   };
   
-  console.log('first',groups)
+  // console.log('first',groups)
   const handleStepSelection = (stepId: number | null) => {
     // setIsStartRegistering(undoRegistering.startRegistering());
 
@@ -679,7 +679,7 @@ useEffect(() => {
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
   // console.log("SelectedGroup", selectedGroup)
   // console.log("groups", groups)
-  // console.log("SelectedGroup", useActualGroups_)
+  console.log("SelectedGroup", useActualGroups_)
 
 return (
   <>
@@ -789,7 +789,7 @@ style={{
     )}
     <div>
       <div style={{ fontWeight: "500", fontSize: "12px", textAlign:'center' }}>
-        {makeFirstLetterCaps(group.name)}
+        {makeFirstLetterCaps(group.name || "Customize")}
       </div>
       {/* {group.steps && group.steps.length > 0 && (
         <div style={{ fontSize: "12px", color: "#666", marginTop: "5px",textAlign:'center' }}>
@@ -824,7 +824,7 @@ style={{
               </button>
             </div>
 
-            <div className="Heading">{groupNameText}</div>
+            <div className="Heading">{groupNameText || "Customize"}</div>
             <div className=""></div>
 
           </div>
@@ -854,7 +854,7 @@ style={{
 currentItems.map((item) => {
   
   const isSizeAndPaddingType = selectedGroup?.name?.toLowerCase() === "size" || 
-                              selectedGroup?.name?.toLowerCase() === "padding type";
+                              selectedGroup?.name?.toLowerCase() === "padding";
 
   
   if (!(item instanceof ThemeTemplateGroup))
