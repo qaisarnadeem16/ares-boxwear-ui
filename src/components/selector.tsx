@@ -679,7 +679,7 @@ useEffect(() => {
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
   // console.log("SelectedGroup", selectedGroup)
   // console.log("groups", groups)
-  console.log("SelectedGroup", useActualGroups_)
+  // console.log("SelectedGroup", useActualGroups_)
 
 return (
   <>
