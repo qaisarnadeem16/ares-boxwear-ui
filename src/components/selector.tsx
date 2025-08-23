@@ -130,7 +130,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const selectedGroup = selectedGroupId
     ? useActualGroups_.find((group) => group.id === selectedGroupId)
     : null;
-  console.log(selectedGroup,selectedGroupId,useActualGroups_,'actualGroups 2');
+  // console.log(selectedGroup,selectedGroupId,useActualGroups_,'actualGroups 2');
 
   const selectedStep = selectedGroupId
     ? useActualGroups_
