@@ -706,7 +706,7 @@ return (
         position: 'fixed',
         top: 0,
         left: isSidebarOpen ? 0 : '-300px',
-        width: '270px',
+        width: '300px',
         height: '100vh',
         backgroundColor: '#fff',
         boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
@@ -716,7 +716,7 @@ return (
         padding: '15px',
       }}
     >
-        <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', marginBottom: '20px' }} className="">
+        {/* <div style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', marginBottom: '20px' }} className="">
           <button 
           onClick={toggleSidebar}
           style={{
@@ -729,77 +729,77 @@ return (
         >
           ×
         </button>
-        </div>
+        </div> */}
   
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
         <h3 style={{ margin: 0 }}>Selected Area</h3>
       </div>
       
       <div 
-className="groups-container" 
-style={{
-  justifyContent:'center',
-  alignItems:'center',
-  display: "grid",
-  gridTemplateColumns: "0fr 0fr", // 2 columns
-  gap: "10px", // spacing between items
-}}
+       className="groups-container"
+       style={{
+        justifyContent:'center',
+        display: "grid",
+        gridTemplateColumns: "repeat(1fr, 1fr)", // always 2 per row
+        gap: "20px",
+      }}
 >
-{useActualGroups_.map((group, index) => (
-  <div
-    key={group.id}
-    className={`group-item ${selectedGroupId === group.id ? 'selected' : ''}`}
-    onClick={() => handleGroupSelectionFromSidebar(group.id)}
-    style={{
-  display: "flex",
-  flexDirection:'column',
-  gap:'5px',
-  alignItems: "center",
-  padding: "4px 0px",
-  cursor: "pointer",
-  transition: "all 0.2s ease",
-  width:'90px',
-  backgroundColor: selectedGroupId === group.id ? "#e9e7e7ff" : "#fff",
-  borderRadius: "8px",
-}}
-    onMouseEnter={(e) => {
-      if (selectedGroupId !== group.id) {
-        e.currentTarget.style.backgroundColor = "#f5f5f5";
-      }
-    }}
-    onMouseLeave={(e) => {
-      if (selectedGroupId !== group.id) {
-        e.currentTarget.style.backgroundColor = "#fff";
-      }
-    }}
-  >
-    {group.imageUrl && (
-      <img
-        src={group.imageUrl}
-        alt={group.name}
+  {useActualGroups_.map((group, index) => {
+    const isLast = index === useActualGroups_.length - 1;
+    const isOdd = useActualGroups_.length % 2 !== 0;
+
+    return (
+      <div
+        key={group.id}
+        className={`group-item ${selectedGroupId === group.id ? "selected" : ""} ${isLast && isOdd ? "last-center" : ""}`}
+        onClick={() => handleGroupSelectionFromSidebar(group.id)}
         style={{
-          width: "80px",
-          height: "80px",
-          objectFit: "cover",
+          display: "flex",
+          flexDirection: "column",
+          gap: "5px",
+          alignItems: "center",
+          padding: "4px 0px",
+          cursor: "pointer",
+          transition: "all 0.2s ease",
+          width: "90px",
+          backgroundColor: selectedGroupId === group.id ? "#e9e7e7ff" : "#fff",
           borderRadius: "8px",
-          padding:'3px',
-          backgroundColor: selectedGroupId === group.id ? "#f8f9fa" : "#fff",            
         }}
-      />
-    )}
-    <div>
-      <div style={{ fontWeight: "500", fontSize: "12px", textAlign:'center' }}>
-        {makeFirstLetterCaps(group.name || "Customize")}
-      </div>
-      {/* {group.steps && group.steps.length > 0 && (
-        <div style={{ fontSize: "12px", color: "#666", marginTop: "5px",textAlign:'center' }}>
-          {group.steps.length} step{group.steps.length > 1 ? "s" : ""}
+        onMouseEnter={(e) => {
+          if (selectedGroupId !== group.id) {
+            e.currentTarget.style.backgroundColor = "#f5f5f5";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (selectedGroupId !== group.id) {
+            e.currentTarget.style.backgroundColor = "#fff";
+          }
+        }}
+      >
+        {group.imageUrl && (
+          <img
+            src={group.imageUrl}
+            alt={group.name}
+            style={{
+              width: "80px",
+              height: "80px",
+              objectFit: "cover",
+              borderRadius: "8px",
+              padding: "3px",
+              backgroundColor: selectedGroupId === group.id ? "#f8f9fa" : "#fff",
+            }}
+          />
+        )}
+        <div>
+          <div style={{ fontWeight: "500", fontSize: "12px", textAlign: "center" }}>
+            {makeFirstLetterCaps(group.name || "Customize")}
+          </div>
         </div>
-      )} */}
-    </div>
-  </div>
-))}
+      </div>
+    );
+  })}
 </div>
+
 
     </div>
 
@@ -890,7 +890,7 @@ currentItems.map((item) => {
                     {!isSizeAndPaddingType && attributesOpened.get(item.id) && (
         <OptionsContainer>
           <OptionsWrapper>
-            {item.options
+         {item.options
               .filter((x) => x.enabled)
               .map((option) => (
                 <OptionItem
@@ -902,6 +902,8 @@ currentItems.map((item) => {
                   )}
                 />
               ))}
+
+
           </OptionsWrapper>
         </OptionsContainer>
       )}
@@ -1001,7 +1003,7 @@ currentItems.map((item) => {
       {/* Show Add + Switch only if last group with id === -2 */}
       {selectedGroup?.id === -2 && (
         <div
-          style={{ padding: "6px 12px", display: "flex", justifyContent: "space-between" }}
+          style={{ padding: "0px 12px", display: "flex", justifyContent: "space-between" }}
         >
           <p style={{ fontSize: "14px", fontWeight:'600',fontFamily:'sans-serif' }}>Add Text </p>
 

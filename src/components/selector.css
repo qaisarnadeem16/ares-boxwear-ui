@@ -17,6 +17,12 @@ body {
   background-color: var(--podium-cds-color-white);
 }
 
+.groups-container > .last-center {
+  grid-column: span 2;   /* take full row */
+  justify-self: center;  /* center horizontally */
+}
+
+
 .Flex {
   display: flex;
   gap: 10px;

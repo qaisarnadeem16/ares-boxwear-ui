@@ -12,13 +12,15 @@ const OptionContainer2 = styled.div<{ optionShape: number, selected: boolean, ha
     align-items:center;
     cursor:pointer;
     position:relative;
+    border-radius:7px;
+    width: 100%;
     /* padding: ${props => props.hasDescriptionIcon ? '26px' : '10px'} 0px 10px 0; */
     user-select: none;
     /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  */
     background-color: #f4f4f4;    
     ${props => props.selected && `
         background-color: #3b82f6;
-        border-radius:5px;
+        border-radius:7px;
     `}
 `;
 
@@ -34,7 +36,7 @@ const OptionIconContainer2: FC<{
 }
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
-    width: 70px;
+    width: 90px;
     height: 70px;
     object-position: center;
 

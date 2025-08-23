@@ -84,7 +84,7 @@ const DesignerContainer = styled.div<{ isMobile?: boolean }>`
   user-select: none;
   width: 100%;
   // padding: 15px 15px 30px;
-  padding: 10px 10px;
+  padding: 0px 8px;
   // height: 23em;
   overflow-y: auto;
   font-family: Inter, sans-serif;

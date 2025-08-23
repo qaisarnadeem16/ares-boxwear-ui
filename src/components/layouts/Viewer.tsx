@@ -107,10 +107,10 @@ const Viewer = () => {
 			//  backgroundColor='#ffffff' 
 			/>}			
 				<>
-				{<div style={{ position: "absolute", top: "0.52em", left: "3em", fontWeight: "555"}}>
+				{/* {<div style={{ position: "absolute", top: "0.52em", left: "3em", fontWeight: "555"}}>
 					<div>{product?.name}</div>
 					<div>LEI {price}</div>	
-				</div>}
+				</div>} */}
 					<ZoomInIcon isMobile={isMobile} key={'zoomin'} hoverable onClick={zoomIn}>
 						<SearchPlusSolid />
 					</ZoomInIcon>

@@ -66,6 +66,7 @@ const TextToolsContainer = styled.div`
   flex-direction: row;
   grid-gap: 10px;
   flex-wrap: wrap;
+  padding: 0px 10px;
 `;
 
 const TextButtonsContainer = styled.div`
@@ -268,14 +269,15 @@ const ItemText: FC<{
           />
         </FormControl>
 
-        {/* <TextToolsContainer>
+        <TextToolsContainer>
           {(!constraints || constraints.canChangeFontFamily) && (
-            <FormControl label="Font">
+            <FormControl label="Font :">
               <Select
                 styles={{
                   container: (base) => ({
                     ...base,
-                    minWidth: 200,
+                    minWidth: 300,
+                    backgroundColor:'#e9efef !important'
                   }),
                 }}
                 isSearchable={false}
@@ -293,13 +295,13 @@ const ItemText: FC<{
             </FormControl>
           )}
           <TextButtonsContainer></TextButtonsContainer>
-        </TextToolsContainer> */}
+        </TextToolsContainer>
 
-        {/* <FontSelector
+        <FontSelector
           fontSelectorVisible={fontSelectorVisible}
           togglerFontSelectorVisible={togglerFontSelectorVisible}
           item={item}
-        /> */}
+        />
 
 
         {/* {(!disableTextColors ||

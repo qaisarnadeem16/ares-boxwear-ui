@@ -99,13 +99,14 @@ export const OptionsWrapper = styled.div`
   justify-content: flex-start; 
 `;
 export const OptionsWrappers = styled.div`
-  overflow: hidden;
-//   margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // 3 per row
+  gap-x: 8px; // spacing between options
+  column-gap:8px;
+  row-gap:5px;
   width: 100%;
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;  
-  justify-content: flex-start; 
+  justify-items: center; // center items inside each cell
+  margin-top: 10px;
 `;
 
 export const Options = styled.div`

@@ -6,6 +6,7 @@ const FormControlLabel = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 3px;
+  font-size:18px;
 `;
 
 const FormControlContainer = styled.div<{ rightComponent?: any }>`
@@ -14,7 +15,8 @@ const FormControlContainer = styled.div<{ rightComponent?: any }>`
   justify-content: start;
   align-items: flex-start;
   grid-gap: 5px;
-  margin-bottom: 10px;
+  padding: 15px 0px 0px 10px;
+  
 `;
 
 export const FormControl: FC<{
@@ -25,7 +27,7 @@ export const FormControl: FC<{
   return (
     <FormControlContainer>
       <FormControlLabel>
-        <span>{label}</span>
+        <span style={{fontWeight:'600'}}>{label}</span>
         {rightComponent}
       </FormControlLabel>
       {children}

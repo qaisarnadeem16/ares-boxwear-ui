@@ -5,27 +5,42 @@ import styled from "styled-components";
 import { Option, useZakeke, Attribute } from 'zakeke-configurator-react';
 // import Tooltip from "./tooltip";
 
-const OptionContainer = styled.div<{ optionShape: number, selected: boolean, hasDescriptionIcon: boolean }>`
-    display:flex;
-    /* flex-flow:column; */
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    position:relative;
-    /* padding: ${props => props.hasDescriptionIcon ? '26px' : '10px'} 0px 10px 0; */
-    user-select: none;
-    // width: 50px;
-    // min-width: 50px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+const OptionContainer = styled.div<{
+  optionShape: number;
+  selected: boolean;
+  hasDescriptionIcon: boolean;
+}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
 
-    // &:hover {
-    //     background-color: #f5f6f7;
-    // }
-    
-    ${props => props.selected && `
-        background-color: #f5f6f7;
+  ${(props) =>
+    props.selected &&
+    `
+      background-color: #f5f6f7;
+
+      &::after {
+        content: "✓";
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 30px;
+        height: 30px;
+        color: #686868ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 25px;
+        font-weight: bold;
+      }
     `}
 `;
+
 
 const OptionIconContainerStyled = styled.div`
    overflow: hidden;
