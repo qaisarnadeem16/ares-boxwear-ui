@@ -276,7 +276,7 @@ const ItemText: FC<{
                 styles={{
                   container: (base) => ({
                     ...base,
-                    minWidth: 300,
+                    minWidth: 255,
                     backgroundColor:'#e9efef !important'
                   }),
                 }}
