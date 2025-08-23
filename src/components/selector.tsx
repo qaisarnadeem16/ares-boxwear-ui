@@ -706,7 +706,7 @@ return (
         position: 'fixed',
         top: 0,
         left: isSidebarOpen ? 0 : '-300px',
-        width: '300px',
+        width: '270px',
         height: '100vh',
         backgroundColor: '#fff',
         boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
@@ -738,8 +738,10 @@ return (
       <div 
 className="groups-container" 
 style={{
+  justifyContent:'center',
+  alignItems:'center',
   display: "grid",
-  gridTemplateColumns: "1fr 1fr", // 2 columns
+  gridTemplateColumns: "0fr 0fr", // 2 columns
   gap: "10px", // spacing between items
 }}
 >
