@@ -122,7 +122,10 @@ const App: FunctionComponent<{}> = () => {
                   //       // background: "linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))" 
                   //     }}
                 >
-                 <ZakekeViewer />
+                 <ZakekeViewer 
+  bgColor="linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))"
+/>
+
                 </div>
                 <FooterMobile/>
                 <div className="mobileSelector">

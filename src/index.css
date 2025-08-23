@@ -54,11 +54,6 @@ html,body {
 }
 
 
-.fPxQCS canvas {
-    background: linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237)) !important;
-    outline: none !important;
-}
-
 .animate-wrapper-0 {
   display: flex;
   flex-direction: column;
