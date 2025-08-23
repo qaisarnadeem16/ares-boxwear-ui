@@ -55,7 +55,7 @@ html,body {
 
 
 .animate-wrapper-0 {
-  display: flex;
+  display: none;
   flex-direction: column;
   /* justify-content: center; */
   /* align-items: center; */
@@ -231,6 +231,7 @@ button:focus {
     min-height: auto;
     max-height: 420px;
     left: 0px;
+    display: block;
     /* top: -20px; */
     /* top: calc(55% - 015px); */
     /* bottom: 0; */

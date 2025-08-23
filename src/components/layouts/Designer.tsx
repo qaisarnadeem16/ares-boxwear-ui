@@ -878,7 +878,7 @@ const staticsVals = translations?.statics;
             </button>
             </div>
           )}
-         <div className="" style={{background:'white', padding:'45px 0px'}}>
+         <div className="" style={{background:'white', padding: "0 0 50px 0"}}>
           {moveElements && (
         <ZakekeDesignerContainer
           isMobile={isMobile}

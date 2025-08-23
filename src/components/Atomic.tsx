@@ -200,15 +200,16 @@ export const Icon = styled.div<{ hoverable?: boolean }>`
 
 export const TextArea = styled.textarea`
 	background-color: rgb(243 244 246);
-	padding: 16px 12px;
-	color: #414042;
-	font-size: 15px;
+	padding: 12px 12px;
+	color: #00000;
+	font-size: 14px;
 	border-radius:4px;
 	border: 1px rgb(209 213 219) solid;
 	width: 100%;
-	height: 45px;
-	font-family: Inter, sans-serif;
+	height: 38px;
+	font-family:OE1Bold,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
 	outline: none;
+	font-weight:600;
 	resize: none;
 	overflow: hidden !important;
 	placeholder: 'Input your text here';

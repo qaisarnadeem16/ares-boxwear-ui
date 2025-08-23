@@ -751,10 +751,12 @@ style={{
     style={{
   display: "flex",
   flexDirection:'column',
+  gap:'5px',
   alignItems: "center",
-  padding: "9px",
+  padding: "4px 0px",
   cursor: "pointer",
   transition: "all 0.2s ease",
+  width:'90px',
   backgroundColor: selectedGroupId === group.id ? "#e9e7e7ff" : "#fff",
   borderRadius: "8px",
 }}
@@ -774,8 +776,8 @@ style={{
         src={group.imageUrl}
         alt={group.name}
         style={{
-          width: "90px",
-          height: "90px",
+          width: "80px",
+          height: "80px",
           objectFit: "cover",
           borderRadius: "8px",
           padding:'3px',
@@ -997,9 +999,9 @@ currentItems.map((item) => {
       {/* Show Add + Switch only if last group with id === -2 */}
       {selectedGroup?.id === -2 && (
         <div
-          style={{ padding: "6px", display: "flex", justifyContent: "space-between" }}
+          style={{ padding: "6px 12px", display: "flex", justifyContent: "space-between" }}
         >
-          <p style={{ fontSize: "14px", fontWeight: 500 }}>Add</p>
+          <p style={{ fontSize: "14px", fontWeight:'600',fontFamily:'sans-serif' }}>Add Text </p>
 
           {/* Switch Button */}
           <label className="switch">
