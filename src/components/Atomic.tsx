@@ -135,7 +135,7 @@ export const TemplatesContainer = styled.div`
 `;
 
 
-export const ItemContainer = styled.div`
+export const ItemContainer = styled.div<{ selected: boolean }>`
   padding: 10px;
   cursor: pointer;
 

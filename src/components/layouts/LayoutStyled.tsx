@@ -474,7 +474,7 @@ export const TopRightIcons = styled.div`
 `;
 
 export const ViewerContainer = styled.div`
-	position: relative;
+	position: absolute;
 	min-height: 0;
 	font-family: 'Inter', sans-serif;
 

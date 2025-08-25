@@ -5,11 +5,11 @@ import { TailSpin } from 'react-loader-spinner';
 import useStore from "../../Store";
 import styled from 'styled-components';
 import { useZakeke } from 'zakeke-configurator-react';
-import { ReactComponent as FbIcon } from '../../assets/images/social/facebook_svg.svg';
-import { ReactComponent as EmailIcon } from '../../assets/images/social/mail_svg.svg';
-import { ReactComponent as PinIcon } from '../../assets/images/social/pinterest_svg.svg';
-import { ReactComponent as TwitterIcon } from '../../assets/images/social/twitter_svg.svg';
-import { ReactComponent as WhatsappIcon } from '../../assets/images/social/whatsapp_svg.svg';
+import { ReactComponent as FbIcon } from '../../assets/icons/facebook.svg';
+import { ReactComponent as EmailIcon } from '../../assets/icons/facebook.svg';
+import { ReactComponent as PinIcon } from '../../assets/icons/facebook.svg';
+import { ReactComponent as TwitterIcon } from '../../assets/icons/facebook.svg';
+import { ReactComponent as WhatsappIcon } from '../../assets/icons/facebook.svg';
 import { Dialog, DialogWindow } from "./Dialogs";
 
 declare const Zakeke: any;

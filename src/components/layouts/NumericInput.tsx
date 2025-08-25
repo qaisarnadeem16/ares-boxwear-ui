@@ -37,7 +37,7 @@ export const NumericInput: FC<{
     onInput: (e: any) => void,
     min: number,
     max: number | undefined,
-    step: number | undefined
+    step: number | undefined,
 }> =
     ({ value, readOnly, onInput, min, max, step }) => {
 

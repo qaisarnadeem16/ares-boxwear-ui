@@ -1,5 +1,6 @@
 // import { UndoRedoStep } from 'interfaces';
 import React from 'react';
+import { TryOnMode, ZakekeTryOnExposedMethods } from 'zakeke-configurator-react';
 import { create } from 'zustand';
 //import { Notification } from './components/widgets/Notifications';
 
@@ -42,9 +43,18 @@ interface Store {
 	setIsUndo: (isUndo: boolean) => void;
 	isRedo: boolean;
 	setIsRedo: (isRedo: boolean) => void;
-
 	lastSelectedItem: { type: string; id: number | null };
 	setLastSelectedItem: (lastSelectedItem: { type: string; id: number | null }) => void;
+    isSavingComposition: boolean;
+	setIsSavingComposition: (isSavingComposition: boolean) => void;
+	tryOnRef?: React.RefObject<ZakekeTryOnExposedMethods>;
+	setTryOnRef: (ref: React.RefObject<ZakekeTryOnExposedMethods>) => void;
+	pdValue: number;
+	setPdValue: (pdValue: number) => void;
+	isPDStartedFromCart: boolean;
+	setIsPDStartedFromCart: (isPDStartedFromCart: boolean) => void;
+	modeTryOn: TryOnMode;
+	setTryOnMode: (modeTryOn: TryOnMode) => void;
 	// notifications: Notification[];
 	// setNotifications: (notifications: Notification[]) => void;
 	// removeNotification: (id: number) => void;
@@ -146,7 +156,39 @@ const useStore = create<Store>((set) => ({
 			lastSelectedItem
 		});
 	},
+tryOnRef: undefined,
+	setTryOnRef: (ref: React.RefObject<ZakekeTryOnExposedMethods>) => {
+		set(() => ({
+			tryOnRef: ref
+		}));
+	},
 
+	modeTryOn: TryOnMode.TryOn,
+	setTryOnMode: (modeTryOn: TryOnMode) => {
+		set(() => ({
+			modeTryOn
+		}));
+	},
+
+	pdValue: 0,
+	setPdValue: (pdValue: number) => {
+		set(() => ({
+			pdValue
+		}));
+	},
+	isPDStartedFromCart: false,
+	setIsPDStartedFromCart: (isPDStartedFromCart: boolean) => {
+		set(() => ({
+			isPDStartedFromCart
+		}));
+	},
+
+	isSavingComposition: false,
+	setIsSavingComposition: (isSavingComposition: boolean) => {
+		set({
+			isSavingComposition
+		});
+	},
 
 	// notifications: [],
 	// setNotifications: (notifications) => {

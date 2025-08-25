@@ -28,10 +28,14 @@ import Designer from "./layouts/Designer";
 
 interface TrayPreviewOpenButton3DProps {
   trayPreviewOpenButton3DFunc: (data: any) => void;
+  selectedGroupName?: string | null;
+  onGroupNameChange?: (groupName: string) => void;
 }
 
 const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   trayPreviewOpenButton3DFunc,
+  selectedGroupName,
+  onGroupNameChange 
 }) => {
   const {
     isSceneLoading,
@@ -394,11 +398,18 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const handleLeftClick = () => {
     const newIndex = (currentIndex - 1 + useActualGroups_.length) % useActualGroups_.length;
     const newGroup = useActualGroups_[newIndex];
+    
+    // Update group selection
     setSelectedGroupId(newGroup.id);
     setSelectedTrayType(updateSelectedTray(newGroup.direction));
     setSelectedGroupIDFromTray(null);
     setCurrentIndex(newIndex);
     setSelectedAttributeId(null);
+
+    if (onGroupNameChange) {
+      onGroupNameChange(newGroup.name || "Customize");
+    }
+    
     if (newGroup.steps.length > 0) {
       setSelectedStepId(newGroup.steps[0].id);
     } else {
@@ -414,6 +425,10 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     setSelectedGroupIDFromTray(null);
     setCurrentIndex(newIndex);
     setSelectedAttributeId(null);
+
+    if (onGroupNameChange) {
+      onGroupNameChange(newGroup.name || "Customize");
+    }
     
     if (newGroup.steps.length > 0) {
       setSelectedStepId(newGroup.steps[0].id);
@@ -421,6 +436,8 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
       setSelectedStepId(null);
     }
   };
+
+ 
 
 
    
@@ -626,7 +643,7 @@ useEffect(() => {
   };
 
 
-  const handleGroupSelectionFromSidebar = (groupId: number) => {
+   const handleGroupSelectionFromSidebar = (groupId: number) => {
     const groupIndex = useActualGroups_.findIndex(group => group.id === groupId);
     if (groupIndex !== -1) {
       setSelectedGroupId(groupId);
@@ -636,6 +653,10 @@ useEffect(() => {
       const newGroup = useActualGroups_[groupIndex];
       setSelectedTrayType(updateSelectedTray(newGroup.direction));
       setSelectedGroupIDFromTray(null);
+
+      if (onGroupNameChange) {
+        onGroupNameChange(newGroup.name || "Customize");
+      }
       
       if (newGroup.steps.length > 0) {
         setSelectedStepId(newGroup.steps[0].id);
@@ -643,7 +664,7 @@ useEffect(() => {
         setSelectedStepId(null);
       }
     }
-    setIsSidebarOpen(false); // Close sidebar after selection
+    setIsSidebarOpen(false);
   };
   const containerStyles = {
     // overflow: "auto",
@@ -824,9 +845,12 @@ return (
               </button>
             </div>
 
-            <div className="Heading">{groupNameText || "Customize"}</div>
-            <div className=""></div>
-
+            {/* <div className="Heading">{groupNameText || "Customize"}</div> */}
+            {/* {selectedGroupName && ( */}
+        <h4 className="Heading">
+      {selectedGroupName || groupNameText || "Customize"}
+    </h4> 
+      {/* )} */}
           </div>
 
         </div>
