@@ -18,17 +18,15 @@ const OptionContainer3 = styled.div<{
   user-select: none;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
-
+  width:100px;
   ${(props) =>
     props.selected &&
     `
-      background-color: #f5f6f7;
-
       &::after {
         content: "✓";
         position: absolute;
         top: 20px;
-        right: 8px;
+        right: 20px;
         width: 40px;
         height: 40px;
         color: #928e8eff;
@@ -43,7 +41,7 @@ const OptionContainer3 = styled.div<{
 
 const OptionIconContainerStyled = styled.div`
 //    overflow: hidden;
-      width: 80px;
+    //   width: 80px;
 `;
 
 const OptionIconContainer3: FC<{
