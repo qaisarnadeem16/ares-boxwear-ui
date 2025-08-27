@@ -24,6 +24,7 @@ import OptionItem from "./widgets/options";
 import { BlurOverlay, PreviewContainer } from "./previewContainer";
 import OptionItem2 from "./widgets/options2";
 import Designer from "./layouts/Designer";
+import OptionItem3 from "./widgets/option3";
 
 
 interface TrayPreviewOpenButton3DProps {
@@ -874,10 +875,14 @@ return (
 
         {/* {selectedGroup?.direction === 1 && ( */}
          <>
-{currentItems &&
-currentItems.map((item) => {
-  
-  const isSizeAndPaddingType = selectedGroup?.name?.toLowerCase() === "size"
+ {currentItems &&
+    currentItems.map((item) => {
+      const isSizeType =
+        selectedGroup?.name?.toLowerCase() === "size";
+
+      const isPaddingTypeOrLabel =
+        selectedGroup?.name?.toLowerCase() === "padding" ||
+        selectedGroup?.name?.toLowerCase() === "label";
 
   
   if (!(item instanceof ThemeTemplateGroup))
@@ -910,48 +915,60 @@ currentItems.map((item) => {
                     )} */}
 
                     {/* Use OptionItem for normal groups */}
-                    {!isSizeAndPaddingType && attributesOpened.get(item.id) && (
-        <OptionsContainer>
-          <OptionsWrapper>
-         {item.options
-              .filter((x) => x.enabled)
-              .map((option) => (
-                <OptionItem
-                  key={option.guid}
-                  selectedAttribute={selectedAttribute}
-                  option={option}
-                  hasDescriptionIcon={item.options.some(
-                    (x) => x.description
-                  )}
-                />
-              ))}
-
-
-          </OptionsWrapper>
-        </OptionsContainer>
-      )}
+                     {!isPaddingTypeOrLabel && !isSizeType && attributesOpened.get(item.id) && (
+              <OptionsContainer>
+                <OptionsWrapper>
+                  {item.options
+                    .filter((x) => x.enabled)
+                    .map((option) => (
+                      <OptionItem
+                        key={option.guid}
+                        selectedAttribute={selectedAttribute}
+                        option={option}
+                        hasDescriptionIcon={item.options.some((x) => x.description)}
+                      />
+                    ))}
+                </OptionsWrapper>
+              </OptionsContainer>
+            )}
 
 
 
                  {/* Use OptionItem2 for Size and Padding Type groups */}
-                 {isSizeAndPaddingType && attributesOpened.get(item.id) && (
-        <OptionsContainer>
-          <OptionsWrappers>
-            {item.options
-              .filter((x) => x.enabled)
-              .map((option) => (
-                <OptionItem2
-                  key={option.guid}
-                  selectedAttribute={selectedAttribute}
-                  option={option}
-                  hasDescriptionIcon={item.options.some(
-                    (x) => x.description
-                  )}
-                />
-              ))}
-          </OptionsWrappers>
-        </OptionsContainer>    
-      )}
+                 {isSizeType && attributesOpened.get(item.id) && (
+              <OptionsContainer>
+                <OptionsWrappers>
+                  {item.options
+                    .filter((x) => x.enabled)
+                    .map((option) => (
+                      <OptionItem2
+                        key={option.guid}
+                        selectedAttribute={selectedAttribute}
+                        option={option}
+                        hasDescriptionIcon={item.options.some((x) => x.description)}
+                      />
+                    ))}
+                </OptionsWrappers>
+              </OptionsContainer>
+            )}
+
+             {isPaddingTypeOrLabel && attributesOpened.get(item.id) && (
+              <OptionsContainer>
+                <OptionsWrappers>
+                  {item.options
+                    .filter((x) => x.enabled)
+                    .map((option) => (
+                      <OptionItem3
+                        key={option.guid}
+                        selectedAttribute={selectedAttribute}
+                        option={option}
+                        hasDescriptionIcon={item.options.some((x) => x.description)}
+                      />
+                    ))}
+                </OptionsWrappers>
+              </OptionsContainer>
+            )}
+
                   </ItemAccordionContainer>
                 );
               else
