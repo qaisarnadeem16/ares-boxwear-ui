@@ -27,13 +27,13 @@ const OptionContainer3 = styled.div<{
         position: absolute;
         top: 20px;
         right: 20px;
-        width: 40px;
+        width: 50px;
         height: 40px;
         color: #928e8eff;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 35px;
+        font-size: 38px;
         font-weight: bold;
       }
     `}
