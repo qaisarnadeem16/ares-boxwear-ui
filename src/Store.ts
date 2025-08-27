@@ -119,7 +119,7 @@ const useStore = create<Store>((set) => ({
 		}),
 	priceFormatter: new Intl.NumberFormat('it-IT', {
 		style: 'currency',
-		currency: 'USD',
+		currency: 'EUR',
 	}),
 	setPriceFormatter: (priceFormatter: Intl.NumberFormat) => {
 		set({
