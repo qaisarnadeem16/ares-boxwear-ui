@@ -877,8 +877,7 @@ return (
 {currentItems &&
 currentItems.map((item) => {
   
-  const isSizeAndPaddingType = selectedGroup?.name?.toLowerCase() === "size" || 
-                              selectedGroup?.name?.toLowerCase() === "padding";
+  const isSizeAndPaddingType = selectedGroup?.name?.toLowerCase() === "size"
 
   
   if (!(item instanceof ThemeTemplateGroup))
