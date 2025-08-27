@@ -254,47 +254,6 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
     };
   }, [items]);
 
-    useEffect(() => {
-  if (!selectedGroup && useActualGroups_.length > 0) {
-    const firstGroup = useActualGroups_[0];
-    setSelectedGroupId(firstGroup.id);
-    setActiveColorOption("plain");
-
-    if (templates.length > 0) setTemplate(templates[0].id);
-
-    if (firstGroup.steps && firstGroup.steps.length > 0) {
-      setSelectedStepId(firstGroup.steps[0].id);
-    }
-
-    const firstItems = [
-      ...firstGroup.attributes,
-      ...firstGroup.templateGroups,
-    ].sort((a, b) => a.displayOrder - b.displayOrder);
-
-    if (firstItems.length > 0) {
-      const newAttributesOpened = new Map(attributesOpened);
-      if (!(firstItems[0] instanceof ThemeTemplateGroup)) {
-        handleAttributeSelection(firstItems[0].id);
-        newAttributesOpened.set(firstItems[0].id, true);
-      } else {
-        handleTemplateGroupSelection(firstItems[0].templateGroupID);
-        newAttributesOpened.set(firstItems[0].templateGroupID, true);
-      }
-      setAttributesOpened(newAttributesOpened);
-    }
-  }
-
-  if (useActualGroups_.length > 0) {
-    const groupRec = groups.map((group) => ({
-      id: group.id,
-      name: group.name,
-      imageUrl: group.imageUrl,
-    }));
-    selectGroupList(groupRec);
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [groups]);
-
 
   // Select attribute first time
   useEffect(() => {
@@ -333,44 +292,80 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   }, [selectedGroupId]);
 
 
-  const handleAttributeSelection = (attributeId: number, isAttributesVertical?: boolean) => {
-    // setIsStartRegistering(undoRegistering.startRegistering());
+const handleAttributeSelection = (attributeId: number, isAttributesVertical?: boolean) => {
+  setSelectedAttributeId(attributeId);
 
-    // if (attributeId && selectedAttributeId !== attributeId && !isUndo && !isRedo) {
-    //   undoRedoActions.eraseRedoStack();
-    //   undoRedoActions.fillUndoStack({
-    //     type: 'attribute',
-    //     id: selectedAttributeId,
-    //     direction: 'undo'
-    //   });
-    //   undoRedoActions.fillUndoStack({
-    //     type: 'attribute',
-    //     id: attributeId,
-    //     direction: 'redo'
-    //   });
-    // }
+  if (isAttributesVertical && !selectedGroup?.attributesAlwaysOpened) {
+    // Clone map instead of mutating
+    setAttributesOpened((prev) => {
+      const newMap = new Map(prev);
+      newMap.set(attributeId, !prev.get(attributeId));
+      return newMap;
+    });
+  }
 
-    setSelectedAttributeId(attributeId);
+  if (selectedStep && selectedStep.attributes.find((attr) => attr.id === attributeId)) {
+    const newLastAttributeSelected = lastSelectedItemsFromSteps.set(selectedStepId!, [
+      attributeId,
+      "attribute",
+    ]);
+    setLastSelectedItemFromSteps(newLastAttributeSelected);
+  } else {
+    const newLastAttributeSelected = lastSelectedItemsFromGroups.set(selectedGroupId!, [
+      attributeId,
+      "attribute",
+    ]);
+    setLastSelectedItemsFromGroups(newLastAttributeSelected);
+  }
+  setLastSelectedItem({ type: "attribute", id: attributeId });
+};
 
-    if (isAttributesVertical && !selectedGroup?.attributesAlwaysOpened) {
-      setAttributesOpened(attributesOpened.set(attributeId, !attributesOpened.get(attributeId)));
+useEffect(() => {
+  if (!selectedGroup && useActualGroups_.length > 0) {
+    // ✅ Only auto-select the first group/attribute if user hasn’t already selected something
+    if (!selectedGroupId) {
+      const firstGroup = useActualGroups_[0];
+      setSelectedGroupId(firstGroup.id);
+      setActiveColorOption("plain");
+
+      if (templates.length > 0) setTemplate(templates[0].id);
+
+      if (firstGroup.steps && firstGroup.steps.length > 0) {
+        setSelectedStepId(firstGroup.steps[0].id);
+      }
+
+      const firstItems = [
+        ...firstGroup.attributes,
+        ...firstGroup.templateGroups,
+      ].sort((a, b) => a.displayOrder - b.displayOrder);
+
+      if (firstItems.length > 0) {
+        setAttributesOpened((prev) => {
+          const newMap = new Map(prev);
+          if (!(firstItems[0] instanceof ThemeTemplateGroup)) {
+            handleAttributeSelection(firstItems[0].id);
+            newMap.set(firstItems[0].id, true);
+          } else {
+            handleTemplateGroupSelection(firstItems[0].templateGroupID);
+            newMap.set(firstItems[0].templateGroupID, true);
+          }
+          return newMap;
+        });
+      }
     }
+  }
 
-    if (selectedStep && selectedStep.attributes.find((attr) => attr.id === attributeId)) {
-      const newLastAttributeSelected = lastSelectedItemsFromSteps.set(selectedStepId!, [
-        attributeId,
-        'attribute'
-      ]);
-      setLastSelectedItemFromSteps(newLastAttributeSelected);
-    } else {
-      const newLastAttributeSelected = lastSelectedItemsFromGroups.set(selectedGroupId!, [
-        attributeId,
-        'attribute'
-      ]);
-      setLastSelectedItemsFromGroups(newLastAttributeSelected);
-    }
-    setLastSelectedItem({ type: 'attribute', id: attributeId });
-  };
+  if (useActualGroups_.length > 0) {
+    const groupRec = groups.map((group) => ({
+      id: group.id,
+      name: group.name,
+      imageUrl: group.imageUrl,
+    }));
+    selectGroupList(groupRec);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [groups]);
+
 
   const handleTemplateGroupSelection = (templateGroupId: number, isTemplateVertical?: boolean) => {
     setSelectedTemplateGroupId(templateGroupId);
