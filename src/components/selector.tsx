@@ -696,7 +696,7 @@ useEffect(() => {
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
   // console.log("SelectedGroup", selectedGroup)
   // console.log("groups", groups)
-  // console.log("SelectedGroup", useActualGroups_)
+  // console.log("useActualGroups_", useActualGroups_)
 
 return (
   <>
@@ -875,9 +875,9 @@ return (
       const isSizeType =
         selectedGroup?.name?.toLowerCase() === "size";
 
-      const isPaddingTypeOrLabel =
-        selectedGroup?.name?.toLowerCase() === "padding" ||
-        selectedGroup?.name?.toLowerCase() === "label";
+      const isPaddingType = selectedGroup?.name?.toLowerCase() === "padding";
+      const isLabelType   = selectedGroup?.name?.toLowerCase() === "label";
+
 
   
   if (!(item instanceof ThemeTemplateGroup))
@@ -910,7 +910,7 @@ return (
                     )} */}
 
                     {/* Use OptionItem for normal groups */}
-                     {!isPaddingTypeOrLabel && !isSizeType && attributesOpened.get(item.id) && (
+                     {!isLabelType && !isPaddingType && !isSizeType && attributesOpened.get(item.id) && (
               <OptionsContainer>
                 <OptionsWrapper>
                   {item.options
@@ -947,22 +947,46 @@ return (
               </OptionsContainer>
             )}
 
-             {isPaddingTypeOrLabel && attributesOpened.get(item.id) && (
-              <OptionsContainer>
-                <OptionsWrappers>
-                  {item.options
-                    .filter((x) => x.enabled)
-                    .map((option) => (
-                      <OptionItem3
-                        key={option.guid}
-                        selectedAttribute={selectedAttribute}
-                        option={option}
-                        hasDescriptionIcon={item.options.some((x) => x.description)}
-                      />
-                    ))}
-                </OptionsWrappers>
-              </OptionsContainer>
-            )}
+             {/* Padding type → show step name + OptionItem3 */}
+{isPaddingType && attributesOpened.get(item.id) && (
+  <OptionsContainer>
+    <OptionsWrappers>
+      {item.options
+        .filter((x) => x.enabled)
+        .map((option) => (
+          <div key={option.guid} className="padding-option-step">
+            <OptionItem3
+              selectedAttribute={selectedAttribute}
+              option={option}
+              hasDescriptionIcon={item.options.some((x) => x.description)}
+            />
+            <div className="step-name">
+              {T._d(option.name)} {/* or option.stepName */}
+            </div>
+          </div>
+        ))}
+    </OptionsWrappers>
+  </OptionsContainer>
+)}
+
+{/* Label type → just OptionItem3 (no step name) */}
+{isLabelType && attributesOpened.get(item.id) && (
+  <OptionsContainer>
+    <OptionsWrappers>
+      {item.options
+        .filter((x) => x.enabled)
+        .map((option) => (
+          <OptionItem3
+            key={option.guid}
+            selectedAttribute={selectedAttribute}
+            option={option}
+            hasDescriptionIcon={item.options.some((x) => x.description)}
+          />
+        ))}
+    </OptionsWrappers>
+  </OptionsContainer>
+)}
+
 
                   </ItemAccordionContainer>
                 );
