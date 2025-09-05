@@ -87,7 +87,7 @@ const ColorsContainer = styled.div`
   display: flex;
   flex-direction: row;
   padding-bottom: 20px;
-  border-bottom: 1px #ccc dotted;
+  // border-bottom: 1px #ccc dotted;
 `;
 
 const SinglePaletteItem = styled.div<{ color: string; selected: boolean }>`
