@@ -77,6 +77,7 @@ const TextButtonsContainer = styled.div`
 `;
 
 const ColorPickerContainer = styled.div`
+  margin-bottom: 5px;
   margin-right: 5px;
   width: calc(50% - 30px);
 `;
@@ -119,7 +120,7 @@ const TextColorsContainer = styled.div<{ isDefaultPalette?: boolean }>`
   width: 220px;
 
   @media screen and (max-width: 568px) {
-    width: 82vw;
+    width: 54vw;
     grid-gap: 10px 22px;
   }
 `;

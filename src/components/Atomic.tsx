@@ -200,6 +200,7 @@ export const Icon = styled.div<{ hoverable?: boolean }>`
 `;
 
 export const TextArea = styled.textarea`
+
 	background-color: rgb(243 244 246);
 	padding: 12px 12px;
 	color: #00000;
