@@ -85,7 +85,7 @@ const Selector: FunctionComponent<TrayPreviewOpenButton3DProps> = ({
   const [stitchTypeGroup, setStitchTypeGroup] = useState<any | null>(null);
 
   const [tipIndex, setTipIndex] = useState<number | null>(null);
-  const [showDesigner, setShowDesigner] = useState(false);
+
 
   // Get a list of all group names so we can populate on the tray
   const [selectedGroupList, selectGroupList] = useState<any | null>(null);
@@ -879,9 +879,6 @@ return (
   const isLabelType = 
   selectedGroup?.name?.toLowerCase() === "label" || 
   selectedGroup?.name?.toLowerCase() === "closure type";
-
-
-
   
   if (!(item instanceof ThemeTemplateGroup))
                 return (
@@ -1063,26 +1060,12 @@ return (
           )}
           <div>
       {/* Show Add + Switch only if last group with id === -2 */}
-      {selectedGroup?.id === -2 && (
-        <div
-          style={{ padding: "0px 12px", display: "flex", justifyContent: "space-between" }}
-        >
-          <p style={{ fontSize: "14px", fontWeight:'600',fontFamily:'sans-serif' }}>Add Text </p>
-
-          {/* Switch Button */}
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={showDesigner}
-              onChange={() => setShowDesigner(!showDesigner)}
-            />
-            <span className="slider round"></span>
-          </label>
-        </div>
-      )}
+      {/* {selectedGroup?.id === -2 && (
+        
+      )} */}
 
       {/* Render Designer only if switch is ON and id === -2 */}
-      {showDesigner && selectedGroup?.id === -2 && <Designer />}
+      {selectedGroup?.id === -2 && <Designer />}
     </div>
         {selectedTrayType === "signature" && (
           <DesignerSignature

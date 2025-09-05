@@ -217,6 +217,7 @@ const Designer: FC<{
 }> = ({ onCloseClick, togglePersonalize }) => {
   const { showDialog, closeDialog } = useDialogManager();
   const [forceUpdate, setForceUpdate] = useState(false);
+  const [showDesigner, setShowDesigner] = useState(false);
   const { setIsLoading, isMobile } = useStore();
 
   const {
@@ -412,6 +413,13 @@ const staticsVals = translations?.statics;
     return fileFormats;
   }
 
+
+  useEffect(() => {
+  const hasAnyText = itemsFiltered.some(
+    (item) => item.type === 0 && isItemEditable(item, currentTemplateArea)
+  );
+  setShowDesigner(hasAnyText);
+}, []);
   // console.log(addItemText,itemsFiltered,currentTemplateArea,'aaaaaa');
   //console.log(addItemText,'ssssaaaa')
 
@@ -445,37 +453,37 @@ const staticsVals = translations?.statics;
   };
 
   const handleAddTextClick = () => {
+		// setActiveButton("text");
+		// if outside hook, pass fonts & defaultColor as props/context
+// console.log("first","hello")
+		const defaultItem: EditTextItem = {
+			guid: '', // Unique ID
+			name: '',
+			text: "Text",
+			fillColor: defaultColor,
+			fontFamily: fonts[0]?.name,
+			fontSize: 48,
+			fontWeight: 'normal normal',
+			isTextOnPath: false,
+			constraints: null,
+		};
 
-    const itemText ={
-      guid: '',
-      name: '',
-      text: `${dynamicVals?.get("Enter Your Name") ?? "Enter Your Name"}`,
-      fillColor: defaultColor,
-      fontFamily: fonts[0].name,
-      fontSize: 48,
-      fontWeight: 'normal normal',
-      isTextOnPath: false,
-      constraints: null,  
-      placeholder: 'Input your text here',
-      backgroundColor: 'rgb(235, 237, 242)'
-  }
+		// Directly add item without showing the dialog
+		addItemText(defaultItem, actualAreaId);
+		// setActiveButton("design")
 
-    // console.log(itemText,actualAreaId,'add text');
-    addItemText(itemText, actualAreaId);
-
-    // showDialog(
-    //   "add-text",
-    //   <AddTextDialog
-    //     onClose={() => closeDialog("add-text")}
-    //     onConfirm={(item) => {
-    //       // console.log(item,actualAreaId,'add text');
-          
-    //       addItemText(item, actualAreaId);
-    //       closeDialog("add-text");
-    //     }}
-    //   />
-    // );
-  };
+		// Show dialog to optionally edit it
+		// showDialog(
+		// 	'add-text',
+		// 	<AddTextDialog
+		// 		onClose={() => closeDialog('add-text')}
+		// 		onConfirm={(item) => {
+		// 			addItemText(item, actualAreaId); // optionally re-add/replace if user edits it
+		// 			closeDialog('add-text');
+		// 		}}
+		// 	/>
+		// );
+	};
 
   const handleAddImageFromGalleryClick = async () => {
     showDialog(
@@ -537,6 +545,20 @@ const staticsVals = translations?.statics;
   const handleItemRemoved = (guid: string) => {
     removeItem(guid);
   };
+  const handleToggleDesigner = () => {
+  if (showDesigner) {
+    itemsFiltered.forEach((item) => {
+      if (item.type === 0 && isItemEditable(item, currentTemplateArea)) {
+        handleItemRemoved(item.guid); 
+      }
+    });
+  }else{
+    handleAddTextClick();
+  }
+
+  setShowDesigner(!showDesigner);
+};
+
 
   const handleItemImageChange = async (item: EditImageItem, file: File) => {
     try {
@@ -631,7 +653,25 @@ const staticsVals = translations?.statics;
   
   return (
     <>
-      {!moveElements && (
+      <div
+          style={{ padding: "0px 12px", display: "flex", justifyContent: "space-between" }}
+        >
+          <p style={{ fontSize: "14px", fontWeight:'600',fontFamily:'sans-serif' }}>Add Text </p>
+
+          {/* Switch Button */}
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={showDesigner}
+              onChange={handleToggleDesigner}
+            />
+            <span className="slider round"></span>
+          </label>
+        </div>
+       {/* <button onClick={handleAddTextClick}>add text</button> */}
+
+        {showDesigner&& !moveElements && (
+   
         <DesignerContainer isMobile={isMobile}>
           {/* Templates */}
           {!isMobile && templates.length > 1 && (
@@ -862,22 +902,22 @@ const staticsVals = translations?.statics;
           )} */}
         </DesignerContainer>
       )} 
-        {itemsFiltered.length > 0 && !allStaticElements && !moveElements && (
+        {/* {itemsFiltered.length > 0 && !allStaticElements && !moveElements && (
             <div className="" style={{display:'flex', justifyContent:'end', alignItems:'end'}}>
               <button
-              // isFullWidth
-              // outline
+              isFullWidth
+              outline
               
               className='mc-next'
               onClick={() => setMoveElements(true)}
             >
-              {/* <Icon>
+              <Icon>
                 <Arrows />
-              </Icon> */}
+              </Icon>
               <span>{T._("Move elements", "Composer")} </span>
             </button>
             </div>
-          )}
+          )} */}
          <div className="" style={{background:'white', padding: "0 0 50px 0"}}>
           {moveElements && (
         <ZakekeDesignerContainer

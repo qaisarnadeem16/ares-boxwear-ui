@@ -573,33 +573,33 @@ const DesignerSignature: FC<{
             return null;
           })}
 
-          {(showAddTextButton || showUploadButton) && (
+          {/* {(showAddTextButton || showUploadButton) && (
             <UploadButtons>
               <>  
               {showAddTextButton && (
                 <Button_N isFullWidth onClick={handleAddTextClick}>
-                  {/* <Icon>
+                  <Icon>
                     <Add />
-                  </Icon> */}
+                  </Icon>
                   <span>{staticsVals?.get('Text') ?? 'Text'}   </span>
                 </Button_N>
               )}
               </>              
             </UploadButtons>
-          )}
-          {itemsFiltered.length > 0 && !allStaticElements && (
+          )} */}
+          {/* {itemsFiltered.length > 0 && !allStaticElements && (
             <MoveElementButton
               isFullWidth
               isMoveElementButton
               outline
               onClick={() => setMoveElements(true)}
             >
-              {/* <Icon>
+              <Icon>
                 <Arrows />
-              </Icon> */}
+              </Icon>
               <span>{T._("Move elements", "Composer")} </span>
             </MoveElementButton>
-          )}
+          )} */}
           {/* {isMobile && (
             <CloseEditorButton onClick={onCloseClick}>
               {"OK"}

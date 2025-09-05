@@ -198,6 +198,7 @@ const ItemText: FC<{
   handleItemPropChange: PropChangeHandler;
   fonts?: FontFamily[];
   hideRemoveButton?: boolean;
+  
 }> = ({ item, handleItemPropChange, hideRemoveButton }) => {
   const { removeItem, fonts, disableTextColors, textColors, translations } =
     useZakeke();
