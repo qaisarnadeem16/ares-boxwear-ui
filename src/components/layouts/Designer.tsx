@@ -722,11 +722,7 @@ const staticsVals = translations?.statics;
           {itemsFiltered.map((item) => {
             if (item.type === 0 && isItemEditable(item, currentTemplateArea))
               return (
-                <ItemText
-                  key={item.guid}
-                  handleItemPropChange={handleItemPropChange}
-                  item={item as TextItem}
-                />
+              <></>
               );
             else if (
               item.type === 1 &&
@@ -862,22 +858,22 @@ const staticsVals = translations?.statics;
           )} */}
         </DesignerContainer>
       )} 
-        {itemsFiltered.length > 0 && !allStaticElements && !moveElements && (
+        {/* {itemsFiltered.length > 0 && !allStaticElements && !moveElements && (
             <div className="" style={{display:'flex', justifyContent:'end', alignItems:'end'}}>
               <button
-              // isFullWidth
-              // outline
+              isFullWidth
+              outline
               
               className='mc-next'
               onClick={() => setMoveElements(true)}
             >
-              {/* <Icon>
+              <Icon>
                 <Arrows />
-              </Icon> */}
+              </Icon>
               <span>{T._("Move elements", "Composer")} </span>
             </button>
             </div>
-          )}
+          )} */}
          <div className="" style={{background:'white', padding: "0 0 50px 0"}}>
           {moveElements && (
         <ZakekeDesignerContainer

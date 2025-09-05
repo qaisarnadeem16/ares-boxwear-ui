@@ -696,7 +696,7 @@ useEffect(() => {
   let groupNameText = makeFirstLetterCaps(useActualGroups_[currentIndex]?.name);
   // console.log("SelectedGroup", selectedGroup)
   // console.log("groups", groups)
-  // console.log("useActualGroups_", useActualGroups_)
+  console.log("useActualGroups_", useActualGroups_)
 
 return (
   <>
@@ -876,7 +876,10 @@ return (
         selectedGroup?.name?.toLowerCase() === "size";
 
       const isPaddingType = selectedGroup?.name?.toLowerCase() === "padding";
-      const isLabelType   = selectedGroup?.name?.toLowerCase() === "label";
+  const isLabelType = 
+  selectedGroup?.name?.toLowerCase() === "label" || 
+  selectedGroup?.name?.toLowerCase() === "closure type";
+
 
 
   

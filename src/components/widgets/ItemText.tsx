@@ -304,7 +304,7 @@ const ItemText: FC<{
         />
 
 
-        {/* {(!disableTextColors ||
+        {(!disableTextColors ||
           !(disableTextColors && textColors.length === 1)) &&
           !!item.constraints?.canChangeFontColor && (
             <FormControl label="Color">
@@ -359,7 +359,7 @@ const ItemText: FC<{
                 )}
               </ColorsContainer>
             </FormControl>
-          )} */}
+          )}
       </ItemTextContainer>
     );
   else return null;
