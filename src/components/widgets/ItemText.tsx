@@ -96,8 +96,8 @@ const SinglePaletteItem = styled.div<{ color: string; selected: boolean }>`
   background-color: ${(props) => props.color};
   border: 1px white solid;
   cursor: pointer;
-
-  ${(props) => props.selected && `border: 1px black solid;`}
+  border: 1px black solid;
+  ${(props) => props.selected && `border: 1px gray solid;`}
 
   &:hover {
     opacity: 0.6;
