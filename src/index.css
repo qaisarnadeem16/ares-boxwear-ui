@@ -236,7 +236,7 @@ button:focus {
     /* bottom: 0em; */
     height: auto;
     min-height: auto;
-    max-height: 420px;
+    /* max-height: 420px; */
     left: 0px;
     display: block;
     /* top: -20px; */
