@@ -656,7 +656,7 @@ const staticsVals = translations?.statics;
       <div
           style={{ padding: "0px 12px", display: "flex", justifyContent: "space-between" }}
         >
-          <p style={{ fontSize: "14px", fontWeight:'600',fontFamily:'sans-serif' }}>Add Text </p>
+          <p className="text_size">Add Text </p>
 
           {/* Switch Button */}
           <label className="switch">

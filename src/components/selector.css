@@ -106,6 +106,22 @@ body {
   color: #fff;
 }
 
+.padding-option-step{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:5px;
+}
+.step-name{
+  font-size: 18px;
+  text-align:center;
+}
+.text_size{
+ font-size: 30px;
+font-weight:600;
+font-family:'sans-serif' 
+}
+
 }
 
 
@@ -124,6 +140,10 @@ body {
   width: 70%;
   justify-content: space-between;
   align-items: center;
+}
+.step-name{
+  font-size: 14px;
+  text-align:center;
 }
 .Flex {
   display: flex;
@@ -187,6 +207,12 @@ body {
   background-color: #242C36;
   /* background: radial-gradient(circle, #4c7cbd 25%, #297ca3d1); */
   color: #fff;
+}
+
+.text_size{
+ font-size: 16px;
+font-weight:600;
+font-family:'sans-serif' 
 }
 
 }

@@ -91,8 +91,8 @@ const ColorsContainer = styled.div`
 `;
 
 const SinglePaletteItem = styled.div<{ color: string; selected: boolean }>`
-  width: 22px;
-  height: 22px;
+  width: 50px;
+  height: 40px;
   background-color: ${(props) => props.color};
   border: 1px white solid;
   cursor: pointer;
@@ -110,19 +110,27 @@ const SinglePaletteItem = styled.div<{ color: string; selected: boolean }>`
 `;
 
 const TextColorsContainer = styled.div<{ isDefaultPalette?: boolean }>`
-  display: grid;
+display: grid;
+grid-gap: 7px;
+width: 400px;
+
+${(props) =>
+  !props.isDefaultPalette &&
+  `
+    grid-template-columns: repeat(12, 1fr); /* 12 columns for large screen */
+  `};
+
+@media screen and (max-width: 568px) {
+  width: 54vw;
+  grid-gap: 10px;
+
   ${(props) =>
     !props.isDefaultPalette &&
     `
-    grid-template-columns: repeat(auto-fill,minmax(20px,1fr));
-    grid-gap: 7px;
+      grid-template-columns: repeat(5, 1fr); /* 5 columns for small screen */
     `};
-  width: 220px;
+}
 
-  @media screen and (max-width: 568px) {
-    width: 54vw;
-    grid-gap: 10px 22px;
-  }
 `;
 
 const OptionContainer = styled(components.Option)`
@@ -278,6 +286,7 @@ const ItemText: FC<{
                 styles={{
                   container: (base) => ({
                     ...base,
+                    fontSize:16,
                     minWidth: 200,
                     backgroundColor:'#e9efef !important'
                   }),

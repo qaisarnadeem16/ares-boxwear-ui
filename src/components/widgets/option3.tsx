@@ -10,7 +10,7 @@ const OptionContainer3 = styled.div<{
   selected: boolean;
   hasDescriptionIcon: boolean;
 }>`
-  display: flex;
+ display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -18,25 +18,51 @@ const OptionContainer3 = styled.div<{
   user-select: none;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  width:100px;
+
   ${(props) =>
     props.selected &&
     `
+    //   background-color: #f5f6f7;
+
       &::after {
         content: "✓";
         position: absolute;
         top: 20px;
-        right: 20px;
-        width: 50px;
-        height: 40px;
-        color: #928e8eff;
+        right: 35px;
+        width: 70px;
+        height: 70px;
+        color: #686868ff;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 38px;
+        font-size: 50px;
         font-weight: bold;
       }
     `}
+
+  @media screen and (max-width: 568px) {
+   ${(props) =>
+    props.selected &&
+    `
+      background-color: #f5f6f7;
+
+      &::after {
+        content: "✓";
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 30px;
+        height: 30px;
+        color: #686868ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 25px;
+        font-weight: bold;
+      }
+    `}
+    
+    }
 `;
 
 const OptionIconContainerStyled = styled.div`
@@ -51,14 +77,19 @@ const OptionIconContainer3: FC<{
 }
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
-    width: 100px;
-    height: 100px;
+    width: 130px;
+    height: 130px;
     object-position: center;
 
     ${props => props.optionShape && `
         // border-radius: 100%;
         object-fit: cover;
     `};
+    @media screen and (max-width: 568px) {
+    height:100px;
+    width:100px;
+    
+    }
 `;
 
 const OptionName = styled.span`
@@ -81,10 +112,15 @@ const OptionName = styled.span`
 
 const OptIconContainer = styled.div`
     display: flex;
-    width: 100px;
-    height: 100px;
+    height:130px;
+    widht:130px;
     justify-content: center;
     align-items: center;
+    @media screen and (max-width: 568px) {
+    height:100px;
+    width:100px;
+    
+    }
 `;
 
 const OptionItem3: FC<{ selectedAttribute: Attribute | null | undefined, option: Option, hasDescriptionIcon: boolean }> = ({ selectedAttribute, option, hasDescriptionIcon }) => {

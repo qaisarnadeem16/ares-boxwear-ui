@@ -115,6 +115,19 @@ export const OptionsContainer = styled.div`
 	overflow-x: hidden;
 	
 `;
+export const OptionsContainer2 = styled.div`
+	align-items: flex-start;
+	min-height: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	 @media screen and (max-width: 568px) {
+   display: flex;
+	/* flex: 1; */
+	flex-wrap: nowrap;
+	align-items: flex-start;
+    }
+	
+`;
 
 export const OptionsWrapper = styled.div`
   overflow: hidden;
@@ -127,13 +140,31 @@ export const OptionsWrapper = styled.div`
 `;
 export const OptionsWrappers = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr); // 3 per row
-  gap-x: 8px; // spacing between options
+  grid-template-columns: repeat(5, 1fr); // 3 per row
+  gap: 8px; // spacing between options
   column-gap:8px;
-  row-gap:5px;
   width: 100%;
   justify-items: center; // center items inside each cell
   margin-top: 10px;
+
+  @media screen and (max-width: 568px) {
+   grid-template-columns: repeat(3, 1fr); // 3 per row
+    width: 100%;
+    }
+`;
+export const OptionsWrappers2 = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); // 3 per row
+  gap: 8px; // spacing between options
+  column-gap:8px;
+//   width: 100%;
+  justify-items: center; // center items inside each cell
+  margin-top: 10px;
+
+  @media screen and (max-width: 568px) {
+   grid-template-columns: repeat(3, 1fr); // 3 per row
+    // width: 100%;
+    }
 `;
 
 export const Options = styled.div`
@@ -229,13 +260,13 @@ export const Icon = styled.div<{ hoverable?: boolean }>`
 export const TextArea = styled.textarea`
 
 	background-color: rgb(243 244 246);
-	padding: 12px 12px;
+	padding: 18px 18px;
 	color: #00000;
-	font-size: 14px;
+	font-size: 28px;
 	border-radius:4px;
 	border: 1px rgb(209 213 219) solid;
 	width: 100%;
-	height: 38px;
+	height: 55px;
 	font-family:OE1Bold,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
 	outline: none;
 	font-weight:600;
@@ -248,7 +279,6 @@ export const TextArea = styled.textarea`
 	// width: calc(100% - 66px);
     appearance: none;
     // height: 32px;
-    font-size: 14px;
     line-height: 14px;
     // margin-bottom: 5px;
     box-shadow: none;
@@ -271,6 +301,23 @@ export const TextArea = styled.textarea`
 	&:focus {
 		border: 1px black solid;
 		outline: none;
+	}
+
+	@media (max-width: 568px) {
+		background-color: rgb(243 244 246);
+	padding: 12px 12px;
+	color: #00000;
+	font-size: 14px;
+	border-radius:4px;
+	border: 1px rgb(209 213 219) solid;
+	width: 100%;
+	height: 38px;
+	font-family:OE1Bold,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+	outline: none;
+	font-weight:600;
+	resize: none;
+	overflow: hidden !important;
+	placeholder: 'Input your text here';
 	}
 `;
 

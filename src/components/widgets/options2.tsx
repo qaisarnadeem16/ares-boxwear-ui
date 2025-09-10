@@ -36,14 +36,19 @@ const OptionIconContainer2: FC<{
 }
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
-    width: 90px;
-    height: 70px;
+    width: 140px;
+    height: 140px;
     object-position: center;
 
     ${props => props.optionShape && `
         // border-radius: 100%;
         object-fit: cover;
     `};
+    @media screen and (max-width: 568px) {
+    width: 90px;
+    height: 70px;
+    object-position: center;   
+    }
 `;
 
 const OptionName = styled.span`
@@ -67,9 +72,13 @@ const OptionName = styled.span`
 const OptIconContainer = styled.div`
     display: flex;
     // width: 60px;
-    height: 40px;
+    height: 65px;
     justify-content: center;
     align-items: center;
+    @media screen and (max-width: 568px) {
+     height: 40px;
+    
+    }
 `;
 
 const OptionItem2: FC<{ selectedAttribute: Attribute | null | undefined, option: Option, hasDescriptionIcon: boolean }> = ({ selectedAttribute, option, hasDescriptionIcon }) => {

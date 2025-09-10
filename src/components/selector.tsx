@@ -19,7 +19,7 @@ import FooterMobile from "./layouts/FooterMobile";
 import "./selectors/colsgrid.css";
 
 import { MenuIcon } from "./widgets/svg";
-import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAccordionName, Options, OptionsContainer, OptionsWrapper, OptionsWrappers, StepItem, Steps } from "./Atomic";
+import { ItemAccordion, ItemAccordionContainer, ItemAccordionDescription, ItemAccordionName, Options, OptionsContainer, OptionsContainer2, OptionsWrapper, OptionsWrappers, OptionsWrappers2, StepItem, Steps } from "./Atomic";
 import OptionItem from "./widgets/options";
 import { BlurOverlay, PreviewContainer } from "./previewContainer";
 import OptionItem2 from "./widgets/options2";
@@ -949,8 +949,8 @@ return (
 
              {/* Padding type → show step name + OptionItem3 */}
 {isPaddingType && attributesOpened.get(item.id) && (
-  <OptionsContainer>
-    <OptionsWrappers>
+  <OptionsContainer2>
+    <OptionsWrappers2>
       {item.options
         .filter((x) => x.enabled)
         .map((option) => (
@@ -965,14 +965,14 @@ return (
             </div>
           </div>
         ))}
-    </OptionsWrappers>
-  </OptionsContainer>
+    </OptionsWrappers2>
+  </OptionsContainer2>
 )}
 
 {/* Label type → just OptionItem3 (no step name) */}
 {isLabelType && attributesOpened.get(item.id) && (
-  <OptionsContainer>
-    <OptionsWrappers>
+  <OptionsContainer2>
+    <OptionsWrappers2>
       {item.options
         .filter((x) => x.enabled)
         .map((option) => (
@@ -983,8 +983,8 @@ return (
             hasDescriptionIcon={item.options.some((x) => x.description)}
           />
         ))}
-    </OptionsWrappers>
-  </OptionsContainer>
+    </OptionsWrappers2>
+  </OptionsContainer2>
 )}
 
 

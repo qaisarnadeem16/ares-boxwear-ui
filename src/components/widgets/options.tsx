@@ -89,7 +89,7 @@ const OptionIcon = styled.img<{ optionShape?: boolean }>`
     width: 140px;
     height: 140px;
     object-position: center;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); 
+    //box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); 
     // position:absolute;
     // top:0px;
     // left:0px;
@@ -101,7 +101,7 @@ const OptionIcon = styled.img<{ optionShape?: boolean }>`
     width: 70px;
     height: 80px;
     object-position: center;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); 
+    //box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); 
     
     }
     ${props => props.optionShape && `
