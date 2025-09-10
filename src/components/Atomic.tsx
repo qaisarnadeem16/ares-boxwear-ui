@@ -14,6 +14,30 @@ export const Steps = styled.div`
 
 export const StepItem = styled.div`
   border: 1px solid #cfd1d4ff;
+  min-width: 190px;
+  text-align: center;
+  border-radius:3px;
+  margin:18px 0px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  box-shadow: rgb(229, 231, 235) 0px 2px 4px;
+  color: #b8b9bdff;
+  font-weight:600;
+  &.selected {
+    display: flex;
+    text-align: center;
+    font-size: 20px;
+    background: black;
+    color: white;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid black;
+  }
+	@media screen and (max-width: 568px) {
+	border: 1px solid #cfd1d4ff;
   min-width: 130px;
   text-align: center;
   border-radius:3px;
@@ -22,7 +46,8 @@ export const StepItem = styled.div`
   cursor: pointer;
   box-shadow: rgb(229, 231, 235) 0px 2px 4px;
   color: #b8b9bdff;
-  font-weight:500;
+  font-size: 15px;
+  font-weight:600;
   &.selected {
     display: flex;
     text-align: center;
@@ -35,6 +60,8 @@ export const StepItem = styled.div`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: 1px solid black;
   }
+	
+	}
 `;
 
 

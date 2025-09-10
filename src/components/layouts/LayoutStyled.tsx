@@ -368,7 +368,7 @@ export const FooterRightElementsContainer = styled.div`
 	padding: 0px 0px 0px 0em;
 	font-size: 14px;
 	width: 14em;
-	@media (max-width: 1024px) {
+	@media (max-width: 1124px) {
 		min-height: 70px;
 	}
 `;

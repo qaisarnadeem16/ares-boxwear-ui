@@ -29,6 +29,28 @@ const OptionContainer = styled.div<{
         position: absolute;
         top: 6px;
         right: 6px;
+        width: 70px;
+        height: 70px;
+        color: #686868ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+        font-weight: bold;
+      }
+    `}
+
+  @media screen and (max-width: 568px) {
+   ${(props) =>
+    props.selected &&
+    `
+      background-color: #f5f6f7;
+
+      &::after {
+        content: "✓";
+        position: absolute;
+        top: 6px;
+        right: 6px;
         width: 30px;
         height: 30px;
         color: #686868ff;
@@ -39,13 +61,20 @@ const OptionContainer = styled.div<{
         font-weight: bold;
       }
     `}
+    
+    }
 `;
 
 
 const OptionIconContainerStyled = styled.div`
    overflow: hidden;
+   width: 80px;
+   aspect-ratio: 1;
+   @media screen and (max-width: 568px) {
+   overflow: hidden;
    width: 42px;
    aspect-ratio: 1;
+   }
    /* padding: 0 10px; */
 `;
 
@@ -57,8 +86,8 @@ const OptionIconContainer: FC<{
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
     object-fit:cover;
-    width: 70px;
-    height: 80px;
+    width: 140px;
+    height: 140px;
     object-position: center;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); 
     // position:absolute;
@@ -66,6 +95,15 @@ const OptionIcon = styled.img<{ optionShape?: boolean }>`
     // left:0px;
     // aspect-ratio: 1;
 
+
+    @media screen and (max-width: 568px) {
+    object-fit:cover;
+    width: 70px;
+    height: 80px;
+    object-position: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); 
+    
+    }
     ${props => props.optionShape && `
         // border-radius: 100%;
         object-fit: cover;
@@ -91,6 +129,16 @@ const OptionName = styled.span`
 `;
 
 const OptIconContainer = styled.div`
+
+
+    display: flex;
+    object-position: center;
+    object-fit: fill;
+    width: 85px;
+    height: 85px;
+    justify-content: center;
+    align-items: center;
+    @media screen and (max-width: 568px) {
     display: flex;
     object-position: center;
     object-fit: fill;
@@ -98,6 +146,8 @@ const OptIconContainer = styled.div`
     height: 60px;
     justify-content: center;
     align-items: center;
+    
+    }
 `;
 
 const OptionItem: FC<{ selectedAttribute: Attribute | null | undefined, option: Option, hasDescriptionIcon: boolean }> = ({ selectedAttribute, option, hasDescriptionIcon }) => {

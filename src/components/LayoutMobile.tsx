@@ -13,7 +13,7 @@ export const Container = styled.div`
   display: flex;
   flex-flow:column;
   padding:40px 60px;
-  @media (max-width: 1024px) {
+  @media (max-width: 1120px) {
     flex-direction: column;
     padding:0px;
     height: 100%;

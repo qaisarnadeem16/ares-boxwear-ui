@@ -23,19 +23,96 @@ body {
 }
 
 
+@media screen and (max-width: 1080px) {
+  
+  .Heading {
+  width: 100%;
+  font-family: 'Inter';
+  font-size: 25px;
+  font-weight: 600;
+  color: black;
+  text-align: center;
+}
+
+.Flex-Justify {
+  width: 85%;
+  margin: 12px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
 .Flex {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.Flex-Justify {
-  width: 70%;
-  justify-content: space-between;
-  align-items: center;
+.gimg {
+  width: 70px;
+  height: 70px;
+  /* background-color: #eee; */
+  float: right;
+  /* padding: 4px; */
+  background-size: 48px 48px;
+  border-radius: 0 3px 3px 0;
+  position: relative;
+  /* border: 1px solid #7ccb00; */
+  border-left: none;
+  z-index: 1;
 }
 
-.Heading {
+.btn-rounded {
+  align-items: center;
+    display: flex;
+    height: 51px;
+    background-color: #e5e7eb;
+    border-radius: 50%;
+    width: 51px;
+    justify-content: center;
+}
+
+#gprev,
+#gnext {
+  display: flex;
+  /* float: right; */
+  gap: 20px;
+  font-size: 17px;
+  line-height: 16px;
+  font-weight: 400;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  font-family: "Inter";
+}
+
+
+
+.mc-prev {
+  border-radius: 8px;
+  border: 1px solid #C7C8C8;
+  border-right: none;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  background-color: #C7C8C8;
+  color: black;
+  /* border-color: #6dcff6; */
+}
+
+.mc-next {
+  padding: 12px 20px;
+  border: 1px solid #242C36;
+  border-radius: 8px;
+  background-color: #242C36;
+  /* background: radial-gradient(circle, #4c7cbd 25%, #297ca3d1); */
+  color: #fff;
+}
+
+}
+
+
+
+@media screen and (max-width: 568px) {
+  
+ .Heading {
   width: 100%;
   font-family: 'Inter';
   font-size: 15px;
@@ -43,15 +120,30 @@ body {
   color: black;
   text-align: center;
 }
-.groupTitle{
-  max-width: 150px;
+.Flex-Justify {
+  width: 70%;
+  justify-content: space-between;
+  align-items: center;
+}
+.Flex {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.gimg {
+  width: 40px;
+  height: 40px;
+  /* background-color: #eee; */
+  float: right;
+  /* padding: 4px; */
+  background-size: 48px 48px;
+  border-radius: 0 3px 3px 0;
+  position: relative;
+  /* border: 1px solid #7ccb00; */
+  border-left: none;
+  z-index: 1;
 }
 
-.btn{
-  background-color: #e5e7eb;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
 .btn-rounded {
   align-items: center;
     display: flex;
@@ -61,6 +153,55 @@ body {
     width: 31px;
     justify-content: center;
 }
+
+#gprev,
+#gnext {
+  display: flex;
+  /* float: right; */
+  gap: 20px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  font-family: "Inter";
+}
+
+
+.mc-prev {
+  border-radius: 8px;
+  border: 1px solid #C7C8C8;
+  border-right: none;
+  box-sizing: border-box;
+  padding: 7px 14px;
+  background-color: #C7C8C8;
+  color: black;
+  /* border-color: #6dcff6; */
+}
+
+.mc-next {
+  padding: 7px 12px;
+  border: 1px solid #242C36;
+  border-radius: 8px;
+  background-color: #242C36;
+  /* background: radial-gradient(circle, #4c7cbd 25%, #297ca3d1); */
+  color: #fff;
+}
+
+}
+
+
+.groupTitle{
+  max-width: 150px;
+}
+
+.btn{
+  background-color: #e5e7eb;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
 
 
 
@@ -103,19 +244,7 @@ body {
   border-radius: 20px;
 }
 
-.gimg {
-  width: 40px;
-  height: 40px;
-  /* background-color: #eee; */
-  float: right;
-  /* padding: 4px; */
-  background-size: 48px 48px;
-  border-radius: 0 3px 3px 0;
-  position: relative;
-  /* border: 1px solid #7ccb00; */
-  border-left: none;
-  z-index: 1;
-}
+
 
 .tray-header {
   display: flex;
@@ -215,39 +344,8 @@ body {
   text-align: right;
 }
 
-#gprev,
-#gnext {
-  display: flex;
-  /* float: right; */
-  gap: 20px;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 400;
-  box-sizing: border-box;
-  cursor: pointer;
-  user-select: none;
-  font-family: "Inter";
-}
 
-.mc-prev {
-  border-radius: 8px;
-  border: 1px solid #C7C8C8;
-  border-right: none;
-  box-sizing: border-box;
-  padding: 7px 14px;
-  background-color: #C7C8C8;
-  color: black;
-  /* border-color: #6dcff6; */
-}
 
-.mc-next {
-  padding: 7px 12px;
-  border: 1px solid #242C36;
-  border-radius: 8px;
-  background-color: #242C36;
-  /* background: radial-gradient(circle, #4c7cbd 25%, #297ca3d1); */
-  color: #fff;
-}
 
 .next-customization {
   display: contents;
