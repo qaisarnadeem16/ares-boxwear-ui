@@ -42,6 +42,7 @@ const FooterMobileIcon = styled.div<{
 	align-items: center;
 	justify-content: flex-end;
 	border: 1px transparent solid;
+	postion:relative;
 	// padding: 10px;
     border-radius: 6px;
 	//color: ${(props) => (props.color ? props.color : `#313c46`)};
@@ -391,25 +392,27 @@ const FooterMobile = () => {
 							 <div style={{position:'absolute', right:'1.5rem', top:'1.5rem',backgroundColor:'white', padding:'4px 5px',borderRadius:'8px'}}>
 								{/* <div className="price_text">Price: </div> */}
 								{/* <div>{dynamicsVals?.get('Base') ?? 'Base'} :</div>  */}
-								<div style={{backgroundColor:'#f3f4f6', padding:'5px 10px',borderRadius:'6px',border:'1px solid #dcdddfff'}} className="">{priceFormatter.format(price)}</div>
+								<div style={{backgroundColor:'#f3f4f6', padding:'5px 10px',borderRadius:'6px',border:'1px solid #dcdddfff'}} className="price_text">{priceFormatter.format(price)}</div>
 							</div>
 							</div>
 							</>	
 							
-							{/* <AddToCartButton>
+							<div style={{position:'fixed', top:'1.5rem', left:'7px',}}>
+							<AddToCartButton>
 								<span style={{color: 'white'}}>
 									{isDraftEditor || isEditorMode
 										? T._('Save', 'Composer')
 										: T._('Add to cart', 'Composer')}
 								</span>
-							</AddToCartButton> */}
+							</AddToCartButton>
+							</div>
 
 							{/* {!isOutOfStock &&
 								!isAddToCartLoading &&
 								(isDraftEditor || isEditorMode ? <SaveSolid /> : <CartSolid />)}
 							{isAddToCartLoading && <TailSpin color='#FFFFFF' height='25px' />} */}
 						</FooterMobileIcon>
-					{/* )} */}
+					{/* //  )}  */}
 					{/* {product?.quoteRule && !isViewerMode && !isDraftEditor && !isEditorMode && (
 						<FooterMobileIcon
 							gridArea='quote'

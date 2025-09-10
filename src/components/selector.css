@@ -36,7 +36,7 @@ body {
 
 .Flex-Justify {
   width: 85%;
-  margin: 12px 0px;
+  margin: 20px 0px;
   justify-content: space-between;
   align-items: center;
 }
@@ -138,6 +138,7 @@ font-family:'sans-serif'
 }
 .Flex-Justify {
   width: 70%;
+  margin: 0px;
   justify-content: space-between;
   align-items: center;
 }

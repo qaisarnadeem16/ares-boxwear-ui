@@ -304,7 +304,7 @@ export const TextArea = styled.textarea`
 	}
 
 	@media (max-width: 568px) {
-		background-color: rgb(243 244 246);
+	background-color: rgb(243 244 246);
 	padding: 12px 12px;
 	color: #00000;
 	font-size: 14px;
@@ -387,7 +387,7 @@ export const Button = styled.button<{
 	justify-content: center;
 	align-items: center;
 	width: ${(props) => (props.isFullWidth ? '100%' : props.outline ? '60px' : props.primary ? '200px' : props.isMoveElementButton ? '138px' : '60px' )};
-	background-color: ${(props) => (props.primary ? '#297ca3' : 'white')};
+	background-color: ${(props) => (props.primary ? '#000000' : 'white')};
 	color: ${(props) => (props.outline ? 'black' : props.primary ? 'white' : '#297CA3')};
 	min-height: 40px;
 	padding: ${(props) => (props.outline ? '' : '5px 10px 5px 10px')};
@@ -407,7 +407,7 @@ export const Button = styled.button<{
 		!props.disabled &&
 		`
       &:hover {
-        background-color: ${props.outline ? 'white' : props.primary ? '#297ca3' : '#297ca3'};
+        background-color: ${props.outline ? 'white' : props.primary ? '#000000' : '#000000'};
         border: ${props.outline ? '1px solid black' : '1px solid #4b6074'};
         color: ${props.outline ? 'black' : 'white'};
       }
@@ -588,12 +588,12 @@ export const ZoomOutIcon = styled(Icon)`
 export const AddToCartButton = styled(Button)`
 	position: relative;
 	// right: 10%;
-	min-width: 200px;
-	background-color: #297ca3;
+	min-width: 140px;
+	background-color: #000000;
 	font-family: 'Inter';
 	display: block;
 	// float: right;
-	font-size: 18px;
+	font-size: 15px;
 	line-height: 18px;
 	font-weight: 600;
 	box-sizing: border-box;

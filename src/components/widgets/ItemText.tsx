@@ -250,6 +250,7 @@ const ItemText: FC<{
   if (item)
     return (
       <ItemTextContainer>
+      <div className="tab_design">
         <FormControl
           label={item.name} //|| T._("Text", "Composer")
           rightComponent={
@@ -279,7 +280,8 @@ const ItemText: FC<{
           />
         </FormControl>
 
-        <TextToolsContainer>
+
+          <TextToolsContainer>
           {(!constraints || constraints.canChangeFontFamily) && (
             <FormControl label="Font :">
               <Select
@@ -287,7 +289,7 @@ const ItemText: FC<{
                   container: (base) => ({
                     ...base,
                     fontSize:16,
-                    minWidth: 200,
+                    minWidth: 210,
                     backgroundColor:'#e9efef !important'
                   }),
                 }}
@@ -313,6 +315,7 @@ const ItemText: FC<{
           togglerFontSelectorVisible={togglerFontSelectorVisible}
           item={item}
         />
+        </div>
 
 
         {(!disableTextColors ||
