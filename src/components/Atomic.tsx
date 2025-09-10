@@ -121,9 +121,9 @@ export const OptionsContainer2 = styled.div`
 	overflow-y: auto;
 	overflow-x: hidden;
 	 @media screen and (max-width: 568px) {
-   display: flex;
+//    display: flex;
 	/* flex: 1; */
-	flex-wrap: nowrap;
+	// flex-wrap: nowrap;
 	align-items: flex-start;
     }
 	

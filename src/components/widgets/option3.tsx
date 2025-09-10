@@ -28,7 +28,7 @@ const OptionContainer3 = styled.div<{
         content: "✓";
         position: absolute;
         top: 20px;
-        right: 35px;
+        right: 30px;
         width: 70px;
         height: 70px;
         color: #686868ff;
@@ -49,15 +49,15 @@ const OptionContainer3 = styled.div<{
       &::after {
         content: "✓";
         position: absolute;
-        top: 6px;
-        right: 6px;
-        width: 30px;
-        height: 30px;
+        top: 20px;
+        right: 30px;
+        width: 40px;
+        height: 40px;
         color: #686868ff;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 25px;
+        font-size: 30px;
         font-weight: bold;
       }
     `}
