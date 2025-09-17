@@ -100,13 +100,23 @@ const AppContent: FunctionComponent = () => {
   }, [isViewerReady, groups, setSelectedGroupId, setSelectedStepId, setLastSelectedItem, setSelectedAttributeId]);
 
   useEffect(() => {
-    const resizeFunction = () => {
-      setResize(!resizeRef.current);
-    };
+  const handleResize = () => {
+    setResize(!resizeRef.current);
 
-    window.addEventListener("resize", resizeFunction);
-    return () => window.removeEventListener("resize", resizeFunction);
-  }, []);
+    // 👇 Add this condition
+    if (window.innerWidth <= 1200) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  handleResize(); // run once on mount
+
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, [setIsMobile]);
+
 
   return (
     <>
