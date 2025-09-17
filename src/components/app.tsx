@@ -104,7 +104,7 @@ const AppContent: FunctionComponent = () => {
     setResize(!resizeRef.current);
 
     // 👇 Add this condition
-    if (window.innerWidth <= 1280) {
+    if (window.innerWidth <= 1290) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
