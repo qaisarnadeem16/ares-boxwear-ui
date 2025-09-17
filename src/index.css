@@ -214,7 +214,7 @@ button:focus {
  
 
 
-@media screen and (max-width: 1210px){
+@media screen and (max-width: 1290px){
   .ThreeDRenderer{
     /* aspect-ratio: auto !important; */
     position: relative !important;
