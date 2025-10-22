@@ -462,8 +462,9 @@ export const PriceContainer = styled.div<{ $isMobile?: boolean }>`
 	background-color:#f4f4f4;
 	padding:4px 5px;
 	border-radius:8px;
-	width:90px;
+	min-width:90px;
 	text-align:center;
+	font-size:20px;
 	@media (max-width: 1300px) {
 	position:absolute;
 	right:1.5rem;
