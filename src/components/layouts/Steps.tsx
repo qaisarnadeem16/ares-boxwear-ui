@@ -28,7 +28,7 @@ const StepsIcons = styled.div<{ isMobile?: boolean }>`
 
 const StepItem = styled.div <{ selected?: boolean, isMobile?: boolean, stepName?: string }>`
   border-radius: 32px;
-  background-color:#297ca3;
+  background-color:#000;
   color:white;
   width: 32px;
   height: 32px;
@@ -42,11 +42,11 @@ const StepItem = styled.div <{ selected?: boolean, isMobile?: boolean, stepName?
   font-weight: bold;
   cursor: pointer;
   padding: 0px 20px;
-  ${props => props.selected && `background-color:#297ca3;`}
+  ${props => props.selected && `background-color:#000;`}
   ${props => props.selected && `color:white;`}
 
   :hover{
-    background-color:#297ca3;
+    background-color:#000;
     color:white;
   }
   ${props => !props.isMobile && `
@@ -58,7 +58,7 @@ const StepItem = styled.div <{ selected?: boolean, isMobile?: boolean, stepName?
     top: 50%;
     width: 100%;
     height: 1px;  
-    background-color: #297ca3;
+    background-color: #000;
     z-index: 1;
     color:white;
   }
@@ -74,7 +74,7 @@ const ActualStepName = styled.h4<{ isMobile?: boolean }>`
     margin: 0;
     ${props => !props.isMobile && `margin-top: 15px`};
     font-weight: 500;
-    color: #297ca3;
+    color: black;
     ${props => props.isMobile && `
         white-space: nowrap;
         overflow: hidden;

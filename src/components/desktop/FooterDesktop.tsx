@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TryOnMode, useZakeke } from 'zakeke-configurator-react';
 import { Button, Icon, TooltipContent } from '../Atomic';
 import QuotationFormDialog from '../dialog/QuotationFormDialog';
 import SaveDesignsDraftDialog from '../dialog/SaveDesignsDraftDialog';
-import { T } from '../../Helpers';
 import { TailSpin } from 'react-loader-spinner';
-import useStore from '../../Store';
 import styled from 'styled-components';
 import { ReactComponent as PdfSolid } from '../../assets/icons/file-pdf-solid.svg';
 import { ReactComponent as SaveSolid } from '../../assets/icons/save-solid.svg';
@@ -15,15 +13,16 @@ import ErrorDialog from '../dialog/ErrorDialog';
 import PdfDialog from '../dialog/PdfDialog';
 import ShareDialog from '../dialog/ShareDialog';
 import {
+	CustomQuotationConfirmMessage,
 	ExtensionFieldItem,
 	ExtensionFieldsContainer,
 	PriceContainer,
 	QuantityContainer
-} from '../layouts/LayoutStyled';
-import NftDialog, { NftForm } from '../dialog/NftDialog';
-import { useEffect, useRef, useState } from 'react';
-import { CustomQuotationConfirmMessage } from '../layouts/LayoutStyled';
+} from '../layouts/SharedComponents';
 import NumericInput from '../layouts/NumericInput';
+import NftDialog, { NftForm } from '../dialog/NftDialog';
+import { T } from '../../Helpers';
+import useStore from '../../Store';
 import useDropdown from '../hooks/useDropdown';
 
 export const FooterContainer = styled.div`
@@ -132,7 +131,7 @@ const FooterDesktop = () => {
 			return;
 		}
 		// if you're saving a draft composition in backoffice
-		if (isDraftEditor) {
+		if (isDraftEditor || isEditorMode) {
 			setIsSavingComposition(true);
 			saveComposition().then(() => {
 				setIsSavingComposition(false);
@@ -154,7 +153,7 @@ const FooterDesktop = () => {
 					buttonYesLabel={T._('Add to cart', 'Composer')}
 					onYesClick={() => {
 						// Check if NFT is enabled and show the NFT dialog
-						if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor)
+						if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor && !isEditorMode)
 							showDialog(
 								'nft',
 								<NftDialog
@@ -185,7 +184,7 @@ const FooterDesktop = () => {
 				/>
 			);
 		// If NFT is enabled, show the NFT dialog
-		else if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor)
+		else if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor && !isEditorMode)
 			showDialog(
 				'nft',
 				<NftDialog
@@ -370,7 +369,7 @@ const FooterDesktop = () => {
 						)}
 
 						{/* Price */}
-						{price !== null && price > 0 && (!sellerSettings || !sellerSettings.hidePrice) && (
+						{/* {price !== null && price > 0 && (!sellerSettings || !sellerSettings.hidePrice) && ( */}
 							<PriceContainer>
 								{!isOutOfStock && priceFormatter.format(price)}
 								{sellerSettings && sellerSettings.priceInfoText && (
@@ -379,41 +378,45 @@ const FooterDesktop = () => {
 									/>
 								)}
 							</PriceContainer>
-						)}
+						{/* )} */}
 
 						{/* PDF preview */}
-						{!pdfPreviewDisabled && (
+						{/* {!pdfPreviewDisabled && ( */}
 							<Button key={'pdf'} onClick={() => handlePdfClick()}>
 								<Icon>
 									<PdfSolid />
 								</Icon>
 							</Button>
-						)}
+						{/* )} */}
 
 						{/* Save composition */}
-						{!isDraftEditor &&
+						{/* {!isDraftEditor &&
 							!isEditorMode &&
 							!isViewerMode &&
 							sellerSettings &&
-							sellerSettings.canSaveDraftComposition && (
+							sellerSettings.canSaveDraftComposition && ( */}
 								<Button key={'save'} onClick={() => handleSaveClick()}>
 									<Icon>
 										<SaveSolid />
 									</Icon>
 								</Button>
-							)}
+							{/* )} */}
 
 						{/* Share */}
-						{sellerSettings && sellerSettings.shareType !== 0 && !isEditorMode && !isDraftEditor && (
-							<Button key={'share'} onClick={() => handleShareClick()}>
-								<Icon>
-									<ShareSolid />
-								</Icon>
-							</Button>
-						)}
+						{sellerSettings &&
+							sellerSettings.shareType !== 0 &&
+							!isEditorMode &&
+							!isDraftEditor &&
+							!isEditorMode && (
+								<Button key={'share'} onClick={() => handleShareClick()}>
+									<Icon>
+										<ShareSolid />
+									</Icon>
+								</Button>
+							)}
 
 						{/* Get a quote */}
-						{product?.quoteRule && !isViewerMode && !isDraftEditor && !isEditorMode && !isDraftEditor && (
+						{product?.quoteRule && !isViewerMode && !isDraftEditor && !isEditorMode && (
 							<Button
 								disabled={disableButtonsByVisibleMessages}
 								key={'quote'}
@@ -426,7 +429,7 @@ const FooterDesktop = () => {
 						)}
 
 						{/* Add to cart */}
-						{isBuyVisibleForQuoteRule && !isViewerMode && (
+						{/* {isBuyVisibleForQuoteRule && !isViewerMode && ( */}
 							<AddToCartButton
 								ref={addToCartButtonRef}
 								onPointerEnter={() => {
@@ -436,28 +439,35 @@ const FooterDesktop = () => {
 									closeOutOfStockTooltip();
 								}}
 								disabled={
-									(isDraftEditor && isSavingComposition) ||
-									(!isDraftEditor &&
+									((isDraftEditor || isEditorMode) && isSavingComposition) ||
+									(!(isDraftEditor || isEditorMode) &&
 										(disableButtonsByVisibleMessages || isAddToCartLoading || isOutOfStock))
 								}
 								primary
 								onClick={
-									(!isDraftEditor && !isAddToCartLoading) || (isDraftEditor && !isSavingComposition)
+									(!(isDraftEditor || isEditorMode) && !isAddToCartLoading) ||
+									((isDraftEditor || isEditorMode) && !isSavingComposition)
 										? () => handleAddToCart()
 										: () => null
 								}
 							>
-								{isAddToCartLoading && !isDraftEditor && <TailSpin color='#FFFFFF' height='25px' />}
-								{!isAddToCartLoading && !isOutOfStock && !isDraftEditor && (
+								{isAddToCartLoading && !(isDraftEditor || isEditorMode) && (
+									<TailSpin color='#FFFFFF' height='25px' />
+								)}
+								{!isAddToCartLoading && !isOutOfStock && !(isDraftEditor || isEditorMode) && (
 									<span>{T._('Add to cart', 'Composer')}</span>
 								)}
-								{!isAddToCartLoading && isOutOfStock && !isDraftEditor && (
+								{!isAddToCartLoading && isOutOfStock && !(isDraftEditor || isEditorMode) && (
 									<span>{T._('OUT OF STOCK', 'Composer')}</span>
 								)}
-								{isDraftEditor && isSavingComposition && <TailSpin color='#FFFFFF' height='25px' />}
-								{isDraftEditor && !isSavingComposition && <span>{T._('Save', 'Composer')}</span>}
+								{(isDraftEditor || isEditorMode) && isSavingComposition && (
+									<TailSpin color='#FFFFFF' height='25px' />
+								)}
+								{(isDraftEditor || isEditorMode) && !isSavingComposition && (
+									<span>{T._('Save', 'Composer')}</span>
+								)}
 							</AddToCartButton>
-						)}
+						{/* )} */}
 					</FooterRightElementsContainer>
 
 					{/* Out-of-stock tooltip */}

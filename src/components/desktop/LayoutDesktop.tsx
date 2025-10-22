@@ -49,7 +49,7 @@ function LayoutDesktop() {
 				<ZakekeViewer />
 				<DesktopRightSidebar />
 			</Top>
-			<FooterDesktop />
+			{/* <FooterDesktop /> */}
 		</LayoutDesktopContainer>
 	);
 }

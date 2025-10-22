@@ -1,29 +1,27 @@
 import React from 'react';
-import { useZakeke } from 'zakeke-configurator-react';
+import { TryOnMode, useZakeke } from 'zakeke-configurator-react';
 import { T } from '../../Helpers';
 import useStore from '../../Store';
 import styled from 'styled-components';
 import { ReactComponent as AngleLeftSolid } from '../../assets/icons/angle-left-solid.svg';
-import { ReactComponent as QuoteSolid } from '../../assets/icons/dollar-sign-solid.svg';
+// import { ReactComponent as QuoteSolid } from '../../assets/icons/quote-sign.svg';
 import { ReactComponent as PdfSolid } from '../../assets/icons/file-pdf-solid.svg';
 import { ReactComponent as ShareSolid } from '../../assets/icons/share-alt-square-solid.svg';
 import { ReactComponent as CartSolid } from '../../assets/icons/shopping-cart-solid.svg';
 import { MessageDialog, QuestionDialog, useDialogManager } from '../dialog/Dialogs';
 import ErrorDialog from '../dialog/ErrorDialog';
 import PdfDialog from '../dialog/PdfDialog';
-//import ShareDialog from '../dialogs/ShareDialog';
-import { FooterMobileContainer, PriceContainer } from './LayoutStyled';
-
-//import QuotationFormDialog from 'components/dialogs/QuotationFormDialog';
+import ShareDialog from '../dialog/ShareDialog';
+import { FooterMobileContainer, PriceContainer } from '../layouts/SharedComponents';
+import QuotationFormDialog from '../dialog/QuotationFormDialog';
 import SaveDesignsDraftDialog from '../dialog/SaveDesignsDraftDialog';
 import { TailSpin } from 'react-loader-spinner';
 import { ReactComponent as SaveSolid } from '../../assets/icons/save-solid.svg';
-//import NftDialog, { NftForm } from 'components/dialogs/NftDialog';
-import { useRef, useState } from 'react';
-//import useDropdown from 'hooks/useDropdown';
-import { TooltipContent, AddToCartButton } from '../Atomic';
-import QuantityDialog from '../dialog/QuanityDialog'
-import LoadingOverlay from "../widgets/LoadingOverlay";
+import NftDialog, { NftForm } from '../dialog/NftDialog';
+import { useEffect, useRef, useState } from 'react';
+import { TooltipContent } from '../Atomic';
+import QuantityDialog from '../dialog/QuanityDialog';
+import useDropdown from '../hooks/useDropdown';
 
 const OutOfStockTooltipContent = styled(TooltipContent)`
 	max-width: 400px;
@@ -40,28 +38,28 @@ const FooterMobileIcon = styled.div<{
 }>`
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: center;
 	border: 1px transparent solid;
-	postion:relative;
-	// padding: 10px;
-    border-radius: 6px;
-	//color: ${(props) => (props.color ? props.color : `#313c46`)};
-	background-color: rgb(234 229 229 / 50%);
-	// background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : `transparent`)};
-	// background-color: transparent;
+	color: ${(props) => (props.color ? props.color : `#313c46`)};
+	background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : `transparent`)};
 	font-size: 14px;
 	text-transform: uppercase;
 	text-align: center;
 	display: inline-flex;
-	// min-height: 55px;
+	min-height: 38px;
+	min-weight: 38px;
+	width:50px;
 	border: none;
-	// border-right: 3px #f4f4f4 solid;
+	border-radius:5px;
 	cursor: pointer;
+	flex-direction: column;
+	font-weight: 600 !important;
+    font-family: 'Inter';
 
 	svg {
 		fill: ${(props) => props.iconColor && `${props.iconColor}`};
-		width: 27px;
-		height: 27px;
+		width: 32px;
+		height: 32px;
 	}
 
 	${(props) => props.isHidden && `visibility:hidden`};
@@ -70,7 +68,7 @@ const FooterMobileIcon = styled.div<{
 		props.isCart &&
 		`
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-items: center;
         justify-content: center;`};
 
@@ -85,9 +83,8 @@ const FooterMobileIcon = styled.div<{
 `;
 
 const FooterMobile = () => {
-	//const [openOutOfStockTooltip, , isOutOfStockTooltipVisible, Dropdown] = useDropdown();
+	const [openOutOfStockTooltip, , isOutOfStockTooltipVisible, Dropdown] = useDropdown();
 	const addToCartButtonRef = useRef<HTMLDivElement>(null);
-    const [pdfIsLoading, setPdfIsLoading] = useState<Boolean>(false);
 
 	const {
 		useLegacyScreenshot,
@@ -96,16 +93,18 @@ const FooterMobile = () => {
 		addToCart,
 		product,
 		price,
-		//isOutOfStock,
+		isOutOfStock,
 		groups,
 		isSceneLoading,
 		eventMessages,
+		visibleEventMessages,
 		isAddToCartLoading,
 		sellerSettings,
 		saveComposition,
 		createQuote,
-		nftSettings,
-		translations
+		getPrintingMethodsRestrictions,
+		isMandatoryPD,
+		nftSettings
 	} = useZakeke();
 
 	const {
@@ -123,84 +122,110 @@ const FooterMobile = () => {
 		isViewerMode,
 		isDraftEditor,
 		isEditorMode,
-		isMobile
+		setTryOnMode,
+		tryOnRef,
+		setIsPDStartedFromCart,
+		pdValue,
+		isMobile,
+		setIsSavingComposition,
+		isSavingComposition
 	} = useStore();
 
-	const dynamicsVals  = translations?.dynamics;
-
 	const { showDialog, closeDialog } = useDialogManager();
-	const isOutOfStock = false;
+
+	const pmRestrictions = getPrintingMethodsRestrictions();
+	const pdfPreviewDisabled = pmRestrictions.isPDFPreviewEnabled === false;
 	const isBuyVisibleForQuoteRule = product?.quoteRule ? product.quoteRule.allowAddToCart : true;
-	const isAddToCartDisabled = isOutOfStock || isAddToCartLoading;
+
+	const [disableButtonsByVisibleMessages, setDisableButtonsByVisibleMessages] = useState(false);
+
+	useEffect(() => {
+		if (visibleEventMessages && visibleEventMessages.some((msg) => msg.addToCartDisabledIfVisible))
+			setDisableButtonsByVisibleMessages(true);
+		else setDisableButtonsByVisibleMessages(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [visibleEventMessages]);
 
 	const handleAddToCart = () => {
 		const cartMessage = eventMessages?.find((message) => message.eventID === 4);
-
-		const findSizeIndex = groups.findIndex((obj) => obj.name.toLowerCase() === 'marime');
-		const isSizeNotSelected = groups[findSizeIndex]?.attributes[0].options[0].selected === true;
-		
-		if (cartMessage && cartMessage.visible && !isDraftEditor && !isEditorMode && !isSizeNotSelected)
+		if (isMandatoryPD && pdValue < 1) {
+			setIsPDStartedFromCart(true);
+			tryOnRef?.current?.setVisible?.(true);
+			tryOnRef?.current?.changeMode?.(TryOnMode.PDTool);
+			setTryOnMode(TryOnMode.PDTool);
+			return;
+		}
+		// if you're saving a draft composition in backoffice
+		if (isDraftEditor || isEditorMode) {
+			setIsSavingComposition(true);
+			saveComposition().then(() => {
+				setIsSavingComposition(false);
+				showDialog(
+					'WelcomeMessage',
+					<MessageDialog alignButtons='center' message={T._('Composition saved successfully', 'Composer')} />
+				);
+			});
+		} else if (cartMessage && cartMessage.visible && !isDraftEditor && !isEditorMode)
 			showDialog(
 				'question',
 				<QuestionDialog
 					alignButtons='center'
-					eventMessage={cartMessage?.description}
-					buttonNoLabel={dynamicsVals?.get('Cancel') ?? 'Cancel'}
+					eventMessage={T._(cartMessage?.description, 'Composer')}
+					buttonNoLabel={T._('Cancel', 'Composer')}
 					buttonYesLabel={T._('Add to cart', 'Composer')}
 					onYesClick={() => {
-						// if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor)
-						// 	showDialog(
-						// 		'nft',
-						// 		<NftDialog
-						// 			nftTitle={T._(
-						// 				"You're purchasing a customized product together with an NFT.",
-						// 				'Composer'
-						// 			)}
-						// 			nftMessage={T._(
-						// 				'To confirm and mint your NFT you need an active wallet compatible with Ethereum. Confirm and add your email and wallet address.',
-						// 				'Composer'
-						// 			)}
-						// 			buttonNoLabel={T._('Skip and continue', 'Composer')}
-						// 			buttonYesLabel={T._('Confirm and Purchase', 'Composer')}
-						// 			price={nftSettings.priceToAdd + price}
-						// 			onYesClick={(nftForm: NftForm) => {
-						// 				closeDialog('nft');
-						// 				addToCart([], undefined, useLegacyScreenshot, nftForm);
-						// 			}}
-						// 			onNoClick={() => {
-						// 				closeDialog('nft');
-						// 				addToCart([], undefined, useLegacyScreenshot);
-						// 			}}
-						// 		/>
-						// 	);
-						//else 
-						addToCart([], undefined, useLegacyScreenshot);
+						if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor && !isEditorMode)
+							showDialog(
+								'nft',
+								<NftDialog
+									nftTitle={T._(
+										"You're purchasing a customized product together with an NFT.",
+										'Composer'
+									)}
+									nftMessage={T._(
+										'To confirm and mint your NFT you need an active wallet compatible with Ethereum. Confirm and add your email and wallet address.',
+										'Composer'
+									)}
+									buttonNoLabel={T._('Skip and continue', 'Composer')}
+									buttonYesLabel={T._('Confirm and Purchase', 'Composer')}
+									price={nftSettings.priceToAdd + price}
+									onYesClick={(nftForm: NftForm) => {
+										closeDialog('nft');
+										addToCart([], undefined, useLegacyScreenshot, nftForm);
+									}}
+									onNoClick={() => {
+										closeDialog('nft');
+										addToCart([], undefined, useLegacyScreenshot);
+									}}
+								/>
+							);
+						else addToCart([], undefined, useLegacyScreenshot);
 						closeDialog('question');
 					}}
 				/>
 			);
-		// else if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor)
-		// 	showDialog(
-		// 		'nft',
-		// 		<NftDialog
-		// 			nftTitle={T._("You're purchasing a customized product together with an NFT.", 'Composer')}
-		// 			nftMessage={T._(
-		// 				'To confirm and mint your NFT you need an active wallet compatible with Ethereum. Confirm and add your email and wallet address.',
-		// 				'Composer'
-		// 			)}
-		// 			price={nftSettings.priceToAdd + price}
-		// 			buttonNoLabel={T._('Skip and continue', 'Composer')}
-		// 			buttonYesLabel={T._('Confirm and Purchase', 'Composer')}
-		// 			onYesClick={(nftForm: NftForm) => {
-		// 				closeDialog('nft');
-		// 				addToCart([], undefined, useLegacyScreenshot, nftForm);
-		// 			}}
-		// 			onNoClick={() => {
-		// 				closeDialog('nft');
-		// 				addToCart([], undefined, useLegacyScreenshot);
-		// 			}}
-		// 		/>
-		// 	);
+		else if (nftSettings && nftSettings.isNFTEnabled && !isDraftEditor && !isEditorMode)
+			showDialog(
+				'nft',
+				<NftDialog
+					nftTitle={T._("You're purchasing a customized product together with an NFT.", 'Composer')}
+					nftMessage={T._(
+						'To confirm and mint your NFT you need an active wallet compatible with Ethereum. Confirm and add your email and wallet address.',
+						'Composer'
+					)}
+					price={nftSettings.priceToAdd + price}
+					buttonNoLabel={T._('Skip and continue', 'Composer')}
+					buttonYesLabel={T._('Confirm and Purchase', 'Composer')}
+					onYesClick={(nftForm: NftForm) => {
+						closeDialog('nft');
+						addToCart([], undefined, useLegacyScreenshot, nftForm);
+					}}
+					onNoClick={() => {
+						closeDialog('nft');
+						addToCart([], undefined, useLegacyScreenshot);
+					}}
+				/>
+			);
 		else if (product && product.quantityRule)
 			showDialog(
 				'quantity',
@@ -213,39 +238,30 @@ const FooterMobile = () => {
 				/>
 			);
 		else {
-
-			if(isSizeNotSelected){
-				showError('SELECTEAZA MARIME')
-				// alert('size not selected')
-			}
-			else {
-				addToCart([], undefined, useLegacyScreenshot);
-			}
+			addToCart([], undefined, useLegacyScreenshot);
 		}
 	};
 
 	const showError = (error: string) => {
-		showDialog('error', <ErrorDialog error={'Additional $50'} onCloseClick={() => closeDialog('error')} />);
+		showDialog('error', <ErrorDialog error={error} onCloseClick={() => closeDialog('error')} />);
 	};
 
-	// const handleShareClick = async () => {
-	// 	setCameraByName('buy_screenshot_camera', false, false);
-	// 	showDialog('share', <ShareDialog />);
-	// };					
+	const handleShareClick = async () => {
+		setCameraByName('buy_screenshot_camera', false, false);
+		showDialog('share', <ShareDialog />);
+	};
 	const handleSaveClick = async () => {
 		showDialog('save', <SaveDesignsDraftDialog onCloseClick={() => closeDialog('save')} />);
 	};
 	const handlePdfClick = async () => {
 		try {
 			setIsLoading(true);
-			setPdfIsLoading(true);
 			const url = await getPDF();
 			showDialog('pdf', <PdfDialog url={url} onCloseClick={() => closeDialog('pdf')} />);
 		} catch (ex) {
 			console.log(ex);
 			showError(T._('Failed PDF generation', 'Composer'));
 		} finally {
-			setPdfIsLoading(false);
 			setIsLoading(false);
 		}
 	};
@@ -264,6 +280,7 @@ const FooterMobile = () => {
 				setSelectedGroupId(null);
 			}
 		} else if (selectedTemplateGroupId) {
+			console.log('selectedTemplateGroupId');
 			setSelectedTemplateGroupId(null);
 
 			const selectedCurrentGroup = groups.find((x) => x.id === selectedGroupId);
@@ -322,113 +339,123 @@ const FooterMobile = () => {
 			}
 	};
 
-	// const handleGetQuoteClick = async () => {
-	// 	let rule = product?.quoteRule;
-	// 	if (rule)
-	// 		showDialog(
-	// 			'request-quotation',
-	// 			<QuotationFormDialog getQuoteRule={rule} onFormSubmit={handleSubmitRequestQuote} />
-	// 		);
-	// };
+	const handleGetQuoteClick = async () => {
+		let rule = product?.quoteRule;
+		if (rule)
+			showDialog(
+				'request-quotation',
+				<QuotationFormDialog getQuoteRule={rule} onFormSubmit={handleSubmitRequestQuote} />
+			);
+	};
 
+	const visibleIconsAreaName = (): string[] => {
+		const visibleIcons: string[] = [];
+
+		visibleIcons.push('back');
+		if (!pdfPreviewDisabled) visibleIcons.push('pdf');
+		if (sellerSettings && sellerSettings.canSaveDraftComposition) visibleIcons.push('save');
+		if (sellerSettings && sellerSettings.shareType !== 0) visibleIcons.push('share');
+		if (isViewerMode) return visibleIcons;
+		if (isBuyVisibleForQuoteRule) visibleIcons.push('cart');
+		if (product?.quoteRule) visibleIcons.push('quote');
+
+		return visibleIcons;
+	};
 	return (
 		<>
-		{pdfIsLoading && 
-				<LoadingOverlay />}
-
 			{!isSceneLoading && (
-				<FooterMobileContainer isQuoteEnable={product?.quoteRule !== null}>
+				                    
+					<>
+				            <FooterMobileContainer isQuoteEnable={product?.quoteRule !== null}>
+							 <PriceContainer>
+								{/* <div className="price_text">Price: </div> */}
+								{/* <div>{dynamicsVals?.get('Base') ?? 'Base'} :</div>  */}
+								<div style={{backgroundColor:'#f3f4f6', padding:'5px 10px',borderRadius:'6px',border:'1px solid #dcdddfff'}} className="price_text">{priceFormatter.format(price)}</div>
+							 </PriceContainer>
 					{/* <FooterMobileIcon gridArea='back' isHidden={selectedGroupId === null} onClick={handleBackClick}>
 						<AngleLeftSolid />
 					</FooterMobileIcon> */}
-					{/* 
-					{
+
+					{/* {!pdfPreviewDisabled && (
 						<FooterMobileIcon gridArea='pdf' onClick={handlePdfClick}>
 							<PdfSolid />
 						</FooterMobileIcon>
-					} */}
-
-					{/* {!isDraftEditor && !isEditorMode && sellerSettings && sellerSettings.canSaveDraftComposition && (
-						<FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
-							<SaveSolid />
-						</FooterMobileIcon>
 					)} */}
-
-					{/* {!isEditorMode && sellerSettings && sellerSettings.shareType !== 0 && (
+					{/* {!isDraftEditor && !isEditorMode && sellerSettings && sellerSettings.shareType !== 0 && (
 						<FooterMobileIcon gridArea='share' onClick={handleShareClick}>
 							<ShareSolid />
 						</FooterMobileIcon>
 					)} */}
-					{/* <FooterMobileIcon>
-						<span style={{position: "relative", width: "66vw", fontWeight: "600", fontSize: "80%"}}>{product?.name}</span>
-					</FooterMobileIcon> */}
 
+						<div className="flex" style={{display:'flex', alignItems:'center', gap:'5px'}}>
+						 {/* {(!isDraftEditor &&
+						!isEditorMode &&
+						!isViewerMode &&
+						sellerSettings &&
+						sellerSettings.canSaveDraftComposition && 
+							<FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
+								<SaveSolid />
+							</FooterMobileIcon>
+						)} */}
 					{/* {isBuyVisibleForQuoteRule && !isViewerMode && ( */}
 						<FooterMobileIcon
 							gridArea='cart'
 							isCart
 							iconColor='white'
-							// color='white'
+							color='white'
+							style={{
+								fontSize: '14px',
+								minWidth: product?.quoteRule && !isViewerMode ? '75px' : '130px'
+							}}
 							ref={addToCartButtonRef}
-							// onPointerEnter={() => {
-							// 	if (isAddToCartDisabled)
-							// 		openOutOfStockTooltip(addToCartButtonRef.current!, 'top', 'top');
-							// }}
-							disabled={isAddToCartDisabled}
-							// backgroundColor='#313c46'
-							onClick={!isAddToCartDisabled ? () => handleAddToCart() : () => null}
+							onPointerEnter={() => {
+								if (isOutOfStock) openOutOfStockTooltip(addToCartButtonRef.current!, 'top', 'top');
+							}}
+							disabled={disableButtonsByVisibleMessages || isAddToCartLoading || isOutOfStock}
+							backgroundColor='#000'
+							onClick={!isAddToCartLoading ? () => handleAddToCart() : () => null}
 						>
 							{/* {!isOutOfStock &&
 								price !== null &&
 								price > 0 &&
 								(!sellerSettings || !sellerSettings.hidePrice) && (
-									<PriceContainer isMobile={isMobile}>{priceFormatter.format(price)}</PriceContainer>
+									<PriceContainer style={{ fontSize: '18px' }} $isMobile={isMobile}>
+										{priceFormatter.format(price)}
+									</PriceContainer>
 								)} */}
 
-							{/* {isOutOfStock && T._('OUT OF STOCK', 'Composer')} */}
-							
-							<>
-							<div className="menu_footer" style ={{display: 'flex', justifyContent: 'space-between', width: '100%',background:'white'}}>
-							 <div style={{position:'absolute', right:'1.5rem', top:'1.5rem',backgroundColor:'white', padding:'4px 5px',borderRadius:'8px'}}>
-								{/* <div className="price_text">Price: </div> */}
-								{/* <div>{dynamicsVals?.get('Base') ?? 'Base'} :</div>  */}
-								<div style={{backgroundColor:'#f3f4f6', padding:'5px 10px',borderRadius:'6px',border:'1px solid #dcdddfff'}} className="price_text">{priceFormatter.format(price)}</div>
-							</div>
-							</div>
-							</>	
-							
-							<div style={{position:'fixed', top:'1.5rem', left:'7px',}}>
-							<AddToCartButton>
-								<span style={{color: 'white'}}>
-									{isDraftEditor || isEditorMode
-										? T._('Save', 'Composer')
-										: T._('Add to cart', 'Composer')}
-								</span>
-							</AddToCartButton>
-							</div>
+							{isOutOfStock && T._('OUT OF STOCK', 'Composer')}
 
-							{/* {!isOutOfStock &&
-								!isAddToCartLoading &&
-								(isDraftEditor || isEditorMode ? <SaveSolid /> : <CartSolid />)}
-							{isAddToCartLoading && <TailSpin color='#FFFFFF' height='25px' />} */}
+							{!isOutOfStock && !isAddToCartLoading && !(isDraftEditor || isEditorMode) && 'Add to Cart'}
+							{(isDraftEditor || isEditorMode) && !isSavingComposition && <SaveSolid />}
+							{(isAddToCartLoading || isSavingComposition) && <TailSpin color='#FFFFFF' height='25px' />}
 						</FooterMobileIcon>
-					{/* //  )}  */}
-					{/* {product?.quoteRule && !isViewerMode && !isDraftEditor && !isEditorMode && (
+					{/* )} */}
+						</div>
+					{product?.quoteRule && !isViewerMode && !isDraftEditor && !isEditorMode && (
 						<FooterMobileIcon
 							gridArea='quote'
 							iconColor='white'
 							color='white'
+							style={{ fontSize: '14px', minWidth: '75px' }}
 							backgroundColor='#313c46'
+							disabled={disableButtonsByVisibleMessages}
 							onClick={handleGetQuoteClick}
 						>
-							{!isQuoteLoading && <QuoteSolid />}
+							{!isQuoteLoading && (
+								<>
+									{/* <QuoteSolid /> */}
+									{T._('Get a Quote', 'Composer')}
+								</>
+							)}
 							{isQuoteLoading && <TailSpin color='#FFFFFF' height='25px' />}
 						</FooterMobileIcon>
-					)} */}
-				</FooterMobileContainer>
+					)}
+				            </FooterMobileContainer>
+					</>
 			)}
 
-			{/* {isOutOfStockTooltipVisible && (
+			{isOutOfStockTooltipVisible && (
 				<Dropdown>
 					<OutOfStockTooltipContent>
 						{T._(
@@ -437,7 +464,7 @@ const FooterMobile = () => {
 						)}
 					</OutOfStockTooltipContent>
 				</Dropdown>
-			)} */}
+			)}
 		</>
 	);
 };

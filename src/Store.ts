@@ -58,6 +58,8 @@ interface Store {
 	// notifications: Notification[];
 	// setNotifications: (notifications: Notification[]) => void;
 	// removeNotification: (id: number) => void;
+	tagsOfSavedDesigns: string[];
+	setTagsOfSavedDesigns: (tagsOfSavedDesigns: string[]) => void;
 }
 
 const useStore = create<Store>((set) => ({
@@ -163,6 +165,12 @@ tryOnRef: undefined,
 		}));
 	},
 
+	tagsOfSavedDesigns: [],
+	setTagsOfSavedDesigns: (tagsOfSavedDesigns: string[]) => {
+		set(() => ({
+			tagsOfSavedDesigns
+		}));
+	},
 	modeTryOn: TryOnMode.TryOn,
 	setTryOnMode: (modeTryOn: TryOnMode) => {
 		set(() => ({

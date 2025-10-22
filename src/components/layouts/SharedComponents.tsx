@@ -459,15 +459,18 @@ export type PropChangeHandler = (
 ) => void;
 
 export const PriceContainer = styled.div<{ $isMobile?: boolean }>`
-	font-size: 20px;
-	font-weight: 600;
-	color: #313c46;
-	margin-right: 20px;
-	${(props) =>
-		props.$isMobile &&
-		`
-    margin-right: 0px;
-    color:white;`};
+	background-color:#f4f4f4;
+	padding:4px 5px;
+	border-radius:8px;
+	width:90px;
+	text-align:center;
+	@media (max-width: 1300px) {
+	position:absolute;
+	right:1.5rem;
+	background-color:white;
+	padding:4px 5px;
+	border-radius:8px;
+	}
 `;
 
 export const StepsContainer = styled.div`
@@ -507,13 +510,13 @@ export const QuantityContainer = styled.div`
 `;
 
 export const FooterMobileContainer = styled.div<{ isQuoteEnable?: boolean }>`
-	height: 70px;
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	display: flex;
+	justify-content:end;
+	padding:10px 0px;
+	gap:12px;
+	// grid-template-columns: repeat(5, 1fr);
 	background-color: #fff;
 	font-size: 12px;
-	margin-top: 4px;
-	border-top: 1px #fff solid;
 	grid-template-areas: 'back pdf save share cart';
 	${(props) =>
 		props.isQuoteEnable &&
@@ -521,6 +524,19 @@ export const FooterMobileContainer = styled.div<{ isQuoteEnable?: boolean }>`
 	grid-template-columns: repeat(6, 1fr);
 	grid-template-areas: 'back pdf save share cart quote' 
 	`};
+
+	@media screen and (max-width: 1300px) {
+		position: fixed;
+		top:15px;
+		width:100%;
+		display:flex;
+		align-items:center;
+		justify-content:space-between;
+		left: 5px;
+		margin-left:10px;
+		background-color:transparent;
+		z-index: 1000;
+	}
 `;
 
 export const AttributeDescription = styled.p`
