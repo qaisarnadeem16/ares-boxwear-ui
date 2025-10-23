@@ -16,6 +16,9 @@ const PdfDialogContainer = styled.div`
   max-height: 550px;
   overflow-y: auto;
   text-align: center;
+  @media (max-width: 600px) {
+    max-height: 480px;
+  }
 `;
 
 const SpanContainer = styled.div`
@@ -42,6 +45,7 @@ const SelectionsContainer = styled.div`
   box-sizing: border-box;
 
   @media (max-width: 600px) {
+    max-height: 400px;
     grid-template-columns: 1fr; /* Responsive: single column on small screens */
   }
 `;
