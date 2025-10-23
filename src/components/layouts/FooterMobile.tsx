@@ -1,6 +1,6 @@
 import React from 'react';
 import { TryOnMode, useZakeke } from 'zakeke-configurator-react';
-import { T } from '../../Helpers';
+import { T, useActualGroups } from '../../Helpers';
 import useStore from '../../Store';
 import styled from 'styled-components';
 import { ReactComponent as AngleLeftSolid } from '../../assets/icons/angle-left-solid.svg';
@@ -132,7 +132,7 @@ const FooterMobile = () => {
 	} = useStore();
 
 	const { showDialog, closeDialog } = useDialogManager();
-
+    const actualGroups = useActualGroups();
 	const pmRestrictions = getPrintingMethodsRestrictions();
 	// const pdfPreviewDisabled = pmRestrictions.isPDFPreviewEnabled === false;
 	const isBuyVisibleForQuoteRule = product?.quoteRule ? product.quoteRule.allowAddToCart : true;
@@ -257,7 +257,8 @@ const FooterMobile = () => {
 		try {
 			setIsLoading(true);
 			const url = await getPDF();
-			showDialog('pdf', <PdfDialog url={url} onCloseClick={() => closeDialog('pdf')} />);
+			// eslint-disable-next-line react-hooks/rules-of-hooks
+			showDialog('pdf', <PdfDialog url={url}  groups={actualGroups}  onCloseClick={() => closeDialog('pdf')} />);
 		} catch (ex) {
 			console.log(ex);
 			showError(T._('Failed PDF generation', 'Composer'));
@@ -394,9 +395,9 @@ const FooterMobile = () => {
 						!isViewerMode &&
 						sellerSettings &&
 						sellerSettings.canSaveDraftComposition &&  */}
-							 <FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
+							 {/* <FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
 								<SaveSolid />
-							</FooterMobileIcon> 
+							</FooterMobileIcon>  */}
 						{/* )} */}
 					{/* {isBuyVisibleForQuoteRule && !isViewerMode && ( */}
 						<FooterMobileIcon

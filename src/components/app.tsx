@@ -4,6 +4,7 @@ import LayoutDesktop from "./desktop/LayoutDesktop";
 import FooterMobile from "./layouts/FooterMobile";
 import Selector from "./selector";
 import useStore from "../Store";
+import { DialogsRenderer } from "./dialog/Dialogs";
 const zakekeEnvironment = new ZakekeEnvironment();
 
 // STEP 2: Update your App component to handle group name changes
@@ -122,7 +123,7 @@ const AppContent: FunctionComponent = () => {
       {!isMobile && (
         <div className="desktop">
           <LayoutDesktop />
-        
+          <FooterMobile />
         </div>
       )}
 
@@ -150,6 +151,7 @@ const AppContent: FunctionComponent = () => {
 const App: FunctionComponent = () => (
   <ZakekeProvider environment={zakekeEnvironment}>
     <AppContent />
+    <DialogsRenderer/>
   </ZakekeProvider>
 );
 

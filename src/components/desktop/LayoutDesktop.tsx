@@ -50,7 +50,7 @@ function LayoutDesktop() {
 				<ZakekeViewer />
 				<DesktopRightSidebar />
 			</Top>
-			<FooterMobile />
+			{/* <FooterMobile /> */}
 			{/* <FooterDesktop /> */}
 		</LayoutDesktopContainer>
 	);
