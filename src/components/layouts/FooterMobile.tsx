@@ -376,11 +376,7 @@ const FooterMobile = () => {
 						<AngleLeftSolid />
 					</FooterMobileIcon> */}
 
-					{/* {!pdfPreviewDisabled && ( */}
-						<FooterMobileIcon gridArea='pdf' onClick={handlePdfClick}>
-							<PdfSolid />
-						</FooterMobileIcon>
-					{/* )} */}
+				
 					{/* {!isDraftEditor && !isEditorMode && sellerSettings && sellerSettings.shareType !== 0 && (
 						<FooterMobileIcon gridArea='share' onClick={handleShareClick}>
 							<ShareSolid />
@@ -388,6 +384,11 @@ const FooterMobile = () => {
 					)} */}
 
 						<div className="flex" style={{display:'flex', alignItems:'center', gap:'5px'}}>
+						{/* {!pdfPreviewDisabled && ( */}
+						<FooterMobileIcon gridArea='pdf' onClick={handlePdfClick}>
+							<PdfSolid />
+						</FooterMobileIcon>
+					{/* )} */}
 						 {/* {(!isDraftEditor &&
 						!isEditorMode &&
 						!isViewerMode &&
