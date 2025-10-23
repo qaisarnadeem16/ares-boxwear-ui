@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './components/app';
 // import * as serviceWorker from './serviceWorker';
-import { DialogsRenderer } from './components/dialog/Dialogs';
 
 const container = document.getElementById('root');
 if (container) {
@@ -11,7 +10,6 @@ if (container) {
   root.render(
     <React.StrictMode>
       <App />
-      <DialogsRenderer />
     </React.StrictMode>
   );
 }

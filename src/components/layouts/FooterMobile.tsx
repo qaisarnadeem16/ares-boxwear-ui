@@ -134,7 +134,7 @@ const FooterMobile = () => {
 	const { showDialog, closeDialog } = useDialogManager();
 
 	const pmRestrictions = getPrintingMethodsRestrictions();
-	const pdfPreviewDisabled = pmRestrictions.isPDFPreviewEnabled === false;
+	// const pdfPreviewDisabled = pmRestrictions.isPDFPreviewEnabled === false;
 	const isBuyVisibleForQuoteRule = product?.quoteRule ? product.quoteRule.allowAddToCart : true;
 
 	const [disableButtonsByVisibleMessages, setDisableButtonsByVisibleMessages] = useState(false);
@@ -348,19 +348,19 @@ const FooterMobile = () => {
 			);
 	};
 
-	const visibleIconsAreaName = (): string[] => {
-		const visibleIcons: string[] = [];
+	// const visibleIconsAreaName = (): string[] => {
+	// 	const visibleIcons: string[] = [];
 
-		visibleIcons.push('back');
-		if (!pdfPreviewDisabled) visibleIcons.push('pdf');
-		if (sellerSettings && sellerSettings.canSaveDraftComposition) visibleIcons.push('save');
-		if (sellerSettings && sellerSettings.shareType !== 0) visibleIcons.push('share');
-		if (isViewerMode) return visibleIcons;
-		if (isBuyVisibleForQuoteRule) visibleIcons.push('cart');
-		if (product?.quoteRule) visibleIcons.push('quote');
+	// 	visibleIcons.push('back');
+	// 	if (!pdfPreviewDisabled) visibleIcons.push('pdf');
+	// 	if (sellerSettings && sellerSettings.canSaveDraftComposition) visibleIcons.push('save');
+	// 	if (sellerSettings && sellerSettings.shareType !== 0) visibleIcons.push('share');
+	// 	if (isViewerMode) return visibleIcons;
+	// 	if (isBuyVisibleForQuoteRule) visibleIcons.push('cart');
+	// 	if (product?.quoteRule) visibleIcons.push('quote');
 
-		return visibleIcons;
-	};
+	// 	return visibleIcons;
+	// };
 	return (
 		<>
 			{!isSceneLoading && (
@@ -393,9 +393,9 @@ const FooterMobile = () => {
 						!isViewerMode &&
 						sellerSettings &&
 						sellerSettings.canSaveDraftComposition &&  */}
-							{/* <FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
+							 <FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
 								<SaveSolid />
-							</FooterMobileIcon> */}
+							</FooterMobileIcon> 
 						{/* )} */}
 					{/* {isBuyVisibleForQuoteRule && !isViewerMode && ( */}
 						<FooterMobileIcon

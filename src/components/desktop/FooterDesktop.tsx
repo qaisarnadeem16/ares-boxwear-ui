@@ -109,7 +109,7 @@ const FooterDesktop = () => {
 	const { showDialog, closeDialog } = useDialogManager();
 
 	const pmRestrictions = getPrintingMethodsRestrictions();
-	const pdfPreviewDisabled = pmRestrictions.isPDFPreviewEnabled === false;
+	// const pdfPreviewDisabled = pmRestrictions.isPDFPreviewEnabled === false;
 	const [disableButtonsByVisibleMessages, setDisableButtonsByVisibleMessages] = useState(false);
 
 	// Update the state variable disableButtonsByVisibleMessages based on visibleEventMessages

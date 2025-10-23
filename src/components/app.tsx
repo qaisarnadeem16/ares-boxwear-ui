@@ -133,7 +133,7 @@ const AppContent: FunctionComponent = () => {
               bgColor="linear-gradient(to top, rgb(244, 247, 249) 20%, rgb(213, 225, 231) 40%, rgb(223, 232, 237))"
             />
           </div>
-          {/* <FooterMobile /> */}
+          <FooterMobile />
           <div className="mobileSelector">
             <Selector 
               trayPreviewOpenButton3DFunc={trayPreviewOpenButton3DFunc}  
