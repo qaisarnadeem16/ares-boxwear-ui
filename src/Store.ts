@@ -2,7 +2,8 @@
 import React from 'react';
 import { TryOnMode, ZakekeTryOnExposedMethods } from 'zakeke-configurator-react';
 import { create } from 'zustand';
-//import { Notification } from './components/widgets/Notifications';
+import { Notification } from './components/widgets/Notifications';
+
 
 export const MOBILE_BREAKPOINT = 1024;
 
@@ -55,9 +56,9 @@ interface Store {
 	setIsPDStartedFromCart: (isPDStartedFromCart: boolean) => void;
 	modeTryOn: TryOnMode;
 	setTryOnMode: (modeTryOn: TryOnMode) => void;
-	// notifications: Notification[];
-	// setNotifications: (notifications: Notification[]) => void;
-	// removeNotification: (id: number) => void;
+	notifications: Notification[];
+	setNotifications: (notifications: Notification[]) => void;
+	removeNotification: (id: number) => void;
 	tagsOfSavedDesigns: string[];
 	setTagsOfSavedDesigns: (tagsOfSavedDesigns: string[]) => void;
 }
@@ -198,17 +199,17 @@ tryOnRef: undefined,
 		});
 	},
 
-	// notifications: [],
-	// setNotifications: (notifications) => {
-	// 	set(() => ({
-	// 		notifications,
-	// 	}));
-	// },
-	// removeNotification: (id) => {
-	// 	set((state) => ({
-	// 		notifications: state.notifications.filter((notification) => notification.id !== id),
-	// 	}));
-	// },
+	notifications: [],
+	setNotifications: (notifications) => {
+		set(() => ({
+			notifications
+		}));
+	},
+	removeNotification: (id) => {
+		set((state) => ({
+			notifications: state.notifications.filter((notification) => notification.id !== id)
+		}));
+	},
 }));
 
 export default useStore;

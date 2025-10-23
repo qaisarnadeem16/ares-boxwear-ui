@@ -568,3 +568,20 @@ export const CustomQuotationConfirmMessage = styled(DialogWindow)`
 	align-items: center;
 	justify-content: center;
 `;
+
+export const DialogWindowDecorator = styled(DialogWindow)`
+	background-color: #464646;
+	height: 140px;
+`;
+
+export const SpanAndButtonContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	color: white;
+	font-size: 14px;
+	align-items: center;
+	flex-direction: column;
+	span {
+		margin-bottom: 10px;
+	}
+`;

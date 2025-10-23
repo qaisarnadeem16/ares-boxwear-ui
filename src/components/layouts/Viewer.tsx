@@ -52,15 +52,16 @@ const Viewer = () => {
 		product,
 		price,
 		hasExplodedMode,
-		setExplodedMode
+		setExplodedMode,
+		draftCompositions
 	} = useZakeke();
 
-	const [isRecapPanelOpened, setRecapPanelOpened] = useState(
+	const [isRecapPanelOpened, setRecapPanelOpened,] = useState(
 		sellerSettings?.isCompositionRecapVisibleFromStart ?? false
 	);
 
 	const { showDialog, closeDialog } = useDialogManager();
-	const { setIsLoading } = useStore();
+	const { setIsLoading, tagsOfSavedDesigns,setTagsOfSavedDesigns } = useStore();
 
 	useEffect(() => {
 		if (sellerSettings && sellerSettings?.isCompositionRecapVisibleFromStart)
@@ -100,6 +101,26 @@ const Viewer = () => {
 			return setSelectedAttributeId(findAttribute(actualGroups, actualRedoStep.id)?.id ?? null);
 		else if (actualRedoStep.type === 'option') return redo();
 	};
+
+		useEffect(() => {
+			if (tagsOfSavedDesigns && tagsOfSavedDesigns.length === 0 && draftCompositions && draftCompositions.length > 0) {
+				let tempTags: string[] = [];
+	
+				if (draftCompositions && draftCompositions.length > 0) {
+					draftCompositions.forEach((composition) => {
+						if (composition.tags) {
+							const actualTags = composition.tags;
+							tempTags.push(...actualTags);
+						}
+					});
+				}
+	
+				let filteredTags = Array.from(new Set(tempTags));
+				setTagsOfSavedDesigns(filteredTags);
+				console.log('useeffect tagssaveddesign', tagsOfSavedDesigns);
+			}
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		}, [draftCompositions]);
 
 	return (
 		<ViewerContainer ref={ref}>

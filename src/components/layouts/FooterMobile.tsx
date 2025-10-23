@@ -376,11 +376,11 @@ const FooterMobile = () => {
 						<AngleLeftSolid />
 					</FooterMobileIcon> */}
 
-					{/* {!pdfPreviewDisabled && (
+					{/* {!pdfPreviewDisabled && ( */}
 						<FooterMobileIcon gridArea='pdf' onClick={handlePdfClick}>
 							<PdfSolid />
 						</FooterMobileIcon>
-					)} */}
+					{/* )} */}
 					{/* {!isDraftEditor && !isEditorMode && sellerSettings && sellerSettings.shareType !== 0 && (
 						<FooterMobileIcon gridArea='share' onClick={handleShareClick}>
 							<ShareSolid />
@@ -392,11 +392,11 @@ const FooterMobile = () => {
 						!isEditorMode &&
 						!isViewerMode &&
 						sellerSettings &&
-						sellerSettings.canSaveDraftComposition && 
-							<FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
+						sellerSettings.canSaveDraftComposition &&  */}
+							{/* <FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
 								<SaveSolid />
-							</FooterMobileIcon>
-						)} */}
+							</FooterMobileIcon> */}
+						{/* )} */}
 					{/* {isBuyVisibleForQuoteRule && !isViewerMode && ( */}
 						<FooterMobileIcon
 							gridArea='cart'

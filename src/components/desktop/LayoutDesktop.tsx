@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import DesktopRightSidebar from './DesktopRightSidebar';
 import FooterDesktop from './FooterDesktop';
 import { ZakekeViewer } from 'zakeke-configurator-react';
+import FooterMobile from '../layouts/FooterMobile';
 
 // Container component for the desktop layout
 export const LayoutDesktopContainer = styled.div`
@@ -49,6 +50,7 @@ function LayoutDesktop() {
 				<ZakekeViewer />
 				<DesktopRightSidebar />
 			</Top>
+			<FooterMobile />
 			{/* <FooterDesktop /> */}
 		</LayoutDesktopContainer>
 	);
