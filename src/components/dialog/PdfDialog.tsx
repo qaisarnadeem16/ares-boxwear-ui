@@ -13,6 +13,7 @@ const PdfDialogContainer = styled.div`
   font-size: 18px;
   padding: 20px;
   line-height: 1.6;
+  z-index:20;
   max-height: 550px;
   overflow-y: auto;
   text-align: center;
