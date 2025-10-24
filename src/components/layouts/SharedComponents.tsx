@@ -536,7 +536,6 @@ export const FooterMobileContainer = styled.div<{ isQuoteEnable?: boolean }>`
 		left: 5px;
 		margin-left:10px;
 		background-color:transparent;
-		z-index: 1000;
 	}
 `;
 
