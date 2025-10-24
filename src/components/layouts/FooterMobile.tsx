@@ -395,9 +395,9 @@ const FooterMobile = () => {
 						!isViewerMode &&
 						sellerSettings &&
 						sellerSettings.canSaveDraftComposition &&  */}
-							 {/* <FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
+							 <FooterMobileIcon gridArea='save' onClick={handleSaveClick}>
 								<SaveSolid />
-							</FooterMobileIcon>  */}
+							</FooterMobileIcon> 
 						{/* )} */}
 					{/* {isBuyVisibleForQuoteRule && !isViewerMode && ( */}
 						<FooterMobileIcon

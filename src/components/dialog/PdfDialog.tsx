@@ -5,6 +5,7 @@ import { Dialog } from "./Dialogs";
 import { Group } from 'zakeke-configurator-react';
 
 const PdfDialogContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
