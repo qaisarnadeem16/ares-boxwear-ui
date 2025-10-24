@@ -5,7 +5,6 @@ import { Dialog } from "./Dialogs";
 import { Group } from 'zakeke-configurator-react';
 
 const PdfDialogContainer = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,7 +13,7 @@ const PdfDialogContainer = styled.div`
   font-size: 18px;
   padding: 20px;
   line-height: 1.6;
-  z-index:20;
+  z-index:50;
   max-height: 550px;
   overflow-y: auto;
   text-align: center;
