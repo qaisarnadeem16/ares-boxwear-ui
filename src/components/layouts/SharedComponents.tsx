@@ -518,6 +518,7 @@ export const FooterMobileContainer = styled.div<{ isQuoteEnable?: boolean }>`
 	// grid-template-columns: repeat(5, 1fr);
 	background-color: #fff;
 	font-size: 12px;
+	z-index:0;
 	grid-template-areas: 'back pdf save share cart';
 	${(props) =>
 		props.isQuoteEnable &&
