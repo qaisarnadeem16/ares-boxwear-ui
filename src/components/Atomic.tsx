@@ -14,11 +14,11 @@ export const Steps = styled.div`
 
 export const StepItem = styled.div`
   border: 1px solid #cfd1d4ff;
-  min-width: 190px;
+  min-width: 180px;
   text-align: center;
   border-radius:3px;
-  margin:18px 0px;
-  padding: 10px;
+  margin:12px 0px;
+  padding: 8px;
   cursor: pointer;
   font-size: 20px;
   box-shadow: rgb(229, 231, 235) 0px 2px 4px;

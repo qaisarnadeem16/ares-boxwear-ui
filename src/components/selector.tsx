@@ -665,6 +665,8 @@ useEffect(() => {
   const containerStyles = {
     // overflow: "auto",
     width: "100%",
+    maxHeight:'34vh',
+    overflow:'auto',
     padding:'10px',
     // height: !selectedTrayPreviewOpenButton ? "13rem" : "70px",
   };

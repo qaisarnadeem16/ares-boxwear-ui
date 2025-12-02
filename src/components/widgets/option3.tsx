@@ -77,8 +77,8 @@ const OptionIconContainer3: FC<{
 }
 
 const OptionIcon = styled.img<{ optionShape?: boolean }>`
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
     object-position: center;
 
     ${props => props.optionShape && `
@@ -112,8 +112,8 @@ const OptionName = styled.span`
 
 const OptIconContainer = styled.div`
     display: flex;
-    height:130px;
-    widht:130px;
+    height:120px;
+    widht:120px;
     justify-content: center;
     align-items: center;
     @media screen and (max-width: 568px) {

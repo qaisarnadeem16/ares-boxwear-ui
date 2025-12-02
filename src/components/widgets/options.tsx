@@ -27,8 +27,9 @@ const OptionContainer = styled.div<{
       &::after {
         content: "✓";
         position: absolute;
-        top: 6px;
-        right: 6px;
+        right: 0px;
+        left:0px;
+        bottom:0px;
         width: 70px;
         height: 70px;
         color: #686868ff;
@@ -49,8 +50,9 @@ const OptionContainer = styled.div<{
       &::after {
         content: "✓";
         position: absolute;
-        top: 6px;
-        right: 6px;
+        right: 0px;
+        left:5px;
+        bottom:4px;
         width: 30px;
         height: 30px;
         color: #686868ff;
@@ -68,11 +70,11 @@ const OptionContainer = styled.div<{
 
 const OptionIconContainerStyled = styled.div`
    overflow: hidden;
-   width: 80px;
+   width: 65px;
    aspect-ratio: 1;
    @media screen and (max-width: 568px) {
    overflow: hidden;
-   width: 42px;
+   width: 38px;
    aspect-ratio: 1;
    }
    /* padding: 0 10px; */
